@@ -1,4 +1,11 @@
-import { type ReactNode, useCallback, useMemo, useState } from "react";
+import {
+  type KeyboardEvent,
+  type ReactNode,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { dashboardTabs } from "../lib/dashboard-data";
 import { DashboardContext } from "../lib/dashboard-context";
@@ -7,6 +14,8 @@ import type { DashboardView } from "../lib/dashboard-utils";
 export default function ExamDashboard({ children }: { children?: ReactNode }) {
   const [activeView, setActiveView] = useState<DashboardView>("teacher");
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
+  const tabRefs = useRef<Partial<Record<DashboardView, HTMLButtonElement | null>>>({});
+  const tabIds = useMemo(() => dashboardTabs.map(({ id }) => id), []);
 
   const handleTabClick = (view: DashboardView) => {
     setActiveView(view);
@@ -15,6 +24,43 @@ export default function ExamDashboard({ children }: { children?: ReactNode }) {
   const setContainerRef = useCallback((node: HTMLDivElement | null) => {
     setContainer(node);
   }, []);
+
+  const focusTab = useCallback((view: DashboardView) => {
+    const tab = tabRefs.current[view];
+    if (tab) {
+      tab.focus();
+    }
+  }, []);
+
+  const handleTabKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLButtonElement>, currentId: DashboardView) => {
+      const { key } = event;
+      const currentIndex = tabIds.indexOf(currentId);
+
+      if (currentIndex === -1) {
+        return;
+      }
+
+      let nextView: DashboardView | null = null;
+
+      if (key === "ArrowRight") {
+        nextView = tabIds[(currentIndex + 1) % tabIds.length];
+      } else if (key === "ArrowLeft") {
+        nextView = tabIds[(currentIndex - 1 + tabIds.length) % tabIds.length];
+      } else if (key === "Home") {
+        nextView = tabIds[0];
+      } else if (key === "End") {
+        nextView = tabIds[tabIds.length - 1];
+      }
+
+      if (nextView) {
+        event.preventDefault();
+        setActiveView(nextView);
+        focusTab(nextView);
+      }
+    },
+    [focusTab, setActiveView, tabIds],
+  );
 
   const contextValue = useMemo(
     () => ({ activeView, setActiveView, container, setContainer: setContainerRef }),
@@ -41,10 +87,14 @@ export default function ExamDashboard({ children }: { children?: ReactNode }) {
                   type="button"
                   role="tab"
                   aria-selected={isActive}
-                  aria-pressed={isActive}
                   aria-controls={`${id}-view`}
                   id={`${id}-tab`}
                   onClick={() => handleTabClick(id)}
+                  onKeyDown={(event) => handleTabKeyDown(event, id)}
+                  tabIndex={isActive ? 0 : -1}
+                  ref={(node) => {
+                    tabRefs.current[id] = node;
+                  }}
                   className={`view-tab inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                     isActive
                       ? "bg-blue-600 text-white shadow"
