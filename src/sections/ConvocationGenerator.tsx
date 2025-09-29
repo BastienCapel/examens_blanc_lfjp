@@ -9,6 +9,7 @@ import {
   mapPinIcon,
   surveillanceSchedule,
   typeVariants,
+  teacherDirectoryByShortName,
 } from "../lib/dashboard-data";
 import {
   buildTeacherSchedule,
@@ -73,7 +74,11 @@ export default function ConvocationGenerator() {
   const teacherOptions = useMemo<TeacherOption[]>(() => {
     return scheduleByTeacher
       .filter((group) => group.teacher && group.teacher !== "À assigner")
-      .map((group) => ({ value: group.teacher, label: group.teacher }));
+      .map((group) => {
+        const entry = teacherDirectoryByShortName[group.teacher];
+        const label = entry ? `${entry.firstName} ${entry.lastName}` : group.teacher;
+        return { value: group.teacher, label };
+      });
   }, [scheduleByTeacher]);
 
   const defaultTeacher = teacherOptions[0]?.value ?? "";
@@ -109,6 +114,18 @@ export default function ConvocationGenerator() {
   }
 
   const hasMissions = Boolean(selectedGroup && selectedGroup.missions.length);
+  const teacherEntry = selectedGroup
+    ? teacherDirectoryByShortName[selectedGroup.teacher]
+    : undefined;
+  const salutation = teacherEntry?.civility ?? "Madame, Monsieur";
+  const teacherDisplayName = teacherEntry
+    ? `${teacherEntry.firstName} ${teacherEntry.lastName}`
+    : selectedGroup?.teacher ?? "";
+  const invitationSentence = teacherEntry
+    ? teacherEntry.gender === "female"
+      ? "Vous êtes conviée"
+      : "Vous êtes convié"
+    : "Vous êtes convié(e)";
 
   return createPortal(
     <section
@@ -151,10 +168,10 @@ export default function ConvocationGenerator() {
           <div className="space-y-4 text-sm leading-relaxed text-slate-700">
             <div className="space-y-1 text-slate-600">
               <p>
-                Madame, Monsieur <span className="font-semibold text-slate-900">{selectedGroup.teacher}</span>,
+                {salutation} <span className="font-semibold text-slate-900">{teacherDisplayName}</span>,
               </p>
               <p>
-                Vous êtes convié(e) à assurer les surveillances suivantes dans le cadre du baccalauréat blanc. Retrouvez ci-dessous les horaires, salles, épreuves et fonctions associées à chaque mission.
+                {invitationSentence} à assurer les surveillances suivantes dans le cadre du baccalauréat blanc. Retrouvez ci-dessous les horaires, salles, épreuves et fonctions associées à chaque mission.
               </p>
             </div>
             <ul className="space-y-3">
