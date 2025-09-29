@@ -44,7 +44,7 @@
                             <th scope="col" class="px-6 py-3 rounded-r-lg">Durée</th>
                         </tr>
                     </thead>
-                    <tbody id="surveillance-body" class="divide-y divide-slate-200"></tbody>
+                    <tbody id="surveillance-body"></tbody>
                 </table>
             </div>
         </div>
@@ -300,9 +300,23 @@
             `;
         }
 
-        function renderSurveillanceRow({ teacher, datetime, room, mission, duration, type }) {
-            const rowClasses = ['transition-colors', 'hover:bg-slate-50'];
+        function normalizeTeacherName(teacher) {
+            const trimmed = (teacher || '').trim();
+            return trimmed.length > 0 ? trimmed.toLowerCase() : null;
+        }
+
+        function renderSurveillanceRow({ teacher, datetime, room, mission, duration, type }, index, schedule) {
+            const rowClasses = ['transition-colors', 'hover:bg-slate-50', 'border-slate-200', 'last:border-b'];
             const isToday = isDatetimeToday(datetime);
+
+            const previousEntry = index > 0 ? schedule[index - 1] : null;
+            const normalizedTeacher = normalizeTeacherName(teacher);
+            const normalizedPreviousTeacher = previousEntry ? normalizeTeacherName(previousEntry.teacher) : null;
+            const continuesTeacherGroup = Boolean(normalizedTeacher && normalizedTeacher === normalizedPreviousTeacher);
+
+            if (index === 0 || !continuesTeacherGroup) {
+                rowClasses.push('border-t');
+            }
 
             if (isToday) {
                 rowClasses.push('bg-amber-50/70');
