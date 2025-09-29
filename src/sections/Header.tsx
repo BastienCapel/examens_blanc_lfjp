@@ -5,7 +5,7 @@ export default function Header() {
         <div className="flex items-center gap-4">
           <img
             alt="Logo du Lycée Franco-Japonais de Paris"
-            className="h-16 w-16 flex-shrink-0 rounded-full border border-slate-200 bg-white object-cover shadow-sm"
+            className="h-16 flex-shrink-0 rounded-lg border border-slate-200 bg-white object-contain shadow-sm"
             src="https://i.imgur.com/0YmGlXO.png"
           />
           <div>
