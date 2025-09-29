@@ -393,7 +393,6 @@ export const roomSchedule: RoomScheduleDay[] = [
           time: "14h05 - 18h05",
           teacher: "MBOUP N.",
           detail: "EAF",
-          highlight: true,
           type: "eaf",
         },
       ],
