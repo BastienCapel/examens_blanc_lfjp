@@ -1,5 +1,3 @@
-import { jsPDF } from "jspdf";
-
 import {
   teacherDirectoryByShortName,
   typeVariants,
@@ -9,6 +7,19 @@ import {
   parseDuration,
   type TeacherScheduleGroup,
 } from "./dashboard-utils";
+
+type JsPdfModule = typeof import("jspdf");
+type JsPdfConstructor = JsPdfModule["jsPDF"];
+type JsPdfInstance = InstanceType<JsPdfConstructor>;
+
+let jsPdfConstructorPromise: Promise<JsPdfConstructor> | null = null;
+
+async function loadJsPdfConstructor(): Promise<JsPdfConstructor> {
+  if (!jsPdfConstructorPromise) {
+    jsPdfConstructorPromise = import("jspdf").then((module) => module.jsPDF);
+  }
+  return jsPdfConstructorPromise;
+}
 
 const PAGE_MARGIN_X = 20;
 const PAGE_MARGIN_Y = 20;
@@ -33,14 +44,14 @@ function getTeacherDetails(group: TeacherScheduleGroup) {
   };
 }
 
-function addHeader(pdf: jsPDF) {
+function addHeader(pdf: JsPdfInstance) {
   pdf.setFont("helvetica", "bold");
   pdf.setFontSize(16);
   pdf.text("Convocation de surveillance", PAGE_MARGIN_X, PAGE_MARGIN_Y);
 }
 
 function addIntro(
-  pdf: jsPDF,
+  pdf: JsPdfInstance,
   group: TeacherScheduleGroup,
   startY: number,
 ): number {
@@ -60,7 +71,7 @@ function addIntro(
 }
 
 function measureMissionHeight(
-  pdf: jsPDF,
+  pdf: JsPdfInstance,
   mission: TeacherScheduleGroup["missions"][number],
 ): number {
   const availableWidth = pdf.internal.pageSize.getWidth() - PAGE_MARGIN_X * 2;
@@ -72,7 +83,7 @@ function measureMissionHeight(
 }
 
 function addMission(
-  pdf: jsPDF,
+  pdf: JsPdfInstance,
   mission: TeacherScheduleGroup["missions"][number],
   cursorY: number,
 ): number {
@@ -114,7 +125,7 @@ function addMission(
 }
 
 function addSummary(
-  pdf: jsPDF,
+  pdf: JsPdfInstance,
   group: TeacherScheduleGroup,
   cursorY: number,
 ): number {
@@ -145,7 +156,7 @@ function addSummary(
   return boxTop + boxHeight + 12;
 }
 
-function addClosing(pdf: jsPDF, cursorY: number): number {
+function addClosing(pdf: JsPdfInstance, cursorY: number): number {
   const width = pdf.internal.pageSize.getWidth();
   const closingLines = pdf.splitTextToSize(
     "Nous vous remercions pour votre disponibilité et restons à votre disposition pour toute question relative à cette convocation.",
@@ -157,7 +168,7 @@ function addClosing(pdf: jsPDF, cursorY: number): number {
   return cursorY + closingLines.length * 5 + 10;
 }
 
-function drawSignature(pdf: jsPDF, cursorY: number) {
+function drawSignature(pdf: JsPdfInstance, cursorY: number) {
   const signatureX = PAGE_MARGIN_X;
   const signatureY = cursorY + 12;
 
@@ -185,7 +196,7 @@ function drawSignature(pdf: jsPDF, cursorY: number) {
   return signatureY + 18;
 }
 
-function addConvocationPage(pdf: jsPDF, group: TeacherScheduleGroup) {
+function addConvocationPage(pdf: JsPdfInstance, group: TeacherScheduleGroup) {
   addHeader(pdf);
   let cursorY = addIntro(pdf, group, PAGE_MARGIN_Y + 10);
 
@@ -217,22 +228,24 @@ function normalizeFileName(value: string) {
     .toLowerCase();
 }
 
-export function downloadConvocationPdf(group: TeacherScheduleGroup) {
+export async function downloadConvocationPdf(group: TeacherScheduleGroup) {
   if (!group.missions.length) {
     return;
   }
-  const pdf = new jsPDF();
+  const JsPdf = await loadJsPdfConstructor();
+  const pdf = new JsPdf();
   addConvocationPage(pdf, group);
   const fileName = normalizeFileName(group.teacher || "convocation");
   pdf.save(`convocation-${fileName || "surveillant"}.pdf`);
 }
 
-export function downloadAllConvocationsPdf(groups: TeacherScheduleGroup[]) {
+export async function downloadAllConvocationsPdf(groups: TeacherScheduleGroup[]) {
   const exportableGroups = groups.filter((group) => group.teacher && group.missions.length);
   if (!exportableGroups.length) {
     return;
   }
-  const pdf = new jsPDF();
+  const JsPdf = await loadJsPdfConstructor();
+  const pdf = new JsPdf();
   exportableGroups.forEach((group, index) => {
     if (index > 0) {
       pdf.addPage();

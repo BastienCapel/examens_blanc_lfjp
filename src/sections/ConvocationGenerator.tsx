@@ -143,25 +143,29 @@ export default function ConvocationGenerator() {
       : "Vous êtes convié"
     : "Vous êtes convié(e)";
 
-  const handleDownloadSingle = useCallback(() => {
+  const handleDownloadSingle = useCallback(async () => {
     if (!selectedGroup || isDownloadingSingle) {
       return;
     }
     setIsDownloadingSingle(true);
     try {
-      downloadConvocationPdf(selectedGroup);
+      await downloadConvocationPdf(selectedGroup);
+    } catch (error) {
+      console.error("Impossible de générer la convocation", error);
     } finally {
       setIsDownloadingSingle(false);
     }
   }, [isDownloadingSingle, selectedGroup]);
 
-  const handleDownloadAll = useCallback(() => {
+  const handleDownloadAll = useCallback(async () => {
     if (!availableGroups.length || isDownloadingAll) {
       return;
     }
     setIsDownloadingAll(true);
     try {
-      downloadAllConvocationsPdf(availableGroups);
+      await downloadAllConvocationsPdf(availableGroups);
+    } catch (error) {
+      console.error("Impossible de générer les convocations", error);
     } finally {
       setIsDownloadingAll(false);
     }
