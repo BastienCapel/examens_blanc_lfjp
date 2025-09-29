@@ -512,12 +512,13 @@
                 if (!sessions.length) {
                     return '<td class="px-6 py-4 text-center"></td>';
                 }
-                const containerClasses = sessions.length > 1
-                    ? 'flex flex-col items-stretch gap-3'
-                    : 'flex items-center justify-center';
+                const containerClasses = ['flex', 'flex-col', 'items-stretch'];
+                if (sessions.length > 1) {
+                    containerClasses.push('gap-3');
+                }
                 return `
                     <td class="px-6 py-4 text-center align-top">
-                        <div class="${containerClasses}">
+                        <div class="${containerClasses.join(' ')}">
                             ${renderList(sessions, renderSessionCard)}
                         </div>
                     </td>
