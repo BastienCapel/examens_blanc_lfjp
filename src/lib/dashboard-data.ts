@@ -490,13 +490,14 @@ export const roomSchedule: RoomScheduleDay[] = [
 ];
 
 export interface DashboardTab {
-  id: "teacher" | "room" | "day";
+  id: "teacher" | "convocation" | "room" | "day";
   label: string;
   Icon: LucideIcon;
 }
 
 export const dashboardTabs: DashboardTab[] = [
   { id: "teacher", label: "Vue par enseignant", Icon: Users },
+  { id: "convocation", label: "Convocations", Icon: ClipboardList },
   { id: "room", label: "Vue par salle", Icon: LayoutGrid },
   { id: "day", label: "Vue par jour", Icon: Calendar },
 ];
