@@ -190,8 +190,18 @@ function RoomCell({ sessions }: { sessions: RoomSession[] }) {
 function RoomRow({ day }: { day: RoomScheduleDay }) {
   const isToday = isDayLabelToday(day.day);
   return (
-    <TableRow className={cn(isToday && "bg-amber-50/70")}>
-      <TableCell className="font-medium text-slate-900">
+    <TableRow
+      className={cn(
+        "hover:[&>td:first-child]:bg-slate-50",
+        isToday && "bg-amber-50/70 hover:[&>td:first-child]:bg-amber-50",
+      )}
+    >
+      <TableCell
+        className={cn(
+          "sticky left-0 z-10 bg-white font-medium text-slate-900",
+          isToday && "bg-amber-50",
+        )}
+      >
         {isToday ? (
           <div className="flex items-center gap-2">
             {day.day}
@@ -232,11 +242,14 @@ export default function RoomsStatus() {
           Chaque créneau est surligné selon le bloc horaire (matin, après-midi, etc.) pour faciliter la lecture.
         </p>
       </div>
-      <div className="overflow-x-auto">
-        <Table>
+      <div className="overflow-x-auto bg-white">
+        <Table className="relative">
           <TableHead>
             <TableRow>
-              <TableHeaderCell scope="col" className="rounded-l-lg">
+              <TableHeaderCell
+                scope="col"
+                className="sticky left-0 z-20 rounded-l-lg bg-slate-100"
+              >
                 Jour
               </TableHeaderCell>
               {roomColumns.map((column, index) => (
