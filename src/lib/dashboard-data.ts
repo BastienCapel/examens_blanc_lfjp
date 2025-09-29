@@ -21,6 +21,108 @@ import {
   Users2,
 } from "lucide-react";
 
+export type TeacherCivility = "Madame" | "Monsieur";
+export type TeacherGender = "female" | "male";
+
+export interface TeacherDirectoryEntry {
+  civility: TeacherCivility;
+  gender: TeacherGender;
+  lastName: string;
+  firstName: string;
+  shortName: string;
+}
+
+type TeacherDirectorySourceEntry = {
+  civility: TeacherCivility;
+  lastName: string;
+  firstName: string;
+};
+
+const normalizeWhitespace = (value: string): string => value.replace(/\s+/g, " ").trim();
+
+const createShortName = (lastName: string, firstName: string): string => {
+  const normalizedLastName = normalizeWhitespace(lastName).toUpperCase();
+  const normalizedFirstName = normalizeWhitespace(firstName);
+  if (!normalizedFirstName) {
+    return normalizedLastName;
+  }
+  const initial = normalizedFirstName.charAt(0).toUpperCase();
+  return `${normalizedLastName} ${initial}.`;
+};
+
+const teacherDirectorySource: TeacherDirectorySourceEntry[] = [
+  { civility: "Monsieur", lastName: "ANE", firstName: "Alassane" },
+  { civility: "Monsieur", lastName: "BARITOU", firstName: "Olivier" },
+  { civility: "Madame", lastName: "BLONDEAU", firstName: "Chloé" },
+  { civility: "Madame", lastName: "BOSSU", firstName: "Claire" },
+  { civility: "Madame", lastName: "BROUILLAT", firstName: "Maud" },
+  { civility: "Madame", lastName: "CAPEL", firstName: "Eve" },
+  { civility: "Monsieur", lastName: "CAPEL", firstName: "Bastien" },
+  { civility: "Madame", lastName: "CHABERT", firstName: "Karine" },
+  { civility: "Monsieur", lastName: "CORNALI", firstName: "Karim" },
+  { civility: "Madame", lastName: "D'AQUINO", firstName: "Roselyne" },
+  { civility: "Madame", lastName: "DAVID", firstName: "Sylvana" },
+  { civility: "Monsieur", lastName: "DAVID", firstName: "Vincent" },
+  { civility: "Madame", lastName: "DESMARETS", firstName: "Sahar" },
+  { civility: "Madame", lastName: "DIADIO", firstName: "Ira" },
+  { civility: "Monsieur", lastName: "DIANDY", firstName: "Antoine" },
+  { civility: "Madame", lastName: "DIOUF", firstName: "Elisabeth" },
+  { civility: "Madame", lastName: "DRAMÉ", firstName: "Claire" },
+  { civility: "Madame", lastName: "DUFAY", firstName: "Maguette" },
+  { civility: "Madame", lastName: "FALL", firstName: "Nafissatou" },
+  { civility: "Monsieur", lastName: "FALL", firstName: "Baba" },
+  { civility: "Monsieur", lastName: "FAYE", firstName: "François" },
+  { civility: "Madame", lastName: "FAYE", firstName: "Penda" },
+  { civility: "Monsieur", lastName: "FRAYON", firstName: "Antoine" },
+  { civility: "Madame", lastName: "GIBUS", firstName: "Amandine" },
+  { civility: "Monsieur", lastName: "GOMIS", firstName: "Alain" },
+  { civility: "Monsieur", lastName: "JAÏT", firstName: "Layla" },
+  { civility: "Madame", lastName: "JENOUDET", firstName: "Sandra" },
+  { civility: "Madame", lastName: "KREMER", firstName: "Laurence" },
+  { civility: "Madame", lastName: "KUNTZ", firstName: "Emilie" },
+  { civility: "Madame", lastName: "LE RUE", firstName: "Fabienne" },
+  { civility: "Madame", lastName: "MAGINOT-FRANCE", firstName: "Nathalie" },
+  { civility: "Madame", lastName: "MAHE", firstName: "Justine" },
+  { civility: "Madame", lastName: "MARCOS", firstName: "Rachel" },
+  { civility: "Madame", lastName: "MARTIN", firstName: "Cécile" },
+  { civility: "Madame", lastName: "MBOUP", firstName: "Nathalie" },
+  { civility: "Madame", lastName: "MICHON GUILLAUME", firstName: "Mathilde" },
+  { civility: "Madame", lastName: "MOURAIN DIOP", firstName: "Fanelly" },
+  { civility: "Monsieur", lastName: "NDAW", firstName: "Adam" },
+  { civility: "Monsieur", lastName: "NDIAYE", firstName: "Alassane" },
+  { civility: "Monsieur", lastName: "NDOYE", firstName: "Abdoulaye" },
+  { civility: "Madame", lastName: "PAILLIER", firstName: "Roxane" },
+  { civility: "Madame", lastName: "PATANÉ", firstName: "Romane" },
+  { civility: "Madame", lastName: "PEREZ", firstName: "Fanny" },
+  { civility: "Monsieur", lastName: "PIAGGIO", firstName: "Fernando" },
+  { civility: "Madame", lastName: "PORTER", firstName: "Elizabeth" },
+  { civility: "Monsieur", lastName: "SERVATE", firstName: "Samuel" },
+  { civility: "Madame", lastName: "SERVILE", firstName: "Sylvie" },
+  { civility: "Madame", lastName: "SOLY", firstName: "Laura" },
+  { civility: "Monsieur", lastName: "THOMAS", firstName: "Yvon" },
+  { civility: "Madame", lastName: "TRIQUENAUX", firstName: "Alexandra" },
+];
+
+export const teacherDirectory: TeacherDirectoryEntry[] = teacherDirectorySource.map((entry) => {
+  const civility = entry.civility;
+  const gender: TeacherGender = civility === "Madame" ? "female" : "male";
+  const lastName = normalizeWhitespace(entry.lastName).toUpperCase();
+  const firstName = normalizeWhitespace(entry.firstName);
+  return {
+    civility,
+    gender,
+    lastName,
+    firstName,
+    shortName: createShortName(lastName, firstName),
+  };
+});
+
+export const teacherDirectoryByShortName: Record<string, TeacherDirectoryEntry> =
+  teacherDirectory.reduce((acc, entry) => {
+    acc[entry.shortName] = entry;
+    return acc;
+  }, {} as Record<string, TeacherDirectoryEntry>);
+
 export type SurveillanceType =
   | "philosophie"
   | "specialite"
