@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -77,6 +78,54 @@
     </div>
 
     <script>
+        const TYPE_CONFIG = {
+            philosophie: {
+                label: 'Philosophie',
+                icon: 'book-open',
+                badgeClasses: 'bg-slate-200 text-slate-700',
+                iconColor: 'text-slate-600',
+                cardBorder: 'border-slate-300',
+                cardBackground: 'bg-slate-50',
+                textColor: 'text-slate-700'
+            },
+            specialite: {
+                label: 'Spécialité',
+                icon: 'calculator',
+                badgeClasses: 'bg-blue-100 text-blue-700',
+                iconColor: 'text-blue-600',
+                cardBorder: 'border-blue-200',
+                cardBackground: 'bg-blue-50',
+                textColor: 'text-blue-700'
+            },
+            eaf: {
+                label: 'EAF',
+                icon: 'pen-line',
+                badgeClasses: 'bg-violet-100 text-violet-700',
+                iconColor: 'text-violet-600',
+                cardBorder: 'border-violet-200',
+                cardBackground: 'bg-violet-50',
+                textColor: 'text-violet-700'
+            },
+            support: {
+                label: 'Support',
+                icon: 'life-buoy',
+                badgeClasses: 'bg-amber-100 text-amber-700',
+                iconColor: 'text-amber-600',
+                cardBorder: 'border-amber-200',
+                cardBackground: 'bg-amber-50',
+                textColor: 'text-amber-700'
+            },
+            default: {
+                label: 'Épreuve',
+                icon: 'calendar-days',
+                badgeClasses: 'bg-slate-100 text-slate-700',
+                iconColor: 'text-slate-600',
+                cardBorder: 'border-slate-200',
+                cardBackground: 'bg-white',
+                textColor: 'text-slate-700'
+            }
+        };
+
         const keyFigures = [
             { value: '4', label: 'Salles' },
             { value: '4', label: 'Épreuves', extra: '(dont 1 EAF 1ère)' },
@@ -106,27 +155,27 @@
         ];
 
         const surveillanceSchedule = [
-            { teacher: 'ANE A.', datetime: 'jeudi 11/12 à 08h00', room: 'S13', mission: 'Bac blanc : Enseignement de spécialité N°1', duration: '4:00:00' },
-            { teacher: '', datetime: 'vendredi 12/12 à 08h00', room: 'S9 PRIO / EPS', mission: 'Bac blanc : Enseignement de spécialité N°2', duration: '5:30:00' },
-            { teacher: 'BOSSU C.', datetime: 'mercredi 10/12 à 08h00', room: 'S9 PRIO / EPS', mission: 'Bac blanc de philosophie', duration: '5:30:00' },
-            { teacher: 'DAVID V.', datetime: 'jeudi 11/12 à 08h00', room: 'S12', mission: 'Bac blanc : Enseignement de spécialité N°1', duration: '4:00:00' },
-            { teacher: 'FALL B.', datetime: 'jeudi 11/12 à 08h00', room: 'S9 PRIO / EPS', mission: 'Bac blanc : Enseignement de spécialité N°1', duration: '5:30:00' },
-            { teacher: '', datetime: 'vendredi 12/12 à 10h00', room: '-', mission: "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause", duration: '2:00:00' },
-            { teacher: 'GIBUS A.', datetime: 'mercredi 10/12 à 10h00', room: '-', mission: "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause", duration: '2:00:00' },
-            { teacher: 'GOMIS A.', datetime: 'mercredi 10/12 à 08h00', room: 'S12', mission: 'Bac blanc de philosophie', duration: '4:00:00' },
-            { teacher: '', datetime: 'vendredi 12/12 à 08h00', room: 'S13', mission: 'Bac blanc : Enseignement de spécialité N°2', duration: '4:00:00' },
-            { teacher: 'JAÏT L.', datetime: 'jeudi 11/12 à 08h00', room: '-', mission: "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause", duration: '2:00:00' },
-            { teacher: '', datetime: 'jeudi 11/12 à 13h05', room: 'S12', mission: 'Bac blanc EAF', duration: '5:00:00' },
-            { teacher: 'MBOUP N.', datetime: 'jeudi 11/12 à 10h00', room: '-', mission: "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause", duration: '1:30:00' },
-            { teacher: '', datetime: 'jeudi 11/12 à 14h05', room: 'S10', mission: 'Bac blanc EAF', duration: '4:00:00' },
-            { teacher: '', datetime: 'vendredi 12/12 à 08h00', room: 'S14', mission: 'Bac blanc : Enseignement de spécialité N°2', duration: '4:00:00' },
-            { teacher: 'MICHON GUILLAUME M.', datetime: 'jeudi 11/12 à 08h00', room: 'S14', mission: 'Bac blanc : Enseignement de spécialité N°1', duration: '4:00:00' },
-            { teacher: '', datetime: 'mercredi 10/12 à 08h00', room: 'S14', mission: 'Bac blanc de philosophie', duration: '4:00:00' },
-            { teacher: 'MOURAIN DIOP F.', datetime: 'jeudi 11/12 à 14h05', room: 'S13', mission: 'Bac blanc EAF', duration: '4:00:00' },
-            { teacher: '', datetime: 'mercredi 10/12 à 08h00', room: 'S13', mission: 'Bac blanc de philosophie', duration: '4:00:00' },
-            { teacher: 'NDOYE A.', datetime: 'jeudi 11/12 à 14h05', room: 'S14', mission: 'Bac blanc EAF', duration: '4:00:00' },
-            { teacher: '', datetime: 'vendredi 12/12 à 08h00', room: 'S12', mission: 'Bac blanc : Enseignement de spécialité N°2', duration: '4:00:00' },
-            { teacher: 'PIAGGIO F.', datetime: 'jeudi 11/12 à 15h30', room: '-', mission: "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause", duration: '2:30:00' }
+            { teacher: 'ANE A.', datetime: 'jeudi 11/12 à 08h00', room: 'S13', mission: 'Bac blanc : Enseignement de spécialité N°1', duration: '4:00:00', type: 'specialite' },
+            { teacher: '', datetime: 'vendredi 12/12 à 08h00', room: 'S9 PRIO / EPS', mission: 'Bac blanc : Enseignement de spécialité N°2', duration: '5:30:00', type: 'specialite' },
+            { teacher: 'BOSSU C.', datetime: 'mercredi 10/12 à 08h00', room: 'S9 PRIO / EPS', mission: 'Bac blanc de philosophie', duration: '5:30:00', type: 'philosophie' },
+            { teacher: 'DAVID V.', datetime: 'jeudi 11/12 à 08h00', room: 'S12', mission: 'Bac blanc : Enseignement de spécialité N°1', duration: '4:00:00', type: 'specialite' },
+            { teacher: 'FALL B.', datetime: 'jeudi 11/12 à 08h00', room: 'S9 PRIO / EPS', mission: 'Bac blanc : Enseignement de spécialité N°1', duration: '5:30:00', type: 'specialite' },
+            { teacher: '', datetime: 'vendredi 12/12 à 10h00', room: '-', mission: "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause", duration: '2:00:00', type: 'support' },
+            { teacher: 'GIBUS A.', datetime: 'mercredi 10/12 à 10h00', room: '-', mission: "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause", duration: '2:00:00', type: 'support' },
+            { teacher: 'GOMIS A.', datetime: 'mercredi 10/12 à 08h00', room: 'S12', mission: 'Bac blanc de philosophie', duration: '4:00:00', type: 'philosophie' },
+            { teacher: '', datetime: 'vendredi 12/12 à 08h00', room: 'S13', mission: 'Bac blanc : Enseignement de spécialité N°2', duration: '4:00:00', type: 'specialite' },
+            { teacher: 'JAÏT L.', datetime: 'jeudi 11/12 à 08h00', room: '-', mission: "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause", duration: '2:00:00', type: 'support' },
+            { teacher: '', datetime: 'jeudi 11/12 à 13h05', room: 'S12', mission: 'Bac blanc EAF', duration: '5:00:00', type: 'eaf' },
+            { teacher: 'MBOUP N.', datetime: 'jeudi 11/12 à 10h00', room: '-', mission: "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause", duration: '1:30:00', type: 'support' },
+            { teacher: '', datetime: 'jeudi 11/12 à 14h05', room: 'S10', mission: 'Bac blanc EAF', duration: '4:00:00', type: 'eaf' },
+            { teacher: '', datetime: 'vendredi 12/12 à 08h00', room: 'S14', mission: 'Bac blanc : Enseignement de spécialité N°2', duration: '4:00:00', type: 'specialite' },
+            { teacher: 'MICHON GUILLAUME M.', datetime: 'jeudi 11/12 à 08h00', room: 'S14', mission: 'Bac blanc : Enseignement de spécialité N°1', duration: '4:00:00', type: 'specialite' },
+            { teacher: '', datetime: 'mercredi 10/12 à 08h00', room: 'S14', mission: 'Bac blanc de philosophie', duration: '4:00:00', type: 'philosophie' },
+            { teacher: 'MOURAIN DIOP F.', datetime: 'jeudi 11/12 à 14h05', room: 'S13', mission: 'Bac blanc EAF', duration: '4:00:00', type: 'eaf' },
+            { teacher: '', datetime: 'mercredi 10/12 à 08h00', room: 'S13', mission: 'Bac blanc de philosophie', duration: '4:00:00', type: 'philosophie' },
+            { teacher: 'NDOYE A.', datetime: 'jeudi 11/12 à 14h05', room: 'S14', mission: 'Bac blanc EAF', duration: '4:00:00', type: 'eaf' },
+            { teacher: '', datetime: 'vendredi 12/12 à 08h00', room: 'S12', mission: 'Bac blanc : Enseignement de spécialité N°2', duration: '4:00:00', type: 'specialite' },
+            { teacher: 'PIAGGIO F.', datetime: 'jeudi 11/12 à 15h30', room: '-', mission: "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause", duration: '2:30:00', type: 'support' }
         ];
 
         const roomColumns = ['S9 PRIO / EPS', 'S10', 'S12', 'S13', 'S14'];
@@ -136,17 +185,17 @@
                 day: 'Mercredi 10/12',
                 rooms: {
                     'S9 PRIO / EPS': [
-                        { time: '08h00 - 13h30', teacher: 'BOSSU C.', detail: 'Philosophie' }
+                        { time: '08h00 - 13h30', teacher: 'BOSSU C.', detail: 'Philosophie', type: 'philosophie' }
                     ],
                     'S10': [],
                     'S12': [
-                        { time: '08h00 - 12h00', teacher: 'GOMIS A.', detail: 'Philosophie' }
+                        { time: '08h00 - 12h00', teacher: 'GOMIS A.', detail: 'Philosophie', type: 'philosophie' }
                     ],
                     'S13': [
-                        { time: '08h00 - 12h00', teacher: 'MOURAIN DIOP F.', detail: 'Philosophie' }
+                        { time: '08h00 - 12h00', teacher: 'MOURAIN DIOP F.', detail: 'Philosophie', type: 'philosophie' }
                     ],
                     'S14': [
-                        { time: '08h00 - 12h00', teacher: 'MICHON G. M.', detail: 'Philosophie' }
+                        { time: '08h00 - 12h00', teacher: 'MICHON G. M.', detail: 'Philosophie', type: 'philosophie' }
                     ]
                 }
             },
@@ -154,24 +203,24 @@
                 day: 'Jeudi 11/12',
                 rooms: {
                     'S9 PRIO / EPS': [
-                        { label: 'Matin', time: '08h00 - 13h30', teacher: 'FALL B.', detail: 'Spécialité N°1', highlight: true },
+                        { label: 'Matin', time: '08h00 - 13h30', teacher: 'FALL B.', detail: 'Spécialité N°1', highlight: true, type: 'specialite' },
                         { label: 'Après-midi', time: null }
                     ],
                     'S10': [
                         { label: 'Matin', time: null },
-                        { label: 'Après-midi', time: '14h05 - 18h05', teacher: 'MBOUP N.', detail: 'EAF', highlight: true }
+                        { label: 'Après-midi', time: '14h05 - 18h05', teacher: 'MBOUP N.', detail: 'EAF', highlight: true, type: 'eaf' }
                     ],
                     'S12': [
-                        { label: 'Matin', time: '08h00 - 12h00', teacher: 'DAVID V.', detail: 'Spécialité N°1', highlight: true },
-                        { label: 'Après-midi', time: '13h05 - 18h05', teacher: 'JAÏT L.', detail: 'EAF' }
+                        { label: 'Matin', time: '08h00 - 12h00', teacher: 'DAVID V.', detail: 'Spécialité N°1', highlight: true, type: 'specialite' },
+                        { label: 'Après-midi', time: '13h05 - 18h05', teacher: 'JAÏT L.', detail: 'EAF', type: 'eaf' }
                     ],
                     'S13': [
-                        { label: 'Matin', time: '08h00 - 12h00', teacher: 'ANE A.', detail: 'Spécialité N°1', highlight: true },
-                        { label: 'Après-midi', time: '14h05 - 18h05', teacher: 'MOURAIN DIOP F.', detail: 'EAF' }
+                        { label: 'Matin', time: '08h00 - 12h00', teacher: 'ANE A.', detail: 'Spécialité N°1', highlight: true, type: 'specialite' },
+                        { label: 'Après-midi', time: '14h05 - 18h05', teacher: 'MOURAIN DIOP F.', detail: 'EAF', type: 'eaf' }
                     ],
                     'S14': [
-                        { label: 'Matin', time: '08h00 - 12h00', teacher: 'MICHON G. M.', detail: 'Spécialité N°1', highlight: true },
-                        { label: 'Après-midi', time: '14h05 - 18h05', teacher: 'NDOYE A.', detail: 'EAF' }
+                        { label: 'Matin', time: '08h00 - 12h00', teacher: 'MICHON G. M.', detail: 'Spécialité N°1', highlight: true, type: 'specialite' },
+                        { label: 'Après-midi', time: '14h05 - 18h05', teacher: 'NDOYE A.', detail: 'EAF', type: 'eaf' }
                     ]
                 }
             },
@@ -179,17 +228,17 @@
                 day: 'Vendredi 12/12',
                 rooms: {
                     'S9 PRIO / EPS': [
-                        { time: '08h00 - 13h30', teacher: 'ANE A.', detail: 'Spécialité N°2' }
+                        { time: '08h00 - 13h30', teacher: 'ANE A.', detail: 'Spécialité N°2', type: 'specialite' }
                     ],
                     'S10': [],
                     'S12': [
-                        { time: '08h00 - 12h00', teacher: 'NDOYE A.', detail: 'Spécialité N°2' }
+                        { time: '08h00 - 12h00', teacher: 'NDOYE A.', detail: 'Spécialité N°2', type: 'specialite' }
                     ],
                     'S13': [
-                        { time: '08h00 - 12h00', teacher: 'GOMIS A.', detail: 'Spécialité N°2' }
+                        { time: '08h00 - 12h00', teacher: 'GOMIS A.', detail: 'Spécialité N°2', type: 'specialite' }
                     ],
                     'S14': [
-                        { time: '08h00 - 12h00', teacher: 'MBOUP N.', detail: 'Spécialité N°2' }
+                        { time: '08h00 - 12h00', teacher: 'MBOUP N.', detail: 'Spécialité N°2', type: 'specialite' }
                     ]
                 }
             }
@@ -251,13 +300,32 @@
             `;
         }
 
-        function renderSurveillanceRow({ teacher, datetime, room, mission, duration }) {
+        function renderSurveillanceRow({ teacher, datetime, room, mission, duration, type }) {
+            const rowClasses = ['transition-colors', 'hover:bg-slate-50'];
+            const isToday = isDatetimeToday(datetime);
+
+            if (isToday) {
+                rowClasses.push('bg-amber-50/70');
+            }
+
+            const teacherContent = teacher
+                ? teacher
+                : '<span class="text-slate-400 italic">À confirmer</span>';
+
+            const roomContent = room && room !== '-'
+                ? room
+                : '<span class="text-slate-400 italic">À préciser</span>';
+
+            const datetimeContent = isToday
+                ? `<div class="flex items-center gap-2">${datetime}${renderTodayBadge()}</div>`
+                : datetime;
+
             return `
-                <tr class="hover:bg-slate-50">
-                    <td class="px-6 py-4 font-medium text-slate-900">${teacher}</td>
-                    <td class="px-6 py-4">${datetime}</td>
-                    <td class="px-6 py-4">${room}</td>
-                    <td class="px-6 py-4">${mission}</td>
+                <tr class="${rowClasses.join(' ')}">
+                    <td class="px-6 py-4 font-medium text-slate-900">${teacherContent}</td>
+                    <td class="px-6 py-4">${datetimeContent}</td>
+                    <td class="px-6 py-4">${roomContent}</td>
+                    <td class="px-6 py-4">${renderMissionDetails(mission, type)}</td>
                     <td class="px-6 py-4">${duration}</td>
                 </tr>
             `;
@@ -265,9 +333,20 @@
 
         function renderRoomRow({ day, rooms }) {
             const cells = roomColumns.map((column) => renderRoomCell(rooms[column] || []));
+            const isToday = isDayLabelToday(day);
+            const rowClasses = ['transition-colors', 'hover:bg-slate-50'];
+
+            if (isToday) {
+                rowClasses.push('bg-amber-50/70');
+            }
+
+            const dayContent = isToday
+                ? `<div class="flex items-center gap-2">${day}${renderTodayBadge()}</div>`
+                : day;
+
             return `
-                <tr class="hover:bg-slate-50">
-                    <td class="px-6 py-4 font-medium text-slate-900">${day}</td>
+                <tr class="${rowClasses.join(' ')}">
+                    <td class="px-6 py-4 font-medium text-slate-900">${dayContent}</td>
                     ${cells.join('')}
                 </tr>
             `;
@@ -278,37 +357,14 @@
                 return '<td class="px-6 py-4 text-center"></td>';
             }
 
-            if (sessions.length === 1 && !sessions[0].label) {
-                const session = sessions[0];
-                const time = session.time ? `<div class="text-xs font-semibold text-slate-700">${session.time}</div>` : '';
-                const teacher = session.teacher ? `<div>${session.teacher}</div>` : '';
-                const detail = session.detail ? `<div class="text-xs text-slate-500">${session.detail}</div>` : '';
-                return `
-                    <td class="px-6 py-4 text-center">
-                        ${time}
-                        ${teacher}
-                        ${detail}
-                    </td>
-                `;
-            }
-
             const sessionCards = sessions.map(renderSessionCard).join('');
-            const alignClass = sessions.length > 1 ? ' align-top' : '';
-            const containerClasses = [];
-
-            if (sessions.length > 1) {
-                containerClasses.push('grid');
-                if (sessions.length === 2) {
-                    containerClasses.push('grid-rows-2');
-                } else if (sessions.length === 3) {
-                    containerClasses.push('grid-rows-3');
-                }
-                containerClasses.push('gap-3', 'h-full');
-            }
+            const containerClasses = sessions.length > 1
+                ? 'flex flex-col gap-3 items-stretch'
+                : 'flex justify-center items-center';
 
             return `
-                <td class="px-6 py-4 text-center${alignClass}">
-                    <div class="${containerClasses.join(' ')}">
+                <td class="px-6 py-4 text-center align-top">
+                    <div class="${containerClasses}">
                         ${sessionCards}
                     </div>
                 </td>
@@ -316,27 +372,104 @@
         }
 
         function renderSessionCard(session) {
-            const baseClasses = ['rounded-lg', 'border', 'border-slate-200', 'p-3', 'flex', 'flex-col', 'items-center', 'gap-1'];
+            const typeConfig = getTypeConfig(session.type);
+            const baseClasses = ['rounded-lg', 'border', 'p-3', 'flex', 'flex-col', 'gap-2', 'items-center', typeConfig.cardBorder, typeConfig.cardBackground];
+
             if (session.highlight) {
-                baseClasses.push('bg-slate-50');
+                baseClasses.push('ring-2', 'ring-amber-300', 'shadow-sm');
             }
 
             const label = session.label
                 ? `<div class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">${session.label}</div>`
                 : '';
+
+            const typeBadge = session.type ? renderTypeBadge(session.type, { compact: true }) : '';
+            const header = label || typeBadge
+                ? `<div class="flex w-full items-center ${label && typeBadge ? 'justify-between' : 'justify-start'} gap-2">${label}${typeBadge ? `<div>${typeBadge}</div>` : ''}</div>`
+                : '';
+
             const time = session.time
                 ? `<div class="text-xs font-semibold text-slate-700">${session.time}</div>`
                 : '<div class="text-xs text-slate-400 italic">—</div>';
-            const teacher = session.teacher ? `<div>${session.teacher}</div>` : '';
-            const detail = session.detail ? `<div class="text-xs text-slate-500">${session.detail}</div>` : '';
+            const teacher = session.teacher ? `<div class="text-sm font-semibold ${typeConfig.textColor}">${session.teacher}</div>` : '';
+            const detail = session.detail ? `<div class="text-xs text-slate-600">${session.detail}</div>` : '';
 
             return `
                 <div class="${baseClasses.join(' ')}">
-                    ${label}
-                    ${time}
-                    ${teacher}
-                    ${detail}
+                    ${header}
+                    <div class="flex flex-col items-center gap-1 text-center">
+                        ${time}
+                        ${teacher}
+                        ${detail}
+                    </div>
                 </div>
+            `;
+        }
+
+        function getTypeConfig(type) {
+            return TYPE_CONFIG[type] || TYPE_CONFIG.default;
+        }
+
+        function renderTypeBadge(type, { compact = false } = {}) {
+            const typeConfig = getTypeConfig(type);
+            const textClasses = compact ? 'text-[10px] font-semibold tracking-wide uppercase' : 'text-xs font-semibold';
+            const padding = compact ? 'px-2 py-0.5' : 'px-2.5 py-1';
+            const iconSize = compact ? 'h-3 w-3' : 'h-3.5 w-3.5';
+
+            return `
+                <span class="inline-flex items-center gap-1 rounded-full ${padding} ${textClasses} ${typeConfig.badgeClasses}">
+                    <i data-lucide="${typeConfig.icon}" class="${iconSize} ${typeConfig.iconColor}"></i>
+                    ${typeConfig.label}
+                </span>
+            `;
+        }
+
+        function renderMissionDetails(mission, type) {
+            const badge = renderTypeBadge(type);
+            return `
+                <div class="flex flex-col gap-2 text-slate-700">
+                    ${badge}
+                    <span class="text-sm text-slate-600">${mission}</span>
+                </div>
+            `;
+        }
+
+        function parseDayParts(label) {
+            const match = label.match(/(\d{1,2})\/(\d{1,2})/);
+            if (!match) {
+                return null;
+            }
+
+            return { day: Number(match[1]), month: Number(match[2]) };
+        }
+
+        function parseDatetimeParts(datetime) {
+            return parseDayParts(datetime);
+        }
+
+        function isTodayFromParts(parts) {
+            if (!parts) {
+                return false;
+            }
+
+            const now = new Date();
+            return now.getDate() === parts.day && (now.getMonth() + 1) === parts.month;
+        }
+
+        function isDayLabelToday(label) {
+            return isTodayFromParts(parseDayParts(label));
+        }
+
+        function isDatetimeToday(datetime) {
+            return isTodayFromParts(parseDatetimeParts(datetime));
+        }
+
+        function renderTodayBadge() {
+            return `
+                <span class="inline-flex items-center gap-1 rounded-full bg-amber-200 px-2 py-0.5 text-xs font-semibold text-amber-900">
+                    <i data-lucide="sun" class="h-3.5 w-3.5 text-amber-700"></i>
+                    Aujourd'hui
+                </span>
             `;
         }
 
