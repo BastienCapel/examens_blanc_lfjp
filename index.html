@@ -591,48 +591,129 @@
                 return null;
             };
 
-            const buildDaySchedule = (schedule) => schedule.map(({ day, rooms }) => {
-                const slots = [];
-                const slotMap = new Map();
-                Object.entries(rooms).forEach(([room, sessions]) => {
-                    sessions.forEach((session) => {
-                        const key = session.time || session.label || 'Horaire à confirmer';
-                        if (!slotMap.has(key)) {
-                            slotMap.set(key, {
+            const capitalizeWord = (value) => {
+                if (!isNonEmptyString(value)) {
+                    return value;
+                }
+                return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+            };
+
+            const parseSupportMission = (mission) => {
+                if (!mission || mission.type !== 'support' || !isNonEmptyString(mission.datetime)) {
+                    return null;
+                }
+                const match = mission.datetime.match(/([A-Za-zÀ-ÿ]+)\s+(\d{1,2}\/\d{1,2})\s+à\s+(\d{1,2})h(\d{2})/i);
+                if (!match) {
+                    return null;
+                }
+                const [, rawDayName, datePart, hourPart, minutePart] = match;
+                const startHour = hourPart.padStart(2, '0');
+                const startMinute = minutePart.padStart(2, '0');
+                const dayLabel = `${capitalizeWord(rawDayName)} ${datePart}`;
+                const startTime = `${startHour}h${startMinute}`;
+                const durationSeconds = parseDuration(mission.duration);
+                let endTime = null;
+                if (durationSeconds) {
+                    const startTotalMinutes = Number(startHour) * 60 + Number(startMinute);
+                    const endTotalMinutes = startTotalMinutes + Math.round(durationSeconds / 60);
+                    const endHour = Math.floor(endTotalMinutes / 60);
+                    const endMinute = endTotalMinutes % 60;
+                    endTime = `${String(endHour).padStart(2, '0')}h${String(endMinute).padStart(2, '0')}`;
+                }
+                const timeRange = endTime ? `${startTime} - ${endTime}` : startTime;
+                return {
+                    dayLabel,
+                    timeRange,
+                    teacher: normalizeTeacherName(mission.teacher),
+                    detail: mission.mission,
+                    type: mission.type,
+                    roomLabel: 'Support',
+                    blockLabel: 'Support'
+                };
+            };
+
+            const buildDaySchedule = (schedule, missions = []) => {
+                const dayMap = new Map();
+                const dayOrder = [];
+
+                const ensureDayEntry = (day) => {
+                    if (!dayMap.has(day)) {
+                        dayMap.set(day, { day, slots: [], slotMap: new Map() });
+                        dayOrder.push(day);
+                    }
+                    return dayMap.get(day);
+                };
+
+                const addSlotEntry = (day, { key, time = null, label = null }, entry) => {
+                    const dayEntry = ensureDayEntry(day);
+                    if (!dayEntry.slotMap.has(key)) {
+                        const slot = { key, time, label, entries: [] };
+                        dayEntry.slotMap.set(key, slot);
+                        dayEntry.slots.push(slot);
+                    }
+                    dayEntry.slotMap.get(key).entries.push(entry);
+                };
+
+                schedule.forEach(({ day, rooms }) => {
+                    Object.entries(rooms).forEach(([room, sessions]) => {
+                        sessions.forEach((session) => {
+                            const key = session.time || session.label || 'Horaire à confirmer';
+                            addSlotEntry(day, {
                                 key,
                                 time: session.time || null,
-                                label: session.label || null,
-                                entries: []
+                                label: session.label || null
+                            }, {
+                                room,
+                                teacher: session.teacher,
+                                detail: session.detail,
+                                type: session.type,
+                                highlight: session.highlight,
+                                time: session.time,
+                                label: session.label
                             });
-                            slots.push(slotMap.get(key));
-                        }
-                        slotMap.get(key).entries.push({
-                            room,
-                            teacher: session.teacher,
-                            detail: session.detail,
-                            type: session.type,
-                            highlight: session.highlight,
-                            time: session.time,
-                            label: session.label
                         });
                     });
                 });
-                slots.sort((a, b) => {
-                    const hourA = extractStartHour(a.time);
-                    const hourB = extractStartHour(b.time);
-                    if (hourA !== null && hourB !== null) {
-                        return hourA - hourB;
-                    }
-                    if (hourA !== null) {
-                        return -1;
-                    }
-                    if (hourB !== null) {
-                        return 1;
-                    }
-                    return withFallback(a.label, '').localeCompare(withFallback(b.label, ''), 'fr', { sensitivity: 'base' });
+
+                missions
+                    .map(parseSupportMission)
+                    .filter(Boolean)
+                    .forEach((support) => {
+                        const key = support.timeRange || support.blockLabel || 'Support';
+                        addSlotEntry(support.dayLabel, {
+                            key,
+                            time: support.timeRange,
+                            label: support.blockLabel
+                        }, {
+                            room: support.roomLabel,
+                            teacher: support.teacher,
+                            detail: support.detail,
+                            type: support.type,
+                            highlight: null,
+                            time: support.timeRange,
+                            label: support.blockLabel
+                        });
+                    });
+
+                return dayOrder.map((day) => {
+                    const { slots } = dayMap.get(day);
+                    slots.sort((a, b) => {
+                        const hourA = extractStartHour(a.time);
+                        const hourB = extractStartHour(b.time);
+                        if (hourA !== null && hourB !== null) {
+                            return hourA - hourB;
+                        }
+                        if (hourA !== null) {
+                            return -1;
+                        }
+                        if (hourB !== null) {
+                            return 1;
+                        }
+                        return withFallback(a.label, '').localeCompare(withFallback(b.label, ''), 'fr', { sensitivity: 'base' });
+                    });
+                    return { day, slots };
                 });
-                return { day, slots };
-            });
+            };
 
             const renderDaySession = (entry) => {
                 const badge = entry.type ? renderTypeBadge(entry.type, { compact: true }) : '';
@@ -784,7 +865,7 @@
                 }
 
                 if (dayScheduleContainer) {
-                    const daySchedule = buildDaySchedule(DATA.roomSchedule);
+                    const daySchedule = buildDaySchedule(DATA.roomSchedule, DATA.surveillanceSchedule);
                     dayScheduleContainer.innerHTML = daySchedule.length
                         ? renderList(daySchedule, renderDayCard)
                         : renderEmptyState('Aucune journée planifiée.');
