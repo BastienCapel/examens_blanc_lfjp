@@ -4,13 +4,13 @@ export default function Header() {
       <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="flex items-center gap-4">
           <img
-            alt="Logo du Lycée Franco-Japonais de Paris"
+            alt="Logo du Lycée Français Jacques Prévert de Saly"
             className="h-16 flex-shrink-0 rounded-lg border border-slate-200 bg-white object-contain shadow-sm"
             src="https://i.imgur.com/0YmGlXO.png"
           />
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-              Lycée Franco-Japonais de Paris
+              Lycée Français Jacques Prévert de Saly
             </p>
             <h1 className="text-3xl font-bold text-slate-900">
               Examens blancs LFJP 2025-2026
