@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
+import { Download } from "lucide-react";
 
 import TypeBadge from "../components/TypeBadge";
 import {
@@ -18,6 +19,11 @@ import {
   type TeacherScheduleGroup,
 } from "../lib/dashboard-utils";
 import { useDashboardContext } from "../lib/dashboard-context";
+import ProviseurSignature from "../components/ProviseurSignature";
+import {
+  downloadAllConvocationsPdf,
+  downloadConvocationPdf,
+} from "../lib/convocation-pdf";
 
 const CalendarClockIcon = calendarClockIcon;
 const MapPinIcon = mapPinIcon;
@@ -83,6 +89,8 @@ export default function ConvocationGenerator() {
 
   const defaultTeacher = teacherOptions[0]?.value ?? "";
   const [selectedTeacher, setSelectedTeacher] = useState<string>(defaultTeacher);
+  const [isDownloadingSingle, setIsDownloadingSingle] = useState(false);
+  const [isDownloadingAll, setIsDownloadingAll] = useState(false);
 
   useEffect(() => {
     if (!teacherOptions.length) {
@@ -98,6 +106,14 @@ export default function ConvocationGenerator() {
   const selectedGroup = useMemo(() => {
     return scheduleByTeacher.find((group) => group.teacher === selectedTeacher) ?? null;
   }, [scheduleByTeacher, selectedTeacher]);
+
+  const availableGroups = useMemo(
+    () =>
+      scheduleByTeacher.filter(
+        (group) => group.teacher && group.teacher !== "À assigner" && group.missions.length,
+      ),
+    [scheduleByTeacher],
+  );
 
   const totalDuration = useMemo(() => {
     if (!selectedGroup) {
@@ -127,6 +143,34 @@ export default function ConvocationGenerator() {
       : "Vous êtes convié"
     : "Vous êtes convié(e)";
 
+  const handleDownloadSingle = useCallback(async () => {
+    if (!selectedGroup || isDownloadingSingle) {
+      return;
+    }
+    setIsDownloadingSingle(true);
+    try {
+      await downloadConvocationPdf(selectedGroup);
+    } catch (error) {
+      console.error("Impossible de générer la convocation", error);
+    } finally {
+      setIsDownloadingSingle(false);
+    }
+  }, [isDownloadingSingle, selectedGroup]);
+
+  const handleDownloadAll = useCallback(async () => {
+    if (!availableGroups.length || isDownloadingAll) {
+      return;
+    }
+    setIsDownloadingAll(true);
+    try {
+      await downloadAllConvocationsPdf(availableGroups);
+    } catch (error) {
+      console.error("Impossible de générer les convocations", error);
+    } finally {
+      setIsDownloadingAll(false);
+    }
+  }, [availableGroups, isDownloadingAll]);
+
   return createPortal(
     <section
       id="convocation-view"
@@ -142,6 +186,26 @@ export default function ConvocationGenerator() {
         <p className="text-sm text-slate-500">
           Sélectionnez un surveillant pour obtenir une convocation prête à être envoyée avec toutes les informations clés.
         </p>
+      </div>
+      <div className="flex flex-wrap items-center gap-3">
+        <button
+          type="button"
+          onClick={handleDownloadSingle}
+          disabled={!hasMissions || isDownloadingSingle}
+          className="inline-flex items-center gap-2 rounded-lg border border-blue-600 bg-blue-600 px-3 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-200 disabled:text-slate-500"
+        >
+          <Download className="h-4 w-4" aria-hidden="true" />
+          {isDownloadingSingle ? "Génération..." : "Télécharger la convocation"}
+        </button>
+        <button
+          type="button"
+          onClick={handleDownloadAll}
+          disabled={!availableGroups.length || isDownloadingAll}
+          className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-400 hover:text-slate-900 disabled:cursor-not-allowed disabled:border-slate-200 disabled:text-slate-400"
+        >
+          <Download className="h-4 w-4" aria-hidden="true" />
+          {isDownloadingAll ? "Génération..." : "Télécharger toutes les convocations"}
+        </button>
       </div>
       <div className="space-y-2">
         <label htmlFor="convocation-teacher" className="text-sm font-medium text-slate-700">
@@ -188,6 +252,7 @@ export default function ConvocationGenerator() {
             <p>
               Nous vous remercions pour votre disponibilité et restons à votre disposition pour toute question relative à cette convocation.
             </p>
+            <ProviseurSignature />
           </div>
         ) : (
           <div className="flex items-center gap-3 rounded-lg border border-dashed border-slate-300 bg-white/70 p-4 text-sm text-slate-500">
