@@ -27,80 +27,8 @@
         </header>
 
         <!-- Cartes d'information -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            
-            <!-- Carte 1: Infos Générales -->
-            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
-                <div class="flex items-center gap-4 mb-4">
-                    <div class="bg-blue-100 p-3 rounded-full">
-                        <i data-lucide="info" class="text-blue-600"></i>
-                    </div>
-                    <h2 class="text-xl font-semibold">Informations Clés</h2>
-                </div>
-                <div class="grid grid-cols-2 gap-y-4 gap-x-2 mt-6 text-center">
-                    <div>
-                        <p class="text-4xl font-bold text-blue-600">4</p>
-                        <p class="text-sm text-slate-500 mt-1">Salles</p>
-                    </div>
-                    <div>
-                        <p class="text-4xl font-bold text-blue-600">4</p>
-                        <p class="text-sm text-slate-500 mt-1">Épreuves</p>
-                        <p class="text-xs text-slate-400 mt-1">(dont 1 EAF 1ère)</p>
-                    </div>
-                    <div>
-                        <p class="text-4xl font-bold text-blue-600">4<span class="text-2xl">h</span></p>
-                        <p class="text-sm text-slate-500 mt-1">Durée moyenne</p>
-                    </div>
-                    <div>
-                        <p class="text-4xl font-bold text-blue-600">64<span class="text-2xl">h</span></p>
-                        <p class="text-sm text-slate-500 mt-1">Surveillance</p>
-                    </div>
-                </div>
-            </div>
+        <div id="info-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"></div>
 
-            <!-- Carte 2: Aménagements Terminale -->
-            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
-                <div class="flex items-center gap-4 mb-4">
-                    <div class="bg-green-100 p-3 rounded-full">
-                        <i data-lucide="users-2" class="text-green-600"></i>
-                    </div>
-                    <h2 class="text-xl font-semibold">Terminale</h2>
-                </div>
-                <div class="text-slate-700">
-                    <p class="font-medium mb-2">Liste des élèves avec aménagements d'examen :</p>
-                    <p class="text-sm mb-4">
-                        RISPAL Charlie, NDOUR Fatou, SOBLOG Oscar, FALL CLAMENS Omar, ZARB Frédy
-                    </p>
-                    <p class="mb-2"><span class="font-semibold">Salles :</span> 9, 12, 13, 14.</p>
-                    <div class="mt-4 p-3 bg-amber-100 text-amber-800 rounded-lg flex items-center text-sm">
-                        <i data-lucide="alert-triangle" class="h-5 w-5 mr-3 flex-shrink-0"></i>
-                        <span>Silence requis dans les salles 10 et 11.</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Carte 3: Aménagements Première -->
-            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
-                <div class="flex items-center gap-4 mb-4">
-                    <div class="bg-purple-100 p-3 rounded-full">
-                        <i data-lucide="user-check" class="text-purple-600"></i>
-                    </div>
-                    <h2 class="text-xl font-semibold">Première</h2>
-                </div>
-                <div class="text-slate-700">
-                     <p class="font-medium mb-2">Liste des élèves avec aménagements d'examen :</p>
-                     <p class="text-sm mb-4">
-                        JENOUDET Thiméo, Owen Thibault, SARR Sokhna Faty, KERDUDO Zeina
-                    </p>
-                    <p class="mb-2"><span class="font-semibold">Salles :</span> 10, 12, 13, 14.</p>
-                    <div class="mt-4 p-3 bg-amber-100 text-amber-800 rounded-lg flex items-center text-sm">
-                        <i data-lucide="alert-triangle" class="h-5 w-5 mr-3 flex-shrink-0"></i>
-                        <span>Silence requis dans la salle 11.</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
         <!-- Planning des surveillances -->
         <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
             <h2 class="text-xl font-semibold mb-4">Planning des Surveillances</h2>
@@ -115,155 +43,7 @@
                             <th scope="col" class="px-6 py-3 rounded-r-lg">Durée</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-200">
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900">ANE A.</td>
-                            <td class="px-6 py-4">jeudi 11/12 à 08h00</td>
-                            <td class="px-6 py-4">S13</td>
-                            <td class="px-6 py-4">Bac blanc : Enseignement de spécialité N°1</td>
-                            <td class="px-6 py-4">4:00:00</td>
-                        </tr>
-                         <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900"></td>
-                            <td class="px-6 py-4">vendredi 12/12 à 08h00</td>
-                            <td class="px-6 py-4">S9 PRIO / EPS</td>
-                            <td class="px-6 py-4">Bac blanc : Enseignement de spécialité N°2</td>
-                            <td class="px-6 py-4">5:30:00</td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900">BOSSU C.</td>
-                            <td class="px-6 py-4">mercredi 10/12 à 08h00</td>
-                            <td class="px-6 py-4">S9 PRIO / EPS</td>
-                            <td class="px-6 py-4">Bac blanc de philosophie</td>
-                            <td class="px-6 py-4">5:30:00</td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900">DAVID V.</td>
-                            <td class="px-6 py-4">jeudi 11/12 à 08h00</td>
-                            <td class="px-6 py-4">S12</td>
-                            <td class="px-6 py-4">Bac blanc : Enseignement de spécialité N°1</td>
-                            <td class="px-6 py-4">4:00:00</td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900">FALL B.</td>
-                            <td class="px-6 py-4">jeudi 11/12 à 08h00</td>
-                            <td class="px-6 py-4">S9 PRIO / EPS</td>
-                            <td class="px-6 py-4">Bac blanc : Enseignement de spécialité N°1</td>
-                            <td class="px-6 py-4">5:30:00</td>
-                        </tr>
-                         <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900"></td>
-                            <td class="px-6 py-4">vendredi 12/12 à 10h00</td>
-                            <td class="px-6 py-4">-</td>
-                            <td class="px-6 py-4">Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause</td>
-                            <td class="px-6 py-4">2:00:00</td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900">GIBUS A.</td>
-                            <td class="px-6 py-4">mercredi 10/12 à 10h00</td>
-                            <td class="px-6 py-4">-</td>
-                            <td class="px-6 py-4">Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause</td>
-                            <td class="px-6 py-4">2:00:00</td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900">GOMIS A.</td>
-                            <td class="px-6 py-4">mercredi 10/12 à 08h00</td>
-                            <td class="px-6 py-4">S12</td>
-                            <td class="px-6 py-4">Bac blanc de philosophie</td>
-                            <td class="px-6 py-4">4:00:00</td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900"></td>
-                            <td class="px-6 py-4">vendredi 12/12 à 08h00</td>
-                            <td class="px-6 py-4">S13</td>
-                            <td class="px-6 py-4">Bac blanc : Enseignement de spécialité N°2</td>
-                            <td class="px-6 py-4">4:00:00</td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900">JAÏT L.</td>
-                            <td class="px-6 py-4">jeudi 11/12 à 08h00</td>
-                            <td class="px-6 py-4">-</td>
-                            <td class="px-6 py-4">Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause</td>
-                            <td class="px-6 py-4">2:00:00</td>
-                        </tr>
-                         <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900"></td>
-                            <td class="px-6 py-4">jeudi 11/12 à 13h05</td>
-                            <td class="px-6 py-4">S12</td>
-                            <td class="px-6 py-4">Bac blanc EAF</td>
-                            <td class="px-6 py-4">5:00:00</td>
-                        </tr>
-                         <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900">MBOUP N.</td>
-                            <td class="px-6 py-4">jeudi 11/12 à 10h00</td>
-                            <td class="px-6 py-4">-</td>
-                            <td class="px-6 py-4">Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause</td>
-                            <td class="px-6 py-4">1:30:00</td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900"></td>
-                            <td class="px-6 py-4">jeudi 11/12 à 14h05</td>
-                            <td class="px-6 py-4">S10</td>
-                            <td class="px-6 py-4">Bac blanc EAF</td>
-                            <td class="px-6 py-4">4:00:00</td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900"></td>
-                            <td class="px-6 py-4">vendredi 12/12 à 08h00</td>
-                            <td class="px-6 py-4">S14</td>
-                            <td class="px-6 py-4">Bac blanc : Enseignement de spécialité N°2</td>
-                            <td class="px-6 py-4">4:00:00</td>
-                        </tr>
-                         <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900">MICHON GUILLAUME M.</td>
-                            <td class="px-6 py-4">jeudi 11/12 à 08h00</td>
-                            <td class="px-6 py-4">S14</td>
-                            <td class="px-6 py-4">Bac blanc : Enseignement de spécialité N°1</td>
-                            <td class="px-6 py-4">4:00:00</td>
-                        </tr>
-                         <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900"></td>
-                            <td class="px-6 py-4">mercredi 10/12 à 08h00</td>
-                            <td class="px-6 py-4">S14</td>
-                            <td class="px-6 py-4">Bac blanc de philosophie</td>
-                            <td class="px-6 py-4">4:00:00</td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900">MOURAIN DIOP F.</td>
-                            <td class="px-6 py-4">jeudi 11/12 à 14h05</td>
-                            <td class="px-6 py-4">S13</td>
-                            <td class="px-6 py-4">Bac blanc EAF</td>
-                            <td class="px-6 py-4">4:00:00</td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900"></td>
-                            <td class="px-6 py-4">mercredi 10/12 à 08h00</td>
-                            <td class="px-6 py-4">S13</td>
-                            <td class="px-6 py-4">Bac blanc de philosophie</td>
-                            <td class="px-6 py-4">4:00:00</td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900">NDOYE A.</td>
-                            <td class="px-6 py-4">jeudi 11/12 à 14h05</td>
-                            <td class="px-6 py-4">S14</td>
-                            <td class="px-6 py-4">Bac blanc EAF</td>
-                            <td class="px-6 py-4">4:00:00</td>
-                        </tr>
-                         <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900"></td>
-                            <td class="px-6 py-4">vendredi 12/12 à 08h00</td>
-                            <td class="px-6 py-4">S12</td>
-                            <td class="px-6 py-4">Bac blanc : Enseignement de spécialité N°2</td>
-                            <td class="px-6 py-4">4:00:00</td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900">PIAGGIO F.</td>
-                            <td class="px-6 py-4">jeudi 11/12 à 15h30</td>
-                            <td class="px-6 py-4">-</td>
-                            <td class="px-6 py-4">Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause</td>
-                            <td class="px-6 py-4">2:30:00</td>
-                        </tr>
-                    </tbody>
+                    <tbody id="surveillance-body" class="divide-y divide-slate-200"></tbody>
                 </table>
             </div>
         </div>
@@ -283,135 +63,7 @@
                             <th scope="col" class="px-6 py-3 text-center rounded-r-lg">S14</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-200 align-top">
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900">Mercredi 10/12</td>
-                            <td class="px-6 py-4 text-center">
-                                <div class="text-xs font-semibold text-slate-700">08h00 - 13h30</div>
-                                <div>BOSSU C.</div>
-                                <div class="text-xs text-slate-500">Philosophie</div>
-                            </td>
-                            <td class="px-6 py-4 text-center"></td>
-                            <td class="px-6 py-4 text-center">
-                                <div class="text-xs font-semibold text-slate-700">08h00 - 12h00</div>
-                                <div>GOMIS A.</div>
-                                <div class="text-xs text-slate-500">Philosophie</div>
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <div class="text-xs font-semibold text-slate-700">08h00 - 12h00</div>
-                                <div>MOURAIN DIOP F.</div>
-                                <div class="text-xs text-slate-500">Philosophie</div>
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <div class="text-xs font-semibold text-slate-700">08h00 - 12h00</div>
-                                <div>MICHON G. M.</div>
-                                <div class="text-xs text-slate-500">Philosophie</div>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 font-medium text-slate-900">Jeudi 11/12</td>
-                            <td class="px-6 py-4 text-center align-top">
-                                <div class="grid grid-rows-2 gap-3 h-full">
-                                    <div class="rounded-lg border border-slate-200 p-3 bg-slate-50 flex flex-col items-center gap-1">
-                                        <div class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Matin</div>
-                                        <div class="text-xs font-semibold text-slate-700">08h00 - 13h30</div>
-                                        <div>FALL B.</div>
-                                        <div class="text-xs text-slate-500">Spécialité N°1</div>
-                                    </div>
-                                    <div class="rounded-lg border border-slate-200 p-3 flex flex-col items-center gap-1">
-                                        <div class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Après-midi</div>
-                                        <div class="text-xs text-slate-400 italic">—</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-center align-top">
-                                <div class="grid grid-rows-2 gap-3 h-full">
-                                    <div class="rounded-lg border border-slate-200 p-3 flex flex-col items-center gap-1">
-                                        <div class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Matin</div>
-                                        <div class="text-xs text-slate-400 italic">—</div>
-                                    </div>
-                                    <div class="rounded-lg border border-slate-200 p-3 bg-slate-50 flex flex-col items-center gap-1">
-                                        <div class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Après-midi</div>
-                                        <div class="text-xs font-semibold text-slate-700">14h05 - 18h05</div>
-                                        <div>MBOUP N.</div>
-                                        <div class="text-xs text-slate-500">EAF</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-center align-top">
-                                <div class="grid grid-rows-2 gap-3 h-full">
-                                    <div class="rounded-lg border border-slate-200 p-3 bg-slate-50 flex flex-col items-center gap-1">
-                                        <div class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Matin</div>
-                                        <div class="text-xs font-semibold text-slate-700">08h00 - 12h00</div>
-                                        <div>DAVID V.</div>
-                                        <div class="text-xs text-slate-500">Spécialité N°1</div>
-                                    </div>
-                                    <div class="rounded-lg border border-slate-200 p-3 flex flex-col items-center gap-1">
-                                        <div class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Après-midi</div>
-                                        <div class="text-xs font-semibold text-slate-700">13h05 - 18h05</div>
-                                        <div>JAÏT L.</div>
-                                        <div class="text-xs text-slate-500">EAF</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-center align-top">
-                                <div class="grid grid-rows-2 gap-3 h-full">
-                                    <div class="rounded-lg border border-slate-200 p-3 bg-slate-50 flex flex-col items-center gap-1">
-                                        <div class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Matin</div>
-                                        <div class="text-xs font-semibold text-slate-700">08h00 - 12h00</div>
-                                        <div>ANE A.</div>
-                                        <div class="text-xs text-slate-500">Spécialité N°1</div>
-                                    </div>
-                                    <div class="rounded-lg border border-slate-200 p-3 flex flex-col items-center gap-1">
-                                        <div class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Après-midi</div>
-                                        <div class="text-xs font-semibold text-slate-700">14h05 - 18h05</div>
-                                        <div>MOURAIN DIOP F.</div>
-                                        <div class="text-xs text-slate-500">EAF</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-center align-top">
-                                <div class="grid grid-rows-2 gap-3 h-full">
-                                    <div class="rounded-lg border border-slate-200 p-3 bg-slate-50 flex flex-col items-center gap-1">
-                                        <div class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Matin</div>
-                                        <div class="text-xs font-semibold text-slate-700">08h00 - 12h00</div>
-                                        <div>MICHON G. M.</div>
-                                        <div class="text-xs text-slate-500">Spécialité N°1</div>
-                                    </div>
-                                    <div class="rounded-lg border border-slate-200 p-3 flex flex-col items-center gap-1">
-                                        <div class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Après-midi</div>
-                                        <div class="text-xs font-semibold text-slate-700">14h05 - 18h05</div>
-                                        <div>NDOYE A.</div>
-                                        <div class="text-xs text-slate-500">EAF</div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                             <td class="px-6 py-4 font-medium text-slate-900">Vendredi 12/12</td>
-                             <td class="px-6 py-4 text-center">
-                                 <div class="text-xs font-semibold text-slate-700">08h00 - 13h30</div>
-                                 <div>ANE A.</div>
-                                 <div class="text-xs text-slate-500">Spécialité N°2</div>
-                                </td>
-                             <td class="px-6 py-4 text-center"></td>
-                             <td class="px-6 py-4 text-center">
-                                 <div class="text-xs font-semibold text-slate-700">08h00 - 12h00</div>
-                                 <div>NDOYE A.</div>
-                                 <div class="text-xs text-slate-500">Spécialité N°2</div>
-                                </td>
-                             <td class="px-6 py-4 text-center">
-                                 <div class="text-xs font-semibold text-slate-700">08h00 - 12h00</div>
-                                 <div>GOMIS A.</div>
-                                 <div class="text-xs text-slate-500">Spécialité N°2</div>
-                                </td>
-                             <td class="px-6 py-4 text-center">
-                                 <div class="text-xs font-semibold text-slate-700">08h00 - 12h00</div>
-                                 <div>MBOUP N.</div>
-                                 <div class="text-xs text-slate-500">Spécialité N°2</div>
-                                </td>
-                        </tr>
-                    </tbody>
+                    <tbody id="room-schedule" class="divide-y divide-slate-200 align-top"></tbody>
                 </table>
             </div>
         </div>
@@ -425,7 +77,276 @@
     </div>
 
     <script>
-        lucide.createIcons();
+        const keyFigures = [
+            { value: '4', label: 'Salles' },
+            { value: '4', label: 'Épreuves', extra: '(dont 1 EAF 1ère)' },
+            { value: '4', unit: 'h', label: 'Durée moyenne' },
+            { value: '64', unit: 'h', label: 'Surveillance' }
+        ];
+
+        const accommodationGroups = [
+            {
+                icon: { name: 'users-2', bg: 'bg-green-100', color: 'text-green-600' },
+                title: 'Terminale',
+                description: "Liste des élèves avec aménagements d'examen :",
+                students: ['RISPAL Charlie', 'NDOUR Fatou', 'SOBLOG Oscar', 'FALL CLAMENS Omar', 'ZARB Frédy'],
+                rooms: '9, 12, 13, 14.',
+                note: 'Silence requis dans les salles 10 et 11.',
+                noteClasses: 'bg-amber-100 text-amber-800'
+            },
+            {
+                icon: { name: 'user-check', bg: 'bg-purple-100', color: 'text-purple-600' },
+                title: 'Première',
+                description: "Liste des élèves avec aménagements d'examen :",
+                students: ['JENOUDET Thiméo', 'Owen Thibault', 'SARR Sokhna Faty', 'KERDUDO Zeina'],
+                rooms: '10, 12, 13, 14.',
+                note: 'Silence requis dans la salle 11.',
+                noteClasses: 'bg-amber-100 text-amber-800'
+            }
+        ];
+
+        const surveillanceSchedule = [
+            { teacher: 'ANE A.', datetime: 'jeudi 11/12 à 08h00', room: 'S13', mission: 'Bac blanc : Enseignement de spécialité N°1', duration: '4:00:00' },
+            { teacher: '', datetime: 'vendredi 12/12 à 08h00', room: 'S9 PRIO / EPS', mission: 'Bac blanc : Enseignement de spécialité N°2', duration: '5:30:00' },
+            { teacher: 'BOSSU C.', datetime: 'mercredi 10/12 à 08h00', room: 'S9 PRIO / EPS', mission: 'Bac blanc de philosophie', duration: '5:30:00' },
+            { teacher: 'DAVID V.', datetime: 'jeudi 11/12 à 08h00', room: 'S12', mission: 'Bac blanc : Enseignement de spécialité N°1', duration: '4:00:00' },
+            { teacher: 'FALL B.', datetime: 'jeudi 11/12 à 08h00', room: 'S9 PRIO / EPS', mission: 'Bac blanc : Enseignement de spécialité N°1', duration: '5:30:00' },
+            { teacher: '', datetime: 'vendredi 12/12 à 10h00', room: '-', mission: "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause", duration: '2:00:00' },
+            { teacher: 'GIBUS A.', datetime: 'mercredi 10/12 à 10h00', room: '-', mission: "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause", duration: '2:00:00' },
+            { teacher: 'GOMIS A.', datetime: 'mercredi 10/12 à 08h00', room: 'S12', mission: 'Bac blanc de philosophie', duration: '4:00:00' },
+            { teacher: '', datetime: 'vendredi 12/12 à 08h00', room: 'S13', mission: 'Bac blanc : Enseignement de spécialité N°2', duration: '4:00:00' },
+            { teacher: 'JAÏT L.', datetime: 'jeudi 11/12 à 08h00', room: '-', mission: "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause", duration: '2:00:00' },
+            { teacher: '', datetime: 'jeudi 11/12 à 13h05', room: 'S12', mission: 'Bac blanc EAF', duration: '5:00:00' },
+            { teacher: 'MBOUP N.', datetime: 'jeudi 11/12 à 10h00', room: '-', mission: "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause", duration: '1:30:00' },
+            { teacher: '', datetime: 'jeudi 11/12 à 14h05', room: 'S10', mission: 'Bac blanc EAF', duration: '4:00:00' },
+            { teacher: '', datetime: 'vendredi 12/12 à 08h00', room: 'S14', mission: 'Bac blanc : Enseignement de spécialité N°2', duration: '4:00:00' },
+            { teacher: 'MICHON GUILLAUME M.', datetime: 'jeudi 11/12 à 08h00', room: 'S14', mission: 'Bac blanc : Enseignement de spécialité N°1', duration: '4:00:00' },
+            { teacher: '', datetime: 'mercredi 10/12 à 08h00', room: 'S14', mission: 'Bac blanc de philosophie', duration: '4:00:00' },
+            { teacher: 'MOURAIN DIOP F.', datetime: 'jeudi 11/12 à 14h05', room: 'S13', mission: 'Bac blanc EAF', duration: '4:00:00' },
+            { teacher: '', datetime: 'mercredi 10/12 à 08h00', room: 'S13', mission: 'Bac blanc de philosophie', duration: '4:00:00' },
+            { teacher: 'NDOYE A.', datetime: 'jeudi 11/12 à 14h05', room: 'S14', mission: 'Bac blanc EAF', duration: '4:00:00' },
+            { teacher: '', datetime: 'vendredi 12/12 à 08h00', room: 'S12', mission: 'Bac blanc : Enseignement de spécialité N°2', duration: '4:00:00' },
+            { teacher: 'PIAGGIO F.', datetime: 'jeudi 11/12 à 15h30', room: '-', mission: "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause", duration: '2:30:00' }
+        ];
+
+        const roomColumns = ['S9 PRIO / EPS', 'S10', 'S12', 'S13', 'S14'];
+
+        const roomSchedule = [
+            {
+                day: 'Mercredi 10/12',
+                rooms: {
+                    'S9 PRIO / EPS': [
+                        { time: '08h00 - 13h30', teacher: 'BOSSU C.', detail: 'Philosophie' }
+                    ],
+                    'S10': [],
+                    'S12': [
+                        { time: '08h00 - 12h00', teacher: 'GOMIS A.', detail: 'Philosophie' }
+                    ],
+                    'S13': [
+                        { time: '08h00 - 12h00', teacher: 'MOURAIN DIOP F.', detail: 'Philosophie' }
+                    ],
+                    'S14': [
+                        { time: '08h00 - 12h00', teacher: 'MICHON G. M.', detail: 'Philosophie' }
+                    ]
+                }
+            },
+            {
+                day: 'Jeudi 11/12',
+                rooms: {
+                    'S9 PRIO / EPS': [
+                        { label: 'Matin', time: '08h00 - 13h30', teacher: 'FALL B.', detail: 'Spécialité N°1', highlight: true },
+                        { label: 'Après-midi', time: null }
+                    ],
+                    'S10': [
+                        { label: 'Matin', time: null },
+                        { label: 'Après-midi', time: '14h05 - 18h05', teacher: 'MBOUP N.', detail: 'EAF', highlight: true }
+                    ],
+                    'S12': [
+                        { label: 'Matin', time: '08h00 - 12h00', teacher: 'DAVID V.', detail: 'Spécialité N°1', highlight: true },
+                        { label: 'Après-midi', time: '13h05 - 18h05', teacher: 'JAÏT L.', detail: 'EAF' }
+                    ],
+                    'S13': [
+                        { label: 'Matin', time: '08h00 - 12h00', teacher: 'ANE A.', detail: 'Spécialité N°1', highlight: true },
+                        { label: 'Après-midi', time: '14h05 - 18h05', teacher: 'MOURAIN DIOP F.', detail: 'EAF' }
+                    ],
+                    'S14': [
+                        { label: 'Matin', time: '08h00 - 12h00', teacher: 'MICHON G. M.', detail: 'Spécialité N°1', highlight: true },
+                        { label: 'Après-midi', time: '14h05 - 18h05', teacher: 'NDOYE A.', detail: 'EAF' }
+                    ]
+                }
+            },
+            {
+                day: 'Vendredi 12/12',
+                rooms: {
+                    'S9 PRIO / EPS': [
+                        { time: '08h00 - 13h30', teacher: 'ANE A.', detail: 'Spécialité N°2' }
+                    ],
+                    'S10': [],
+                    'S12': [
+                        { time: '08h00 - 12h00', teacher: 'NDOYE A.', detail: 'Spécialité N°2' }
+                    ],
+                    'S13': [
+                        { time: '08h00 - 12h00', teacher: 'GOMIS A.', detail: 'Spécialité N°2' }
+                    ],
+                    'S14': [
+                        { time: '08h00 - 12h00', teacher: 'MBOUP N.', detail: 'Spécialité N°2' }
+                    ]
+                }
+            }
+        ];
+
+        const infoCardsContainer = document.getElementById('info-cards');
+        const surveillanceBody = document.getElementById('surveillance-body');
+        const roomBody = document.getElementById('room-schedule');
+
+        function renderKeyFiguresCard(figures) {
+            const stats = figures.map(renderKeyFigure).join('');
+            return `
+                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="bg-blue-100 p-3 rounded-full">
+                            <i data-lucide="info" class="text-blue-600"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold">Informations Clés</h2>
+                    </div>
+                    <div class="grid grid-cols-2 gap-y-4 gap-x-2 mt-6 text-center">
+                        ${stats}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderKeyFigure({ value, unit, label, extra }) {
+            const formattedValue = unit ? `${value}<span class="text-2xl">${unit}</span>` : value;
+            const extraMarkup = extra ? `<p class="text-xs text-slate-400 mt-1">${extra}</p>` : '';
+            return `
+                <div>
+                    <p class="text-4xl font-bold text-blue-600">${formattedValue}</p>
+                    <p class="text-sm text-slate-500 mt-1">${label}</p>
+                    ${extraMarkup}
+                </div>
+            `;
+        }
+
+        function renderAccommodationCard(group) {
+            const studentList = group.students.join(', ');
+            return `
+                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="${group.icon.bg} p-3 rounded-full">
+                            <i data-lucide="${group.icon.name}" class="${group.icon.color}"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold">${group.title}</h2>
+                    </div>
+                    <div class="text-slate-700">
+                        <p class="font-medium mb-2">${group.description}</p>
+                        <p class="text-sm mb-4">${studentList}</p>
+                        <p class="mb-2"><span class="font-semibold">Salles :</span> ${group.rooms}</p>
+                        <div class="mt-4 p-3 ${group.noteClasses} rounded-lg flex items-center text-sm">
+                            <i data-lucide="alert-triangle" class="h-5 w-5 mr-3 flex-shrink-0"></i>
+                            <span>${group.note}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSurveillanceRow({ teacher, datetime, room, mission, duration }) {
+            return `
+                <tr class="hover:bg-slate-50">
+                    <td class="px-6 py-4 font-medium text-slate-900">${teacher}</td>
+                    <td class="px-6 py-4">${datetime}</td>
+                    <td class="px-6 py-4">${room}</td>
+                    <td class="px-6 py-4">${mission}</td>
+                    <td class="px-6 py-4">${duration}</td>
+                </tr>
+            `;
+        }
+
+        function renderRoomRow({ day, rooms }) {
+            const cells = roomColumns.map((column) => renderRoomCell(rooms[column] || []));
+            return `
+                <tr class="hover:bg-slate-50">
+                    <td class="px-6 py-4 font-medium text-slate-900">${day}</td>
+                    ${cells.join('')}
+                </tr>
+            `;
+        }
+
+        function renderRoomCell(sessions) {
+            if (!sessions || sessions.length === 0) {
+                return '<td class="px-6 py-4 text-center"></td>';
+            }
+
+            if (sessions.length === 1 && !sessions[0].label) {
+                const session = sessions[0];
+                const time = session.time ? `<div class="text-xs font-semibold text-slate-700">${session.time}</div>` : '';
+                const teacher = session.teacher ? `<div>${session.teacher}</div>` : '';
+                const detail = session.detail ? `<div class="text-xs text-slate-500">${session.detail}</div>` : '';
+                return `
+                    <td class="px-6 py-4 text-center">
+                        ${time}
+                        ${teacher}
+                        ${detail}
+                    </td>
+                `;
+            }
+
+            const sessionCards = sessions.map(renderSessionCard).join('');
+            const alignClass = sessions.length > 1 ? ' align-top' : '';
+            const containerClasses = [];
+
+            if (sessions.length > 1) {
+                containerClasses.push('grid');
+                if (sessions.length === 2) {
+                    containerClasses.push('grid-rows-2');
+                } else if (sessions.length === 3) {
+                    containerClasses.push('grid-rows-3');
+                }
+                containerClasses.push('gap-3', 'h-full');
+            }
+
+            return `
+                <td class="px-6 py-4 text-center${alignClass}">
+                    <div class="${containerClasses.join(' ')}">
+                        ${sessionCards}
+                    </div>
+                </td>
+            `;
+        }
+
+        function renderSessionCard(session) {
+            const baseClasses = ['rounded-lg', 'border', 'border-slate-200', 'p-3', 'flex', 'flex-col', 'items-center', 'gap-1'];
+            if (session.highlight) {
+                baseClasses.push('bg-slate-50');
+            }
+
+            const label = session.label
+                ? `<div class="text-[10px] font-semibold uppercase tracking-wide text-slate-500">${session.label}</div>`
+                : '';
+            const time = session.time
+                ? `<div class="text-xs font-semibold text-slate-700">${session.time}</div>`
+                : '<div class="text-xs text-slate-400 italic">—</div>';
+            const teacher = session.teacher ? `<div>${session.teacher}</div>` : '';
+            const detail = session.detail ? `<div class="text-xs text-slate-500">${session.detail}</div>` : '';
+
+            return `
+                <div class="${baseClasses.join(' ')}">
+                    ${label}
+                    ${time}
+                    ${teacher}
+                    ${detail}
+                </div>
+            `;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const cardsMarkup = [renderKeyFiguresCard(keyFigures), ...accommodationGroups.map(renderAccommodationCard)];
+            infoCardsContainer.innerHTML = cardsMarkup.join('');
+            surveillanceBody.innerHTML = surveillanceSchedule.map(renderSurveillanceRow).join('');
+            roomBody.innerHTML = roomSchedule.map(renderRoomRow).join('');
+            lucide.createIcons();
+        });
     </script>
 </body>
 </html>
