@@ -162,15 +162,23 @@ function RoomCell({ sessions }: { sessions: RoomSession[] }) {
     }
   }
 
+  const shouldReserveMorningSpace =
+    !hasMultipleSessions && singleSession && isAfternoonSession(singleSession);
+
   const containerClasses = cn(
     "flex h-full flex-col",
-    hasMultipleSessions ? "items-stretch gap-3" : "items-center",
+    hasMultipleSessions || shouldReserveMorningSpace ? "items-stretch gap-3" : "items-center",
     verticalAlignment,
   );
 
   return (
     <TableCell className="text-center align-top">
       <div className={containerClasses}>
+        {shouldReserveMorningSpace ? (
+          <div aria-hidden className="invisible">
+            <SessionCard session={singleSession} />
+          </div>
+        ) : null}
         {sessions.map((session, index) => (
           <SessionCard key={index} session={session} />
         ))}
