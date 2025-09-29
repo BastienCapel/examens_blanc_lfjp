@@ -12,10 +12,11 @@ export default function App() {
       <div className="container mx-auto space-y-8 p-4 sm:p-6 lg:p-8">
         <Header />
         <Hero />
-        <ExamDashboard />
-        <SurveillanceTable />
-        <RoomsStatus />
-        <Announcements />
+        <ExamDashboard>
+          <SurveillanceTable />
+          <RoomsStatus />
+          <Announcements />
+        </ExamDashboard>
         <Footer />
       </div>
     </div>

@@ -106,11 +106,15 @@ function RoomCell({ sessions }: { sessions: RoomSession[] }) {
   if (!sessions.length) {
     return <TableCell className="text-center" />;
   }
-  const containerClasses =
-    sessions.length > 1 ? "flex flex-col items-stretch gap-3" : "flex items-center justify-center";
+  const containerClasses = ["flex", "flex-col", "gap-3", "justify-start"];
+  if (sessions.length > 1) {
+    containerClasses.push("items-stretch");
+  } else {
+    containerClasses.push("items-center");
+  }
   return (
     <TableCell className="text-center align-top">
-      <div className={containerClasses}>
+      <div className={containerClasses.join(" ")}>
         {sessions.map((session, index) => (
           <SessionCard key={index} session={session} />
         ))}

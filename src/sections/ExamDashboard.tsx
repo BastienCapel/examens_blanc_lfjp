@@ -1,10 +1,14 @@
-import { useCallback, useMemo, useState } from "react";
+import { type ReactNode, useCallback, useMemo, useState } from "react";
 
 import { dashboardTabs } from "../lib/dashboard-data";
 import { DashboardContext } from "../lib/dashboard-context";
 import type { DashboardView } from "../lib/dashboard-utils";
 
-export default function ExamDashboard() {
+interface ExamDashboardProps {
+  children?: ReactNode;
+}
+
+export default function ExamDashboard({ children }: ExamDashboardProps) {
   const [activeView, setActiveView] = useState<DashboardView>("teacher");
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
 
@@ -22,11 +26,11 @@ export default function ExamDashboard() {
   );
 
   return (
-    <section aria-labelledby="views-title" className="space-y-6">
-      <h2 id="views-title" className="sr-only">
-        Affichage des plannings
-      </h2>
-      <DashboardContext.Provider value={contextValue}>
+    <DashboardContext.Provider value={contextValue}>
+      <section aria-labelledby="views-title" className="space-y-6">
+        <h2 id="views-title" className="sr-only">
+          Affichage des plannings
+        </h2>
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-md">
           <div
             className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-4"
@@ -59,7 +63,8 @@ export default function ExamDashboard() {
           </div>
           <div className="mt-6 space-y-10" ref={setContainerRef} />
         </div>
-      </DashboardContext.Provider>
-    </section>
+      </section>
+      {children}
+    </DashboardContext.Provider>
   );
 }
