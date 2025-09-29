@@ -5,6 +5,7 @@ import Header from "./sections/Header";
 import Hero from "./sections/Hero";
 import RoomsStatus from "./sections/RoomsStatus";
 import SurveillanceTable from "./sections/SurveillanceTable";
+import ConvocationGenerator from "./sections/ConvocationGenerator";
 
 export default function App() {
   return (
@@ -12,10 +13,12 @@ export default function App() {
       <div className="container mx-auto space-y-8 p-4 sm:p-6 lg:p-8">
         <Header />
         <Hero />
-        <ExamDashboard />
-        <SurveillanceTable />
-        <RoomsStatus />
-        <Announcements />
+        <ExamDashboard>
+          <SurveillanceTable />
+          <ConvocationGenerator />
+          <RoomsStatus />
+          <Announcements />
+        </ExamDashboard>
         <Footer />
       </div>
     </div>

@@ -1,10 +1,10 @@
-import { useCallback, useMemo, useState } from "react";
+import { type ReactNode, useCallback, useMemo, useState } from "react";
 
 import { dashboardTabs } from "../lib/dashboard-data";
 import { DashboardContext } from "../lib/dashboard-context";
 import type { DashboardView } from "../lib/dashboard-utils";
 
-export default function ExamDashboard() {
+export default function ExamDashboard({ children }: { children?: ReactNode }) {
   const [activeView, setActiveView] = useState<DashboardView>("teacher");
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
 
@@ -59,6 +59,7 @@ export default function ExamDashboard() {
           </div>
           <div className="mt-6 space-y-10" ref={setContainerRef} />
         </div>
+        {children}
       </DashboardContext.Provider>
     </section>
   );
