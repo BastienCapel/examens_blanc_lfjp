@@ -102,15 +102,83 @@ function SessionCard({ session }: { session: RoomSession }) {
   );
 }
 
+const normalizeLabel = (value?: string): string => value?.toLowerCase() ?? "";
+
+const extractStartHour = (time?: string): number | null => {
+  if (!time) {
+    return null;
+  }
+  const match = time.match(/(\d{1,2})h/);
+  if (!match) {
+    return null;
+  }
+  return Number.parseInt(match[1], 10);
+};
+
+const isAfternoonSession = (session?: RoomSession): boolean => {
+  if (!session) {
+    return false;
+  }
+  const label = normalizeLabel(session.label);
+  if (label.includes("après") || label.includes("apres")) {
+    return true;
+  }
+  if (label.includes("matin")) {
+    return false;
+  }
+  const startHour = extractStartHour(session.time);
+  return startHour !== null && startHour >= 12;
+};
+
+const isMorningSession = (session?: RoomSession): boolean => {
+  if (!session) {
+    return false;
+  }
+  const label = normalizeLabel(session.label);
+  if (label.includes("matin")) {
+    return true;
+  }
+  if (label.includes("après") || label.includes("apres")) {
+    return false;
+  }
+  const startHour = extractStartHour(session.time);
+  return startHour !== null && startHour < 12;
+};
+
 function RoomCell({ sessions }: { sessions: RoomSession[] }) {
   if (!sessions.length) {
     return <TableCell className="text-center" />;
   }
-  const containerClasses =
-    sessions.length > 1 ? "flex flex-col items-stretch gap-3" : "flex items-center justify-center";
+
+  const hasMultipleSessions = sessions.length > 1;
+  const [singleSession] = sessions;
+
+  let verticalAlignment = "justify-center";
+  if (!hasMultipleSessions && singleSession) {
+    if (isAfternoonSession(singleSession)) {
+      verticalAlignment = "justify-end";
+    } else if (isMorningSession(singleSession)) {
+      verticalAlignment = "justify-start";
+    }
+  }
+
+  const shouldReserveMorningSpace =
+    !hasMultipleSessions && singleSession && isAfternoonSession(singleSession);
+
+  const containerClasses = cn(
+    "flex h-full flex-col",
+    hasMultipleSessions || shouldReserveMorningSpace ? "items-stretch gap-3" : "items-center",
+    verticalAlignment,
+  );
+
   return (
     <TableCell className="text-center align-top">
       <div className={containerClasses}>
+        {shouldReserveMorningSpace ? (
+          <div aria-hidden className="invisible">
+            <SessionCard session={singleSession} />
+          </div>
+        ) : null}
         {sessions.map((session, index) => (
           <SessionCard key={index} session={session} />
         ))}
