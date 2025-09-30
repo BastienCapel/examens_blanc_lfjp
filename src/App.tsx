@@ -1,6 +1,5 @@
 import Announcements from "./sections/Announcements";
 import ExamDashboard from "./sections/ExamDashboard";
-import Footer from "./sections/Footer";
 import Header from "./sections/Header";
 import Hero from "./sections/Hero";
 import RoomsStatus from "./sections/RoomsStatus";
@@ -21,7 +20,6 @@ export default function App() {
           <RoomsStatus />
           <Announcements />
         </ExamDashboard>
-        <Footer />
       </div>
     </div>
   );
