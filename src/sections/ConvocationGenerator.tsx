@@ -18,6 +18,7 @@ import {
   type TeacherScheduleGroup,
 } from "../lib/dashboard-utils";
 import { useDashboardContext } from "../lib/dashboard-context";
+import { downloadConvocationPdf } from "../lib/convocation-pdf";
 
 const CalendarClockIcon = calendarClockIcon;
 const MapPinIcon = mapPinIcon;
@@ -83,6 +84,7 @@ export default function ConvocationGenerator() {
 
   const defaultTeacher = teacherOptions[0]?.value ?? "";
   const [selectedTeacher, setSelectedTeacher] = useState<string>(defaultTeacher);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
   useEffect(() => {
     if (!teacherOptions.length) {
@@ -126,6 +128,21 @@ export default function ConvocationGenerator() {
       ? "Vous êtes conviée"
       : "Vous êtes convié"
     : "Vous êtes convié(e)";
+
+  const handleDownload = async () => {
+    if (!selectedGroup || !hasMissions || isGeneratingPdf) {
+      return;
+    }
+    try {
+      setIsGeneratingPdf(true);
+      await downloadConvocationPdf(selectedGroup, teacherEntry);
+    } catch (error) {
+      console.error("PDF generation failed", error);
+      alert("Impossible de générer la convocation. Veuillez réessayer.");
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
 
   return createPortal(
     <section
@@ -188,6 +205,16 @@ export default function ConvocationGenerator() {
             <p>
               Nous vous remercions pour votre disponibilité et restons à votre disposition pour toute question relative à cette convocation.
             </p>
+            <div>
+              <button
+                type="button"
+                onClick={handleDownload}
+                disabled={!hasMissions || isGeneratingPdf}
+                className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500"
+              >
+                {isGeneratingPdf ? "Génération en cours..." : "Télécharger la convocation (PDF)"}
+              </button>
+            </div>
           </div>
         ) : (
           <div className="flex items-center gap-3 rounded-lg border border-dashed border-slate-300 bg-white/70 p-4 text-sm text-slate-500">
