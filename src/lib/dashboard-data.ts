@@ -196,10 +196,10 @@ export interface KeyFigure {
 }
 
 export const keyFigures: KeyFigure[] = [
-  { value: "4", label: "Salles" },
-  { value: "4", label: "Épreuves", extra: "(dont 1 EAF 1ère)" },
-  { value: "4", unit: "h", label: "Durée moyenne" },
-  { value: "64", unit: "h", label: "Surveillance" },
+  { value: "7", label: "Salles mobilisées" },
+  { value: "4", label: "Épreuves", extra: "Spécialités N°1 & N°2, Philosophie, EAF" },
+  { value: "3,7", unit: "h", label: "Durée moyenne", extra: "31 missions planifiées" },
+  { value: "114", unit: "h", label: "Surveillance cumulée", extra: "Inclut les missions de renfort" },
 ];
 
 export interface AccommodationGroup {
@@ -271,12 +271,54 @@ export const surveillanceSchedule: SurveillanceMission[] = [
     type: "specialite",
   },
   {
+    teacher: "BARITOU O.",
+    datetime: "jeudi 11/12 à 08h00",
+    room: "S10",
+    mission: "Bac blanc : Enseignement de spécialité N°1",
+    duration: "4:00:00",
+    type: "specialite",
+  },
+  {
+    teacher: "BARITOU O.",
+    datetime: "jeudi 11/12 à 14h05",
+    room: "S12",
+    mission: "Bac blanc EAF",
+    duration: "4:00:00",
+    type: "eaf",
+  },
+  {
     teacher: "BOSSU C.",
     datetime: "mercredi 10/12 à 08h00",
     room: "S9 PRIO / EPS",
     mission: "Bac blanc de philosophie",
     duration: "5:30:00",
     type: "philosophie",
+  },
+  {
+    teacher: "BOSSU C., PIAGGIO F.",
+    datetime: "jeudi 11/12 à 15h30",
+    room: "Salles 9, 11, 12, 13, 14, 15",
+    mission:
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause",
+    duration: "2:30:00",
+    type: "support",
+  },
+  {
+    teacher: "CAPEL E.",
+    datetime: "vendredi 12/12 à 08h00",
+    room: "S16",
+    mission: "Bac blanc : Enseignement de spécialité N°2",
+    duration: "4:00:00",
+    type: "specialite",
+  },
+  {
+    teacher: "CHABERT K., DRAMÉ C., JAÏT L.",
+    datetime: "jeudi 11/12 à 11h10",
+    room: "Salles 9, 11, 12, 13, 14, 15",
+    mission:
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause",
+    duration: "1:00:00",
+    type: "support",
   },
   {
     teacher: "DAVID V.",
@@ -287,30 +329,54 @@ export const surveillanceSchedule: SurveillanceMission[] = [
     type: "specialite",
   },
   {
+    teacher: "DRAMÉ C.",
+    datetime: "mercredi 10/12 à 08h00",
+    room: "S15",
+    mission: "Bac blanc de philosophie",
+    duration: "4:00:00",
+    type: "philosophie",
+  },
+  {
     teacher: "FALL B.",
     datetime: "jeudi 11/12 à 08h00",
     room: "S9 PRIO / EPS",
     mission: "Bac blanc : Enseignement de spécialité N°1",
-    duration: "5:30:00",
+    duration: "5:00:00",
     type: "specialite",
   },
   {
-    teacher: "ANE A.",
+    teacher: "FALL B.",
+    datetime: "mercredi 10/12 à 08h00",
+    room: "S10",
+    mission: "Bac blanc de philosophie",
+    duration: "4:00:00",
+    type: "philosophie",
+  },
+  {
+    teacher: "FALL B.",
     datetime: "vendredi 12/12 à 10h00",
-    room: "-",
+    room: "Salles 9, 11, 12, 13, 14, 15",
     mission:
       "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause",
     duration: "2:00:00",
     type: "support",
   },
   {
-    teacher: "GIBUS A.",
+    teacher: "FRAYON A., GIBUS A.",
     datetime: "mercredi 10/12 à 10h00",
-    room: "-",
+    room: "Salles 9, 11, 12, 13, 14, 15",
     mission:
       "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause",
     duration: "2:00:00",
     type: "support",
+  },
+  {
+    teacher: "GOMIS A.",
+    datetime: "jeudi 11/12 à 14h05",
+    room: "S15",
+    mission: "Bac blanc EAF",
+    duration: "4:00:00",
+    type: "eaf",
   },
   {
     teacher: "GOMIS A.",
@@ -331,7 +397,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   {
     teacher: "JAÏT L.",
     datetime: "jeudi 11/12 à 08h00",
-    room: "-",
+    room: "Salles 9, 11, 12, 13, 14, 15",
     mission:
       "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause",
     duration: "2:00:00",
@@ -340,10 +406,19 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   {
     teacher: "JAÏT L.",
     datetime: "jeudi 11/12 à 13h05",
-    room: "S12",
+    room: "S9 PRIO / EPS",
     mission: "Bac blanc EAF",
     duration: "5:00:00",
     type: "eaf",
+  },
+  {
+    teacher: "MBOUP N.",
+    datetime: "jeudi 11/12 à 10h00",
+    room: "Salles 9, 11, 12, 13, 14, 15",
+    mission:
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause",
+    duration: "1:30:00",
+    type: "support",
   },
   {
     teacher: "MBOUP N.",
@@ -378,6 +453,23 @@ export const surveillanceSchedule: SurveillanceMission[] = [
     type: "philosophie",
   },
   {
+    teacher: "MICHON GUILLAUME M.",
+    datetime: "vendredi 12/12 à 09h00",
+    room: "Salles 9, 11, 12, 13, 14, 15",
+    mission:
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause",
+    duration: "2:00:00",
+    type: "support",
+  },
+  {
+    teacher: "MOURAIN DIOP F.",
+    datetime: "jeudi 11/12 à 08h00",
+    room: "S16",
+    mission: "Bac blanc : Enseignement de spécialité N°1",
+    duration: "4:00:00",
+    type: "specialite",
+  },
+  {
     teacher: "MOURAIN DIOP F.",
     datetime: "jeudi 11/12 à 14h05",
     room: "S13",
@@ -392,6 +484,14 @@ export const surveillanceSchedule: SurveillanceMission[] = [
     mission: "Bac blanc de philosophie",
     duration: "4:00:00",
     type: "philosophie",
+  },
+  {
+    teacher: "NDIAYE A.",
+    datetime: "vendredi 12/12 à 08h00",
+    room: "S10",
+    mission: "Bac blanc : Enseignement de spécialité N°2",
+    duration: "4:00:00",
+    type: "specialite",
   },
   {
     teacher: "NDOYE A.",
@@ -409,18 +509,17 @@ export const surveillanceSchedule: SurveillanceMission[] = [
     duration: "4:00:00",
     type: "specialite",
   },
-  {
-    teacher: "PIAGGIO F.",
-    datetime: "jeudi 11/12 à 15h30",
-    room: "-",
-    mission:
-      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause",
-    duration: "2:30:00",
-    type: "support",
-  },
 ];
 
-export const roomColumns = ["S9 PRIO / EPS", "S10", "S12", "S13", "S14"] as const;
+export const roomColumns = [
+  "S9 PRIO / EPS",
+  "S10",
+  "S12",
+  "S13",
+  "S14",
+  "S15",
+  "S16",
+] as const;
 
 export type RoomColumn = (typeof roomColumns)[number];
 
@@ -450,7 +549,14 @@ export const roomSchedule: RoomScheduleDay[] = [
           type: "philosophie",
         },
       ],
-      S10: [],
+      S10: [
+        {
+          time: "08h00 - 12h00",
+          teacher: "FALL B.",
+          detail: "Philosophie",
+          type: "philosophie",
+        },
+      ],
       S12: [
         {
           time: "08h00 - 12h00",
@@ -475,6 +581,15 @@ export const roomSchedule: RoomScheduleDay[] = [
           type: "philosophie",
         },
       ],
+      S15: [
+        {
+          time: "08h00 - 12h00",
+          teacher: "DRAMÉ C.",
+          detail: "Philosophie",
+          type: "philosophie",
+        },
+      ],
+      S16: [],
     },
   },
   {
@@ -483,14 +598,29 @@ export const roomSchedule: RoomScheduleDay[] = [
       "S9 PRIO / EPS": [
         {
           label: "Matin",
-          time: "08h00 - 13h30",
+          time: "08h00 - 13h00",
           teacher: "FALL B.",
           detail: "Spécialité N°1",
           highlight: true,
           type: "specialite",
         },
+        {
+          label: "Après-midi",
+          time: "13h05 - 18h05",
+          teacher: "JAÏT L.",
+          detail: "EAF",
+          type: "eaf",
+        },
       ],
       S10: [
+        {
+          label: "Matin",
+          time: "08h00 - 12h00",
+          teacher: "BARITOU O.",
+          detail: "Spécialité N°1",
+          highlight: true,
+          type: "specialite",
+        },
         {
           label: "Après-midi",
           time: "14h05 - 18h05",
@@ -510,8 +640,8 @@ export const roomSchedule: RoomScheduleDay[] = [
         },
         {
           label: "Après-midi",
-          time: "13h05 - 18h05",
-          teacher: "JAÏT L.",
+          time: "14h05 - 18h05",
+          teacher: "BARITOU O.",
           detail: "EAF",
           type: "eaf",
         },
@@ -550,6 +680,25 @@ export const roomSchedule: RoomScheduleDay[] = [
           type: "eaf",
         },
       ],
+      S15: [
+        {
+          label: "Après-midi",
+          time: "14h05 - 18h05",
+          teacher: "GOMIS A.",
+          detail: "EAF",
+          type: "eaf",
+        },
+      ],
+      S16: [
+        {
+          label: "Matin",
+          time: "08h00 - 12h00",
+          teacher: "MOURAIN DIOP F.",
+          detail: "Spécialité N°1",
+          highlight: true,
+          type: "specialite",
+        },
+      ],
     },
   },
   {
@@ -563,7 +712,14 @@ export const roomSchedule: RoomScheduleDay[] = [
           type: "specialite",
         },
       ],
-      S10: [],
+      S10: [
+        {
+          time: "08h00 - 12h00",
+          teacher: "NDIAYE A.",
+          detail: "Spécialité N°2",
+          type: "specialite",
+        },
+      ],
       S12: [
         {
           time: "08h00 - 12h00",
@@ -584,6 +740,15 @@ export const roomSchedule: RoomScheduleDay[] = [
         {
           time: "08h00 - 12h00",
           teacher: "MBOUP N.",
+          detail: "Spécialité N°2",
+          type: "specialite",
+        },
+      ],
+      S15: [],
+      S16: [
+        {
+          time: "08h00 - 12h00",
+          teacher: "CAPEL E.",
           detail: "Spécialité N°2",
           type: "specialite",
         },
