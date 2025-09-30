@@ -12,9 +12,15 @@ import {
 import { cn } from "../../../shared/lib";
 import TodayBadge from "./TodayBadge";
 import TypeBadge from "./TypeBadge";
-import { roomColumns, roomSchedule } from "../data";
+import {
+  roomColumns,
+  roomSchedule,
+  surveillanceSchedule,
+  type RoomColumn,
+} from "../data";
 import { useDashboardContext } from "../context";
 import {
+  buildSupportSessionsByRoom,
   getBlockHighlight,
   getTypeVariant,
   isDayLabelToday,
@@ -118,6 +124,34 @@ const extractStartHour = (time?: string): number | null => {
     return null;
   }
   return Number.parseInt(match[1], 10);
+};
+
+const extractStartMinutes = (time?: string): number | null => {
+  if (!time) {
+    return null;
+  }
+  const match = time.match(/(\d{1,2})h(\d{2})?/);
+  if (!match) {
+    return null;
+  }
+  const hours = Number.parseInt(match[1], 10);
+  const minutes = match[2] ? Number.parseInt(match[2], 10) : 0;
+  return hours * 60 + minutes;
+};
+
+const getSessionSortValue = (session: RoomSession): number => {
+  const startMinutes = extractStartMinutes(session.time);
+  if (startMinutes !== null) {
+    return startMinutes;
+  }
+  const label = normalizeLabel(session.label);
+  if (label.includes("matin")) {
+    return 8 * 60;
+  }
+  if (label.includes("après") || label.includes("apres")) {
+    return 13 * 60;
+  }
+  return Number.POSITIVE_INFINITY;
 };
 
 const isAfternoonSession = (session?: RoomSession): boolean => {
@@ -354,7 +388,34 @@ function RoomOrganisationCard({
 
 export default function RoomsStatus() {
   const { activeView, container } = useDashboardContext();
-  const schedule = useMemo(() => roomSchedule, []);
+  const supportSessions = useMemo(
+    () => buildSupportSessionsByRoom(surveillanceSchedule),
+    [],
+  );
+  const schedule = useMemo<RoomScheduleDay[]>(() => {
+    const baseMap = new Map(roomSchedule.map((day) => [day.day, day] as const));
+    const baseOrder = roomSchedule.map((day) => day.day);
+    const supportOnlyDays = Array.from(supportSessions.keys()).filter(
+      (day) => !baseMap.has(day),
+    );
+    const dayOrder = [...baseOrder, ...supportOnlyDays];
+    return dayOrder.map((dayLabel) => {
+      const baseDay = baseMap.get(dayLabel);
+      const supportForDay = supportSessions.get(dayLabel);
+      const rooms = roomColumns.reduce(
+        (acc, room) => {
+          const baseSessions = baseDay?.rooms[room] ?? [];
+          const extraSessions = supportForDay?.get(room) ?? [];
+          const combined = [...baseSessions, ...extraSessions];
+          combined.sort((a, b) => getSessionSortValue(a) - getSessionSortValue(b));
+          acc[room] = combined;
+          return acc;
+        },
+        {} as Record<RoomColumn, RoomSession[]>,
+      );
+      return { day: dayLabel, rooms } as RoomScheduleDay;
+    });
+  }, [supportSessions]);
   const perRoomSchedule = useMemo(
     () =>
       roomColumnDefinitions.map((column) => ({
