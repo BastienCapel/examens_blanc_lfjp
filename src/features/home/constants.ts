@@ -1,8 +1,14 @@
 export const HOME_PAGE_CONTENT = {
-  logo: {
-    src: "https://i.imgur.com/W3EZ93D.png",
-    alt: "Logo du Lycée Français Jean-Prince",
-  },
+  logos: [
+    {
+      src: "https://i.imgur.com/W3EZ93D.png",
+      alt: "Logo du Lycée Français Jacques Prévert de Saly",
+    },
+    {
+      src: "https://i.imgur.com/0YmGlXO.png",
+      alt: "Logo de l'AEFE",
+    },
+  ],
   subtitle: "Espace examens blancs LFJP",
   title:
     "Toute l'organisation des examens blancs centralisée pour les enseignants du LFJP",
