@@ -1,0 +1,58 @@
+import type { ReactNode } from "react";
+import { Link } from "react-router-dom";
+import type { LucideIcon } from "lucide-react";
+
+interface HomeCallToActionCardProps {
+  to: string;
+  icon: LucideIcon;
+  iconLabel: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  footerLabel: string;
+  meta?: ReactNode;
+}
+
+export default function HomeCallToActionCard({
+  to,
+  icon: Icon,
+  iconLabel,
+  title,
+  subtitle,
+  description,
+  footerLabel,
+  meta,
+}: HomeCallToActionCardProps) {
+  return (
+    <Link
+      to={to}
+      className="group relative w-full max-w-2xl overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 text-left shadow-lg transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl"
+      aria-label={iconLabel}
+    >
+      <div className="absolute -left-24 -top-24 h-48 w-48 rounded-full bg-sky-200/60 blur-3xl transition-opacity duration-300 group-hover:opacity-60" />
+      <div className="absolute -bottom-16 -right-16 h-56 w-56 rounded-full bg-indigo-200/70 blur-3xl transition-opacity duration-300 group-hover:opacity-60" />
+
+      <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-8">
+        <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-500 text-white shadow-lg">
+          <Icon className="h-12 w-12" aria-hidden="true" />
+        </div>
+
+        <div className="space-y-3">
+          <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+            {subtitle}
+          </p>
+          <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">{title}</h2>
+          {meta}
+          <p className="text-sm text-slate-500 sm:text-base">{description}</p>
+        </div>
+      </div>
+
+      <div className="relative mt-6 flex items-center gap-3 text-sky-700">
+        <span className="text-sm font-semibold uppercase tracking-wide">{footerLabel}</span>
+        <span className="text-lg" aria-hidden="true">
+          →
+        </span>
+      </div>
+    </Link>
+  );
+}
