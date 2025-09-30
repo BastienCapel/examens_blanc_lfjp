@@ -1,9 +1,20 @@
 import { createPortal } from "react-dom";
-import { Settings } from "lucide-react";
+import { LayoutGrid, Users } from "lucide-react";
 
 import { useDashboardContext } from "../lib/dashboard-context";
 
-const SettingsIcon = Settings;
+const examRooms: { name: string; examCapacity: number }[] = [
+  { name: "S10", examCapacity: 15 },
+  { name: "S12", examCapacity: 13 },
+  { name: "S13", examCapacity: 12 },
+  { name: "S14", examCapacity: 12 },
+  { name: "S9 PRIO / EPS", examCapacity: 5 },
+];
+
+const totalExamCapacity = examRooms.reduce(
+  (accumulator, room) => accumulator + room.examCapacity,
+  0,
+);
 
 export default function RoomSetup() {
   const { activeView, container } = useDashboardContext();
@@ -30,16 +41,60 @@ export default function RoomSetup() {
           Centralisez ici la configuration des salles, des capacités et des besoins matériels pour les sessions d’examen.
         </p>
       </div>
-      <div className="rounded-lg border border-dashed border-slate-300 bg-white p-6 text-center shadow-sm">
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
-          <SettingsIcon className="h-6 w-6" aria-hidden="true" />
+      <div className="grid gap-6 lg:grid-cols-[2fr,1fr]">
+        <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+          <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-6 py-4">
+            <div>
+              <h4 className="text-base font-semibold text-slate-900">
+                Capacité des salles au format examen
+              </h4>
+              <p className="mt-1 text-sm text-slate-500">
+                Liste des salles disponibles avec la capacité maximale configurée pour les épreuves écrites.
+              </p>
+            </div>
+            <span className="hidden rounded-full bg-blue-100 p-3 text-blue-600 sm:inline-flex">
+              <LayoutGrid className="h-5 w-5" aria-hidden="true" />
+            </span>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-slate-200 text-left">
+              <thead className="bg-slate-50 text-sm font-medium text-slate-600">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    Salle
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Capacité (format examen)
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200 text-sm text-slate-700">
+                {examRooms.map((room) => (
+                  <tr key={room.name}>
+                    <th scope="row" className="whitespace-nowrap px-6 py-4 font-medium text-slate-900">
+                      {room.name}
+                    </th>
+                    <td className="px-6 py-4">{room.examCapacity}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-        <h4 className="mt-4 text-base font-semibold text-slate-900">
-          Section en construction
-        </h4>
-        <p className="mt-2 text-sm text-slate-500">
-          Le paramétrage des salles d’examen sera bientôt disponible. En attendant, continuez à consulter les autres vues du tableau de bord.
-        </p>
+        <aside className="flex flex-col justify-between gap-4 rounded-lg border border-slate-200 bg-white p-6 text-slate-700 shadow-sm">
+          <div className="flex items-center gap-3">
+            <span className="rounded-full bg-emerald-100 p-3 text-emerald-600">
+              <Users className="h-5 w-5" aria-hidden="true" />
+            </span>
+            <div>
+              <p className="text-sm font-medium text-slate-500">Capacité totale</p>
+              <p className="text-2xl font-semibold text-slate-900">{totalExamCapacity} candidats</p>
+            </div>
+          </div>
+          <p className="text-sm text-slate-500">
+            Les capacités ci-dessus correspondent à la configuration des salles en mode examen (tables individuelles, distanciation, matériel nécessaire). Utilisez ces données pour planifier la répartition des candidats.
+          </p>
+        </aside>
       </div>
     </section>,
     container,
