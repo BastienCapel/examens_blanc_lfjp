@@ -6,6 +6,7 @@ import Hero from "./sections/Hero";
 import RoomsStatus from "./sections/RoomsStatus";
 import SurveillanceTable from "./sections/SurveillanceTable";
 import ConvocationGenerator from "./sections/ConvocationGenerator";
+import RoomSetup from "./sections/RoomSetup";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <Header />
         <Hero />
         <ExamDashboard>
+          <RoomSetup />
           <SurveillanceTable />
           <ConvocationGenerator />
           <RoomsStatus />
