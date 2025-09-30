@@ -208,8 +208,8 @@ export interface AccommodationGroup {
   description: string;
   students: string[];
   rooms: string;
-  note: string;
-  noteClasses: string;
+  note?: string;
+  noteClasses?: string;
 }
 
 export const accommodationGroups: AccommodationGroup[] = [
@@ -225,8 +225,6 @@ export const accommodationGroups: AccommodationGroup[] = [
       "ZARB Frédy",
     ],
     rooms: "9, 12, 13, 14.",
-    note: "Silence requis dans les salles 10 et 11.",
-    noteClasses: "bg-amber-100 text-amber-800",
   },
   {
     icon: { Icon: UserCheck, bg: "bg-purple-100", color: "text-purple-600" },
@@ -239,8 +237,6 @@ export const accommodationGroups: AccommodationGroup[] = [
       "KERDUDO Zeina",
     ],
     rooms: "10, 12, 13, 14.",
-    note: "Silence requis dans la salle 11.",
-    noteClasses: "bg-amber-100 text-amber-800",
   },
 ];
 
