@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { LayoutGrid, Users } from "lucide-react";
 
@@ -26,14 +26,18 @@ export default function RoomSetup() {
     [studentCount],
   );
 
-  const { distribution, totalAssigned, overflow } = useMemo(() => {
-    let remaining = studentCount;
-    let allocated = 0;
+  type RoomAllocation = {
+    name: string;
+    assigned: number;
+    capacity: number;
+  };
 
-    const allocation = examRooms.map((room) => {
+  const autoDistribution = useMemo<RoomAllocation[]>(() => {
+    let remaining = studentCount;
+
+    return examRooms.map((room) => {
       const assigned = Math.min(room.examCapacity, Math.max(remaining, 0));
       remaining = Math.max(remaining - room.examCapacity, 0);
-      allocated += assigned;
 
       return {
         name: room.name,
@@ -41,19 +45,32 @@ export default function RoomSetup() {
         capacity: room.examCapacity,
       };
     });
-
-    return {
-      distribution: allocation,
-      totalAssigned: allocated,
-      overflow: remaining,
-    };
   }, [studentCount]);
 
-  const roomsUsed = useMemo(
-    () => distribution.filter((room) => room.assigned > 0).length,
-    [distribution],
+  const [manualAssignments, setManualAssignments] = useState(autoDistribution);
+
+  useEffect(() => {
+    setManualAssignments(autoDistribution);
+  }, [autoDistribution]);
+
+  const totalAssigned = useMemo(
+    () =>
+      manualAssignments.reduce(
+        (accumulator, room) => accumulator + room.assigned,
+        0,
+      ),
+    [manualAssignments],
   );
-  const freeSeats = Math.max(totalExamCapacity - totalAssigned, 0);
+
+  const roomsUsed = useMemo(
+    () => manualAssignments.filter((room) => room.assigned > 0).length,
+    [manualAssignments],
+  );
+  const capacityDelta = totalExamCapacity - totalAssigned;
+  const freeSeats = Math.max(capacityDelta, 0);
+  const overCapacity = Math.max(totalAssigned - totalExamCapacity, 0);
+  const studentsLeftToAssign = Math.max(studentCount - totalAssigned, 0);
+  const extraAssignedStudents = Math.max(totalAssigned - studentCount, 0);
 
   if (!container) {
     return null;
@@ -139,7 +156,7 @@ export default function RoomSetup() {
               Simulateur de répartition des candidats
             </h4>
             <p className="mt-1 text-sm text-slate-500">
-              Ajustez le nombre de candidats attendus pour visualiser la répartition automatique dans les salles.
+              Ajustez le nombre de candidats attendus pour visualiser la répartition automatique dans les salles, puis adaptez manuellement la répartition si besoin.
             </p>
           </div>
           <span className="hidden rounded-full bg-blue-100 p-3 text-blue-600 sm:inline-flex">
@@ -194,28 +211,76 @@ export default function RoomSetup() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200 text-sm text-slate-700">
-                {distribution.map((room) => (
+                {manualAssignments.map((room) => (
                   <tr key={room.name}>
                     <th scope="row" className="whitespace-nowrap px-4 py-3 font-medium text-slate-900">
                       {room.name}
                     </th>
                     <td className="px-4 py-3">{room.capacity}</td>
-                    <td className="px-4 py-3">{room.assigned}</td>
+                    <td className="px-4 py-3">
+                      <input
+                        type="number"
+                        min={0}
+                        max={room.capacity}
+                        value={room.assigned}
+                        onChange={(event) => {
+                          const rawValue = Number(event.target.value);
+                          const safeValue = Number.isNaN(rawValue) ? 0 : rawValue;
+                          const value = Math.min(
+                            Math.max(safeValue, 0),
+                            room.capacity,
+                          );
+
+                          setManualAssignments((previous) =>
+                            previous.map((currentRoom) =>
+                              currentRoom.name === room.name
+                                ? {
+                                    ...currentRoom,
+                                    assigned: value,
+                                  }
+                                : currentRoom,
+                            ),
+                          );
+                        }}
+                        className="w-24 rounded-md border border-slate-300 px-3 py-2 text-right text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                        aria-label={`Nombre de candidats à placer dans la salle ${room.name}`}
+                      />
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <div className="rounded-md bg-slate-50 px-4 py-3 text-sm text-slate-600">
-            {overflow > 0 ? (
-              <p>
-                {overflow} candidat{overflow > 1 ? "s" : ""} ne peuvent pas être placés avec la configuration actuelle. Prévoyez une salle supplémentaire ou augmentez la capacité.
-              </p>
+          <div className="flex flex-col gap-3 rounded-md bg-slate-50 px-4 py-3 text-sm text-slate-600">
+            <p>
+              Répartition actuelle : {totalAssigned} candidat{totalAssigned > 1 ? "s" : ""} affecté{totalAssigned > 1 ? "s" : ""} dans {roomsUsed} salle{roomsUsed > 1 ? "s" : ""}.
+            </p>
+            {freeSeats > 0 ? (
+              <p>Il reste {freeSeats} place{freeSeats > 1 ? "s" : ""} disponibles.</p>
+            ) : capacityDelta === 0 ? (
+              <p>Toutes les places sont occupées.</p>
             ) : (
-              <p>
-                Tous les candidats tiennent dans {roomsUsed} salle{roomsUsed > 1 ? "s" : ""}. Il reste {freeSeats} place{freeSeats > 1 ? "s" : ""} disponibles.
+              <p className="text-red-600">
+                Attention : {overCapacity} candidat{overCapacity > 1 ? "s" : ""} en trop par rapport à la capacité totale.
               </p>
             )}
+            {studentsLeftToAssign > 0 && (
+              <p>
+                Il reste {studentsLeftToAssign} candidat{studentsLeftToAssign > 1 ? "s" : ""} à placer pour atteindre l'objectif de {studentCount} candidat{studentCount > 1 ? "s" : ""}.
+              </p>
+            )}
+            {extraAssignedStudents > 0 && (
+              <p>
+                Vous avez réparti {extraAssignedStudents} candidat{extraAssignedStudents > 1 ? "s" : ""} de plus que l'objectif fixé ({studentCount}).
+              </p>
+            )}
+            <button
+              type="button"
+              onClick={() => setManualAssignments(autoDistribution)}
+              className="self-start rounded-md border border-blue-200 bg-white px-3 py-2 text-sm font-medium text-blue-600 shadow-sm transition hover:border-blue-300 hover:text-blue-700"
+            >
+              Réinitialiser la répartition automatique
+            </button>
           </div>
         </div>
       </div>
