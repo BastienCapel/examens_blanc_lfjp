@@ -1,12 +1,28 @@
 interface HomeHeroProps {
+  logoSrc?: string;
+  logoAlt?: string;
   subtitle: string;
   title: string;
   description: string;
 }
 
-export default function HomeHero({ subtitle, title, description }: HomeHeroProps) {
+export default function HomeHero({
+  logoSrc,
+  logoAlt,
+  subtitle,
+  title,
+  description,
+}: HomeHeroProps) {
   return (
     <div className="max-w-4xl space-y-6">
+      {logoSrc ? (
+        <img
+          src={logoSrc}
+          alt={logoAlt ?? ""}
+          className="h-24 w-auto"
+          loading="lazy"
+        />
+      ) : null}
       <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
         {subtitle}
       </p>
