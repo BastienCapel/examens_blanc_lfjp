@@ -61,10 +61,16 @@ function AccommodationCard({ group }: { group: AccommodationGroup }) {
         <p className="mb-2">
           <span className="font-semibold">Salles :</span> {group.rooms}
         </p>
-        <div className={`mt-4 flex items-center rounded-lg p-3 text-sm ${group.noteClasses}`}>
-          <AlertTriangleIcon className="mr-3 h-5 w-5 flex-shrink-0" />
-          <span>{group.note}</span>
-        </div>
+        {group.note ? (
+          <div
+            className={`mt-4 flex items-center rounded-lg p-3 text-sm ${
+              group.noteClasses ?? ""
+            }`}
+          >
+            <AlertTriangleIcon className="mr-3 h-5 w-5 flex-shrink-0" />
+            <span>{group.note}</span>
+          </div>
+        ) : null}
       </div>
     </div>
   );
