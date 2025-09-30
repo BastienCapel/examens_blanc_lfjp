@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { LayoutGrid, Users } from "lucide-react";
 
@@ -18,6 +19,41 @@ const totalExamCapacity = examRooms.reduce(
 
 export default function RoomSetup() {
   const { activeView, container } = useDashboardContext();
+  const [studentCount, setStudentCount] = useState(60);
+
+  const sliderMax = useMemo(
+    () => Math.max(totalExamCapacity, studentCount, 120),
+    [studentCount],
+  );
+
+  const { distribution, totalAssigned, overflow } = useMemo(() => {
+    let remaining = studentCount;
+    let allocated = 0;
+
+    const allocation = examRooms.map((room) => {
+      const assigned = Math.min(room.examCapacity, Math.max(remaining, 0));
+      remaining = Math.max(remaining - room.examCapacity, 0);
+      allocated += assigned;
+
+      return {
+        name: room.name,
+        assigned,
+        capacity: room.examCapacity,
+      };
+    });
+
+    return {
+      distribution: allocation,
+      totalAssigned: allocated,
+      overflow: remaining,
+    };
+  }, [studentCount]);
+
+  const roomsUsed = useMemo(
+    () => distribution.filter((room) => room.assigned > 0).length,
+    [distribution],
+  );
+  const freeSeats = Math.max(totalExamCapacity - totalAssigned, 0);
 
   if (!container) {
     return null;
@@ -95,6 +131,93 @@ export default function RoomSetup() {
             Les capacités ci-dessus correspondent à la configuration des salles en mode examen (tables individuelles, distanciation, matériel nécessaire). Utilisez ces données pour planifier la répartition des candidats.
           </p>
         </aside>
+      </div>
+      <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+        <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-6 py-4">
+          <div>
+            <h4 className="text-base font-semibold text-slate-900">
+              Simulateur de répartition des candidats
+            </h4>
+            <p className="mt-1 text-sm text-slate-500">
+              Ajustez le nombre de candidats attendus pour visualiser la répartition automatique dans les salles.
+            </p>
+          </div>
+          <span className="hidden rounded-full bg-blue-100 p-3 text-blue-600 sm:inline-flex">
+            <Users className="h-5 w-5" aria-hidden="true" />
+          </span>
+        </div>
+        <div className="space-y-6 p-6">
+          <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
+            <label className="space-y-2">
+              <span className="text-sm font-medium text-slate-600">Nombre de candidats</span>
+              <input
+                type="range"
+                min={0}
+                max={sliderMax}
+                value={studentCount}
+                onChange={(event) => {
+                  const value = Number(event.target.value);
+                  setStudentCount(Number.isNaN(value) ? 0 : value);
+                }}
+                className="block w-full accent-blue-600"
+              />
+            </label>
+            <label className="space-y-2">
+              <span className="text-sm font-medium text-slate-600 sr-only md:not-sr-only">
+                Saisir précisément le nombre de candidats
+              </span>
+              <input
+                type="number"
+                min={0}
+                value={studentCount}
+                onChange={(event) => {
+                  const value = Number(event.target.value);
+                  setStudentCount(Number.isNaN(value) ? 0 : value);
+                }}
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-right text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+              />
+            </label>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-slate-200 text-left">
+              <thead className="bg-slate-50 text-sm font-medium text-slate-600">
+                <tr>
+                  <th scope="col" className="px-4 py-3">
+                    Salle
+                  </th>
+                  <th scope="col" className="px-4 py-3">
+                    Capacité
+                  </th>
+                  <th scope="col" className="px-4 py-3">
+                    Candidats affectés
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200 text-sm text-slate-700">
+                {distribution.map((room) => (
+                  <tr key={room.name}>
+                    <th scope="row" className="whitespace-nowrap px-4 py-3 font-medium text-slate-900">
+                      {room.name}
+                    </th>
+                    <td className="px-4 py-3">{room.capacity}</td>
+                    <td className="px-4 py-3">{room.assigned}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="rounded-md bg-slate-50 px-4 py-3 text-sm text-slate-600">
+            {overflow > 0 ? (
+              <p>
+                {overflow} candidat{overflow > 1 ? "s" : ""} ne peuvent pas être placés avec la configuration actuelle. Prévoyez une salle supplémentaire ou augmentez la capacité.
+              </p>
+            ) : (
+              <p>
+                Tous les candidats tiennent dans {roomsUsed} salle{roomsUsed > 1 ? "s" : ""}. Il reste {freeSeats} place{freeSeats > 1 ? "s" : ""} disponibles.
+              </p>
+            )}
+          </div>
+        </div>
       </div>
     </section>,
     container,
