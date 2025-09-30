@@ -7,11 +7,11 @@ import { useDashboardContext } from "../context";
 const examRooms: { name: string; examCapacity: number }[] = [
   { name: "S9 PRIO / EPS", examCapacity: 5 },
   { name: "S10", examCapacity: 15 },
+  { name: "S11", examCapacity: 15 },
   { name: "S12", examCapacity: 13 },
   { name: "S13", examCapacity: 12 },
   { name: "S14", examCapacity: 12 },
   { name: "S15", examCapacity: 12 },
-  { name: "S16", examCapacity: 12 },
 ];
 
 const totalExamCapacity = examRooms.reduce(
