@@ -72,19 +72,24 @@ export default function ConvocationGenerator() {
     [],
   );
 
-  const teacherOptions = useMemo<TeacherOption[]>(() => {
-    return scheduleByTeacher
-      .filter((group) => group.teacher && group.teacher !== "À assigner")
-      .map((group) => {
-        const entry = teacherDirectoryByShortName[group.teacher];
-        const label = entry ? `${entry.firstName} ${entry.lastName}` : group.teacher;
-        return { value: group.teacher, label };
-      });
+  const assignedTeacherGroups = useMemo(() => {
+    return scheduleByTeacher.filter(
+      (group) => group.teacher && group.teacher !== "À assigner" && group.missions.length > 0,
+    );
   }, [scheduleByTeacher]);
+
+  const teacherOptions = useMemo<TeacherOption[]>(() => {
+    return assignedTeacherGroups.map((group) => {
+      const entry = teacherDirectoryByShortName[group.teacher];
+      const label = entry ? `${entry.firstName} ${entry.lastName}` : group.teacher;
+      return { value: group.teacher, label };
+    });
+  }, [assignedTeacherGroups]);
 
   const defaultTeacher = teacherOptions[0]?.value ?? "";
   const [selectedTeacher, setSelectedTeacher] = useState<string>(defaultTeacher);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const [isGeneratingAll, setIsGeneratingAll] = useState(false);
 
   useEffect(() => {
     if (!teacherOptions.length) {
@@ -130,7 +135,7 @@ export default function ConvocationGenerator() {
     : "Vous êtes convié(e)";
 
   const handleDownload = async () => {
-    if (!selectedGroup || !hasMissions || isGeneratingPdf) {
+    if (!selectedGroup || !hasMissions || isGeneratingPdf || isGeneratingAll) {
       return;
     }
     try {
@@ -141,6 +146,28 @@ export default function ConvocationGenerator() {
       alert("Impossible de générer la convocation. Veuillez réessayer.");
     } finally {
       setIsGeneratingPdf(false);
+    }
+  };
+
+  const handleDownloadAll = async () => {
+    if (isGeneratingAll || isGeneratingPdf) {
+      return;
+    }
+    if (!assignedTeacherGroups.length) {
+      alert("Aucune convocation disponible pour le téléchargement.");
+      return;
+    }
+    try {
+      setIsGeneratingAll(true);
+      for (const group of assignedTeacherGroups) {
+        const entry = teacherDirectoryByShortName[group.teacher];
+        await downloadConvocationPdf(group, entry);
+      }
+    } catch (error) {
+      console.error("PDF generation failed", error);
+      alert("Impossible de générer la convocation. Veuillez réessayer.");
+    } finally {
+      setIsGeneratingAll(false);
     }
   };
 
@@ -205,14 +232,24 @@ export default function ConvocationGenerator() {
             <p>
               Nous vous remercions pour votre disponibilité et restons à votre disposition pour toute question relative à cette convocation.
             </p>
-            <div>
+            <div className="flex flex-wrap gap-3">
               <button
                 type="button"
                 onClick={handleDownload}
-                disabled={!hasMissions || isGeneratingPdf}
+                disabled={!hasMissions || isGeneratingPdf || isGeneratingAll}
                 className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500"
               >
                 {isGeneratingPdf ? "Génération en cours..." : "Télécharger la convocation (PDF)"}
+              </button>
+              <button
+                type="button"
+                onClick={handleDownloadAll}
+                disabled={isGeneratingPdf || isGeneratingAll}
+                className="inline-flex items-center justify-center rounded-lg bg-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 hover:bg-slate-300 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500"
+              >
+                {isGeneratingAll
+                  ? "Téléchargement de toutes les convocations..."
+                  : "Télécharger toutes les convocations (PDF)"}
               </button>
             </div>
           </div>
