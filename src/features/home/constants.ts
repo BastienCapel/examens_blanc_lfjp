@@ -1,10 +1,6 @@
 export const HOME_PAGE_CONTENT = {
   logos: [
     {
-      src: "https://i.imgur.com/W3EZ93D.png",
-      alt: "Logo du Lycée Français Jacques Prévert de Saly",
-    },
-    {
       src: "https://i.imgur.com/0YmGlXO.png",
       alt: "Logo de l'AEFE",
     },
