@@ -1,26 +1,13 @@
-import Announcements from "./sections/Announcements";
-import ExamDashboard from "./sections/ExamDashboard";
-import Header from "./sections/Header";
-import Hero from "./sections/Hero";
-import RoomsStatus from "./sections/RoomsStatus";
-import SurveillanceTable from "./sections/SurveillanceTable";
-import ConvocationGenerator from "./sections/ConvocationGenerator";
-import RoomSetup from "./sections/RoomSetup";
+import { Route, Routes } from "react-router-dom";
+
+import ExamDashboardPage from "./pages/ExamDashboardPage";
+import HomePage from "./pages/HomePage";
 
 export default function App() {
   return (
-    <div className="bg-slate-50 text-slate-800">
-      <div className="container mx-auto space-y-8 p-4 sm:p-6 lg:p-8">
-        <Header />
-        <Hero />
-        <ExamDashboard>
-          <RoomSetup />
-          <SurveillanceTable />
-          <ConvocationGenerator />
-          <RoomsStatus />
-          <Announcements />
-        </ExamDashboard>
-      </div>
-    </div>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/examens-blancs" element={<ExamDashboardPage />} />
+    </Routes>
   );
 }
