@@ -10,6 +10,7 @@ import {
 import { dashboardTabs } from "../lib/dashboard-data";
 import { DashboardContext } from "../lib/dashboard-context";
 import type { DashboardView } from "../lib/dashboard-utils";
+import Footer from "./Footer";
 
 export default function ExamDashboard({ children }: { children?: ReactNode }) {
   const [activeView, setActiveView] = useState<DashboardView>("teacher");
@@ -74,6 +75,9 @@ export default function ExamDashboard({ children }: { children?: ReactNode }) {
       </h2>
       <DashboardContext.Provider value={contextValue}>
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-md">
+          <div className="mb-4">
+            <Footer />
+          </div>
           <div
             className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-4"
             role="tablist"
