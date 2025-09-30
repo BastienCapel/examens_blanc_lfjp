@@ -2,6 +2,7 @@ import {
   type AccommodationGroup,
   type DashboardTab,
   type KeyFigure,
+  type RoomColumn,
   type RoomScheduleDay,
   type RoomSession,
   type SurveillanceMission,
@@ -204,7 +205,31 @@ interface SupportMissionEntry {
   type: SurveillanceMission["type"];
   roomLabel: string;
   blockLabel: string;
+  rooms: RoomColumn[];
 }
+
+const supportRoomNumberMap: Record<string, RoomColumn> = {
+  "9": "S9 PRIO / EPS",
+  "10": "S10",
+  "12": "S12",
+  "13": "S13",
+  "14": "S14",
+  "15": "S15",
+  "16": "S16",
+};
+
+const extractSupportRooms = (value: string): RoomColumn[] => {
+  if (!isNonEmptyString(value)) {
+    return [];
+  }
+  const matches = value.match(/\d{1,2}/g);
+  if (!matches) {
+    return [];
+  }
+  return matches
+    .map((match) => supportRoomNumberMap[match])
+    .filter((room): room is RoomColumn => Boolean(room));
+};
 
 const parseSupportMission = (
   mission: SurveillanceMission,
@@ -241,6 +266,7 @@ const parseSupportMission = (
     type: mission.type,
     roomLabel: "Support",
     blockLabel: "Support",
+    rooms: extractSupportRooms(mission.room),
   };
 };
 
@@ -339,6 +365,36 @@ export const buildDaySchedule = (
     });
     return { day, slots };
   });
+};
+
+export const buildSupportSessionsByRoom = (
+  missions: SurveillanceMission[],
+): Map<string, Map<RoomColumn, RoomSession[]>> => {
+  const supportSessions = new Map<string, Map<RoomColumn, RoomSession[]>>();
+
+  missions
+    .map(parseSupportMission)
+    .filter((entry): entry is SupportMissionEntry => Boolean(entry))
+    .forEach((entry) => {
+      if (!entry.rooms.length) {
+        return;
+      }
+      const daySessions = supportSessions.get(entry.dayLabel) ?? new Map<RoomColumn, RoomSession[]>();
+      entry.rooms.forEach((room) => {
+        const sessions = daySessions.get(room) ?? [];
+        sessions.push({
+          time: entry.timeRange ?? undefined,
+          teacher: entry.teacher,
+          detail: entry.detail,
+          type: entry.type,
+          label: entry.blockLabel,
+        });
+        daySessions.set(room, sessions);
+      });
+      supportSessions.set(entry.dayLabel, daySessions);
+    });
+
+  return supportSessions;
 };
 
 export type {
