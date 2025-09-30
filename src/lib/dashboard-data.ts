@@ -13,6 +13,7 @@ import {
   Info,
   LayoutGrid,
   LifeBuoy,
+  Settings,
   MapPin,
   PenLine,
   Sun,
@@ -592,12 +593,13 @@ export const roomSchedule: RoomScheduleDay[] = [
 ];
 
 export interface DashboardTab {
-  id: "teacher" | "convocation" | "room" | "day";
+  id: "setup" | "teacher" | "convocation" | "room" | "day";
   label: string;
   Icon: LucideIcon;
 }
 
 export const dashboardTabs: DashboardTab[] = [
+  { id: "setup", label: "Paramétrage des salles", Icon: Settings },
   { id: "teacher", label: "Vue par enseignant", Icon: Users },
   { id: "convocation", label: "Convocations", Icon: ClipboardList },
   { id: "room", label: "Vue par salle", Icon: LayoutGrid },
