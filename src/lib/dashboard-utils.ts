@@ -51,6 +51,26 @@ export const isNonEmptyString = (value: unknown): value is string =>
 export const normalizeTeacherName = (name: string): string =>
   isNonEmptyString(name) ? name.trim() : "À assigner";
 
+const extractTeacherAssignments = (rawTeacher: string): string[] => {
+  const normalizedTeacher = normalizeTeacherName(rawTeacher);
+  const hasMultipleTeachers = rawTeacher.includes(",");
+
+  if (!hasMultipleTeachers) {
+    return [normalizedTeacher];
+  }
+
+  const teacherList = rawTeacher
+    .split(",")
+    .map((entry) => normalizeTeacherName(entry))
+    .filter((entry) => entry !== "À assigner");
+
+  if (!teacherList.length) {
+    return [normalizedTeacher];
+  }
+
+  return Array.from(new Set(teacherList));
+};
+
 export const withFallback = <T>(value: T | null | undefined, fallback: T): T =>
   value == null || (typeof value === "string" && value === "") ? fallback : value;
 
@@ -83,10 +103,13 @@ export const buildTeacherSchedule = (
 ): TeacherScheduleGroup[] => {
   const groups = new Map<string, SurveillanceMission[]>();
   schedule.forEach((mission) => {
-    const teacher = normalizeTeacherName(mission.teacher);
-    const current = groups.get(teacher) ?? [];
-    current.push(mission);
-    groups.set(teacher, current);
+    const teacherAssignments = extractTeacherAssignments(mission.teacher);
+
+    teacherAssignments.forEach((teacher) => {
+      const current = groups.get(teacher) ?? [];
+      current.push({ ...mission, teacher });
+      groups.set(teacher, current);
+    });
   });
 
   return Array.from(groups.entries())
