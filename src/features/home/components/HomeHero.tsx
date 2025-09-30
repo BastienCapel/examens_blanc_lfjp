@@ -1,27 +1,37 @@
+interface HomeHeroLogo {
+  src: string;
+  alt?: string;
+}
+
 interface HomeHeroProps {
-  logoSrc?: string;
-  logoAlt?: string;
+  logos?: HomeHeroLogo[];
   subtitle: string;
   title: string;
   description: string;
 }
 
 export default function HomeHero({
-  logoSrc,
-  logoAlt,
+  logos,
   subtitle,
   title,
   description,
 }: HomeHeroProps) {
+  const hasLogos = logos && logos.length > 0;
+
   return (
     <div className="max-w-4xl space-y-6">
-      {logoSrc ? (
-        <img
-          src={logoSrc}
-          alt={logoAlt ?? ""}
-          className="h-24 w-auto"
-          loading="lazy"
-        />
+      {hasLogos ? (
+        <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+          {logos?.map((logo) => (
+            <img
+              key={logo.src}
+              src={logo.src}
+              alt={logo.alt ?? ""}
+              className="h-16 w-auto flex-shrink-0 rounded-lg border border-slate-200 bg-white object-contain shadow-sm"
+              loading="lazy"
+            />
+          ))}
+        </div>
       ) : null}
       <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
         {subtitle}

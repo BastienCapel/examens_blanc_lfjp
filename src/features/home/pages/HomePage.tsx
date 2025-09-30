@@ -10,8 +10,7 @@ export default function HomePage() {
   return (
     <HomeLayout>
       <HomeHero
-        logoSrc={HOME_PAGE_CONTENT.logo?.src}
-        logoAlt={HOME_PAGE_CONTENT.logo?.alt}
+        logos={HOME_PAGE_CONTENT.logos}
         subtitle={HOME_PAGE_CONTENT.subtitle}
         title={HOME_PAGE_CONTENT.title}
         description={HOME_PAGE_CONTENT.description}
