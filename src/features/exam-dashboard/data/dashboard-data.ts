@@ -302,7 +302,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   {
     teacher: "CAPEL E.",
     datetime: "vendredi 12/12 à 08h00",
-    room: "S16",
+    room: "S11",
     mission: "Bac blanc : Enseignement de spécialité N°2",
     duration: "4:00:00",
     type: "specialite",
@@ -460,7 +460,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   {
     teacher: "MOURAIN DIOP F.",
     datetime: "jeudi 11/12 à 08h00",
-    room: "S16",
+    room: "S11",
     mission: "Bac blanc : Enseignement de spécialité N°1",
     duration: "4:00:00",
     type: "specialite",
@@ -510,11 +510,11 @@ export const surveillanceSchedule: SurveillanceMission[] = [
 export const roomColumns = [
   "S9 PRIO / EPS",
   "S10",
+  "S11",
   "S12",
   "S13",
   "S14",
   "S15",
-  "S16",
 ] as const;
 
 export type RoomColumn = (typeof roomColumns)[number];
@@ -553,6 +553,7 @@ export const roomSchedule: RoomScheduleDay[] = [
           type: "philosophie",
         },
       ],
+      S11: [],
       S12: [
         {
           time: "08h00 - 12h00",
@@ -585,7 +586,6 @@ export const roomSchedule: RoomScheduleDay[] = [
           type: "philosophie",
         },
       ],
-      S16: [],
     },
   },
   {
@@ -623,6 +623,16 @@ export const roomSchedule: RoomScheduleDay[] = [
           teacher: "MBOUP N.",
           detail: "EAF",
           type: "eaf",
+        },
+      ],
+      S11: [
+        {
+          label: "Matin",
+          time: "08h00 - 12h00",
+          teacher: "MOURAIN DIOP F.",
+          detail: "Spécialité N°1",
+          highlight: true,
+          type: "specialite",
         },
       ],
       S12: [
@@ -685,16 +695,6 @@ export const roomSchedule: RoomScheduleDay[] = [
           type: "eaf",
         },
       ],
-      S16: [
-        {
-          label: "Matin",
-          time: "08h00 - 12h00",
-          teacher: "MOURAIN DIOP F.",
-          detail: "Spécialité N°1",
-          highlight: true,
-          type: "specialite",
-        },
-      ],
     },
   },
   {
@@ -712,6 +712,14 @@ export const roomSchedule: RoomScheduleDay[] = [
         {
           time: "08h00 - 12h00",
           teacher: "NDIAYE A.",
+          detail: "Spécialité N°2",
+          type: "specialite",
+        },
+      ],
+      S11: [
+        {
+          time: "08h00 - 12h00",
+          teacher: "CAPEL E.",
           detail: "Spécialité N°2",
           type: "specialite",
         },
@@ -741,14 +749,6 @@ export const roomSchedule: RoomScheduleDay[] = [
         },
       ],
       S15: [],
-      S16: [
-        {
-          time: "08h00 - 12h00",
-          teacher: "CAPEL E.",
-          detail: "Spécialité N°2",
-          type: "specialite",
-        },
-      ],
     },
   },
 ];
