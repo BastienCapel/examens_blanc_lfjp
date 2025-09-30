@@ -196,7 +196,7 @@ export interface KeyFigure {
 }
 
 export const keyFigures: KeyFigure[] = [
-  { value: "7", label: "Salles mobilisées" },
+  { value: "6", label: "Salles mobilisées" },
   { value: "4", label: "Épreuves", extra: "Spécialités N°1 & N°2, Philosophie, EAF" },
   { value: "3,7", unit: "h", label: "Durée moyenne", extra: "31 missions planifiées" },
   { value: "114", unit: "h", label: "Surveillance cumulée", extra: "Inclut les missions de renfort" },
