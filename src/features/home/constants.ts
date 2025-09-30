@@ -1,4 +1,8 @@
 export const HOME_PAGE_CONTENT = {
+  logo: {
+    src: "https://i.imgur.com/W3EZ93D.png",
+    alt: "Logo du Lycée Français Jean-Prince",
+  },
   subtitle: "Espace examens blancs LFJP",
   title:
     "Toute l'organisation des examens blancs centralisée pour les enseignants du LFJP",
@@ -9,7 +13,7 @@ export const HOME_PAGE_CONTENT = {
 export const HOME_DASHBOARD_ENTRY = {
   to: "/examens-blancs",
   iconLabel: "Accéder à l'organisation des examens blancs",
-  subtitle: "Dessin interactif",
+  subtitle: "",
   title: "Baccalauréat blanc 1ère et Terminale",
   dateLabel: "10, 11 et 12 décembre 2025",
   description:

@@ -7,7 +7,7 @@ interface HomeCallToActionCardProps {
   icon: LucideIcon;
   iconLabel: string;
   title: string;
-  subtitle: string;
+  subtitle?: string;
   description: string;
   footerLabel: string;
   meta?: ReactNode;
@@ -38,9 +38,11 @@ export default function HomeCallToActionCard({
         </div>
 
         <div className="space-y-3">
-          <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-            {subtitle}
-          </p>
+          {subtitle ? (
+            <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+              {subtitle}
+            </p>
+          ) : null}
           <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">{title}</h2>
           {meta}
           <p className="text-sm text-slate-500 sm:text-base">{description}</p>
