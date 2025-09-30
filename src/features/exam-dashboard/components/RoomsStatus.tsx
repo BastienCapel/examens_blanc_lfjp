@@ -22,6 +22,11 @@ import {
   type RoomSession,
 } from "../utils";
 
+const roomColumnDefinitions = roomColumns.map((room) => ({
+  id: room,
+  label: room,
+}));
+
 function BlockLabel({ session }: { session: RoomSession }) {
   const highlight = getBlockHighlight(session);
   if (!session.label) {
@@ -209,16 +214,159 @@ function RoomRow({ day }: { day: RoomScheduleDay }) {
           {isToday ? <TodayBadge /> : null}
         </div>
       </TableCell>
-      {roomColumns.map((column) => (
-        <RoomCell key={column.id} sessions={day[column.id] ?? []} />
+      {roomColumnDefinitions.map((column) => (
+        <RoomCell key={column.id} sessions={day.rooms[column.id] ?? []} />
       ))}
     </TableRow>
+  );
+}
+
+interface RoomDayEntry {
+  day: string;
+  isToday: boolean;
+  sessions: RoomSession[];
+}
+
+function RoomDayRows({ entry }: { entry: RoomDayEntry }) {
+  const { day, isToday, sessions } = entry;
+
+  if (!sessions.length) {
+    return (
+      <TableRow className="border-t border-slate-100 text-sm text-slate-600">
+        <TableCell
+          className={cn(
+            "w-40 align-top bg-slate-50 font-semibold text-slate-900",
+            isToday && "bg-amber-100/60 text-amber-900",
+          )}
+        >
+          <div className="flex flex-col gap-1">
+            <span>{day}</span>
+            {isToday ? <TodayBadge /> : null}
+          </div>
+        </TableCell>
+        <TableCell colSpan={3} className="align-top text-sm italic text-slate-400">
+          Aucune surveillance programmée.
+        </TableCell>
+      </TableRow>
+    );
+  }
+
+  return (
+    <>
+      {sessions.map((session, index) => {
+        const highlight = getBlockHighlight(session);
+        const variant = getTypeVariant(session.type);
+        return (
+          <TableRow
+            key={`${day}-${index}`}
+            className={cn(
+              "border-t border-slate-100 text-sm text-slate-600",
+              highlight && `${highlight.background} ${highlight.border}`,
+            )}
+          >
+            {index === 0 ? (
+              <TableCell
+                rowSpan={sessions.length}
+                className={cn(
+                  "w-40 align-top bg-slate-50 font-semibold text-slate-900",
+                  isToday && "bg-amber-100/60 text-amber-900",
+                )}
+              >
+                <div className="flex flex-col gap-1">
+                  <span>{day}</span>
+                  {isToday ? <TodayBadge /> : null}
+                </div>
+              </TableCell>
+            ) : null}
+            <TableCell className="align-top">
+              <div className="flex flex-col gap-1">
+                {session.time ? (
+                  <span className="text-sm font-medium text-slate-900">{session.time}</span>
+                ) : (
+                  <span className="text-sm italic text-slate-400">Horaire à confirmer</span>
+                )}
+                {session.label ? <BlockLabel session={session} /> : null}
+              </div>
+            </TableCell>
+            <TableCell className="align-top">
+              {session.teacher ? (
+                <span className={cn("text-sm font-semibold", variant.textColor)}>
+                  {session.teacher}
+                </span>
+              ) : (
+                <span className="text-sm italic text-slate-400">Surveillant à confirmer</span>
+              )}
+            </TableCell>
+            <TableCell className="align-top">
+              <div className="flex items-start gap-2">
+                {session.type ? <TypeBadge type={session.type} compact /> : null}
+                <span className="text-sm text-slate-600">
+                  {session.detail ?? "Détail à préciser"}
+                </span>
+              </div>
+            </TableCell>
+          </TableRow>
+        );
+      })}
+    </>
+  );
+}
+
+function RoomOrganisationCard({
+  room,
+  days,
+}: {
+  room: string;
+  days: RoomDayEntry[];
+}) {
+  const hasContent = days.some((entry) => entry.sessions.length);
+
+  return (
+    <article className="flex h-full flex-col gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+      <header>
+        <h4 className="text-lg font-semibold text-slate-900">{room}</h4>
+        <p className="text-sm text-slate-500">
+          {hasContent
+            ? "Organisation détaillée des surveillances prévues dans cette salle."
+            : "Aucune surveillance n'est planifiée pour cette salle."}
+        </p>
+      </header>
+      <div className="-mx-4 overflow-x-auto px-4">
+        <Table className="min-w-full">
+          <TableHead>
+            <TableRow>
+              <TableHeaderCell scope="col">Jour</TableHeaderCell>
+              <TableHeaderCell scope="col">Créneau</TableHeaderCell>
+              <TableHeaderCell scope="col">Surveillant</TableHeaderCell>
+              <TableHeaderCell scope="col">Épreuve / Détail</TableHeaderCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {days.map((entry) => (
+              <RoomDayRows key={entry.day} entry={entry} />
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </article>
   );
 }
 
 export default function RoomsStatus() {
   const { activeView, container } = useDashboardContext();
   const schedule = useMemo(() => roomSchedule, []);
+  const perRoomSchedule = useMemo(
+    () =>
+      roomColumnDefinitions.map((column) => ({
+        room: column.label,
+        days: schedule.map((day) => ({
+          day: day.day,
+          isToday: isDayLabelToday(day.day),
+          sessions: day.rooms[column.id] ?? [],
+        })),
+      })),
+    [schedule],
+  );
 
   if (!container) {
     return null;
@@ -245,7 +393,7 @@ export default function RoomsStatus() {
           <TableHead>
             <TableRow>
               <TableHeaderCell scope="col">Jour</TableHeaderCell>
-              {roomColumns.map((column) => (
+              {roomColumnDefinitions.map((column) => (
                 <TableHeaderCell key={column.id} scope="col">
                   {column.label}
                 </TableHeaderCell>
@@ -264,6 +412,17 @@ export default function RoomsStatus() {
             )}
           </TableBody>
         </Table>
+      </div>
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold text-slate-900">Organisation détaillée par salle</h3>
+        <p className="text-sm text-slate-500">
+          Retrouvez les missions planifiées, les horaires et les surveillants associés pour chaque salle mobilisée.
+        </p>
+        <div className="grid gap-6 lg:grid-cols-2">
+          {perRoomSchedule.map((room) => (
+            <RoomOrganisationCard key={room.room} room={room.room} days={room.days} />
+          ))}
+        </div>
       </div>
     </section>,
     container,
