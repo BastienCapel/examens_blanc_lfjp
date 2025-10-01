@@ -18,7 +18,7 @@ const roomSchedule: RoomScheduleDay[] = [
     rooms: {
       S10: [
         {
-          time: "11h10 - 15h10",
+          time: "11h10 - 13h10",
           teacher: "SERVATE S.",
           detail: "Mathématiques 1ère",
           type: "mathematiques",
@@ -27,7 +27,7 @@ const roomSchedule: RoomScheduleDay[] = [
       ],
       S13: [
         {
-          time: "11h10 - 15h10",
+          time: "11h10 - 13h10",
           teacher: "FRAYON A.",
           detail: "Mathématiques 1ère",
           type: "mathematiques",
@@ -36,7 +36,7 @@ const roomSchedule: RoomScheduleDay[] = [
       ],
       S14: [
         {
-          time: "11h10 - 15h10",
+          time: "11h10 - 13h10",
           teacher: "NDOYE A.",
           detail: "Mathématiques 1ère",
           type: "mathematiques",
@@ -45,7 +45,7 @@ const roomSchedule: RoomScheduleDay[] = [
       ],
       S15: [
         {
-          time: "11h10 - 15h10",
+          time: "11h10 - 13h10",
           teacher: "CAPEL E.",
           detail: "Mathématiques 1ère",
           type: "mathematiques",
@@ -70,7 +70,7 @@ export const mathExamDashboardData20260523: MathExamDashboardData = {
       extra: "Accueil des élèves dès 10h40",
     },
     {
-      value: "4",
+      value: "2",
       unit: "h",
       label: "Durée de l'épreuve",
       extra: "Épreuve écrite de mathématiques",
@@ -94,7 +94,7 @@ export const mathExamDashboardData20260523: MathExamDashboardData = {
       datetime: "vendredi 22/05 à 11h10",
       room: "S15",
       mission: "Bac blanc mathématiques 1ère",
-      duration: "4:00:00",
+      duration: "2:00:00",
       type: "mathematiques",
     },
     {
@@ -102,7 +102,7 @@ export const mathExamDashboardData20260523: MathExamDashboardData = {
       datetime: "vendredi 22/05 à 11h10",
       room: "S13",
       mission: "Bac blanc mathématiques 1ère",
-      duration: "4:00:00",
+      duration: "2:00:00",
       type: "mathematiques",
     },
     {
@@ -110,7 +110,7 @@ export const mathExamDashboardData20260523: MathExamDashboardData = {
       datetime: "vendredi 22/05 à 11h10",
       room: "S14",
       mission: "Bac blanc mathématiques 1ère",
-      duration: "4:00:00",
+      duration: "2:00:00",
       type: "mathematiques",
     },
     {
@@ -118,7 +118,7 @@ export const mathExamDashboardData20260523: MathExamDashboardData = {
       datetime: "vendredi 22/05 à 11h10",
       room: "S10",
       mission: "Bac blanc mathématiques 1ère",
-      duration: "4:00:00",
+      duration: "2:00:00",
       type: "mathematiques",
     },
   ],
