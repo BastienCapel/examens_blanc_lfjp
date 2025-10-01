@@ -5,6 +5,12 @@ const HomePage = lazy(() => import("../features/home/pages/HomePage"));
 const ExamDashboardPage = lazy(
   () => import("../features/exam-dashboard/pages/ExamDashboardPage"),
 );
+const FilmAnnuelOrientationTroisiemePage = lazy(
+  () =>
+    import(
+      "../features/orientation/pages/FilmAnnuelOrientationTroisiemePage"
+    ),
+);
 
 export default function App() {
   return (
@@ -12,6 +18,10 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/examens-blancs" element={<ExamDashboardPage />} />
+        <Route
+          path="/orientation/film-annuel-3e"
+          element={<FilmAnnuelOrientationTroisiemePage />}
+        />
       </Routes>
     </Suspense>
   );
