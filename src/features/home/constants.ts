@@ -23,13 +23,3 @@ export const HOME_DASHBOARD_ENTRY = {
   footerLabel: "Découvrir l'organisation",
 };
 
-export const HOME_ORIENTATION_FILM_ENTRY = {
-  to: "/orientation/film-annuel-3e",
-  iconLabel: "Consulter le film annuel de l'orientation en 3e",
-  subtitle: "Parcours Avenir",
-  title: "Film annuel de l'orientation — 3e",
-  dateLabel: "Année scolaire 2025-2026",
-  description:
-    "Timeline interactive, calendrier imprimable et fiches repères pour suivre toutes les étapes d'accompagnement des élèves.",
-  footerLabel: "Explorer le calendrier",
-};

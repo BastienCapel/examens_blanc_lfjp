@@ -1,14 +1,10 @@
-import { CalendarDays, Film, GraduationCap } from "lucide-react";
+import { CalendarDays, GraduationCap } from "lucide-react";
 
 import HomeCallToActionCard from "../components/HomeCallToActionCard";
 import HomeEventMeta from "../components/HomeEventMeta";
 import HomeHero from "../components/HomeHero";
 import HomeLayout from "../components/HomeLayout";
-import {
-  HOME_DASHBOARD_ENTRY,
-  HOME_ORIENTATION_FILM_ENTRY,
-  HOME_PAGE_CONTENT,
-} from "../constants";
+import { HOME_DASHBOARD_ENTRY, HOME_PAGE_CONTENT } from "../constants";
 
 export default function HomePage() {
   return (
@@ -38,22 +34,6 @@ export default function HomePage() {
           }
         />
 
-        <HomeCallToActionCard
-          to={HOME_ORIENTATION_FILM_ENTRY.to}
-          icon={Film}
-          iconLabel={HOME_ORIENTATION_FILM_ENTRY.iconLabel}
-          subtitle={HOME_ORIENTATION_FILM_ENTRY.subtitle}
-          title={HOME_ORIENTATION_FILM_ENTRY.title}
-          description={HOME_ORIENTATION_FILM_ENTRY.description}
-          footerLabel={HOME_ORIENTATION_FILM_ENTRY.footerLabel}
-          meta={
-            <HomeEventMeta
-              icon={CalendarDays}
-              label={HOME_ORIENTATION_FILM_ENTRY.dateLabel}
-              description="Film annuel orientation 3e"
-            />
-          }
-        />
       </div>
     </HomeLayout>
   );
