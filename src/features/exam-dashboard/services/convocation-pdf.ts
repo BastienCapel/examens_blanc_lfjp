@@ -181,7 +181,8 @@ const buildConvocationContent = (
   title.style.color = "#0f172a";
 
   const subtitle = document.createElement("p");
-  subtitle.textContent = "Baccalauréat blanc – Lycée Français Jean-Paul";
+  subtitle.textContent =
+    "Baccalauréat blanc – Lycée Français Jacques Prévert de Saly";
   subtitle.style.margin = "0";
   subtitle.style.fontSize = "14px";
   subtitle.style.color = "#475569";

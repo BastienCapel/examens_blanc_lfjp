@@ -126,7 +126,7 @@ export const mathExamDashboardData20260213: MathExamDashboardData = {
   roomSchedule,
   examRooms: [
     { name: "S10", examCapacity: 13 },
-    { name: "S11", examCapacity: 15 },
+    { name: "S12", examCapacity: 13 },
     { name: "S11 COOP", examCapacity: 12 },
     { name: "S14", examCapacity: 12 },
   ],
