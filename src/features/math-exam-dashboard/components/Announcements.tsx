@@ -1,13 +1,9 @@
 import { useMemo } from "react";
 import { createPortal } from "react-dom";
+import { Clock } from "lucide-react";
 
 import TodayBadge from "./TodayBadge";
 import TypeBadge from "./TypeBadge";
-import {
-  clockIcon,
-  roomSchedule,
-  surveillanceSchedule,
-} from "../data";
 import {
   buildDaySchedule,
   getBlockHighlight,
@@ -16,9 +12,9 @@ import {
   type DayScheduleEntry,
   type DaySlot,
 } from "../utils";
-import { useDashboardContext } from "../context";
+import { useDashboardContext, useMathExamData } from "../context";
 
-const ClockIcon = clockIcon;
+const ClockIcon = Clock;
 
 function DaySession({ entry }: { entry: DayScheduleEntry }) {
   const isTeacherDefined = Boolean(entry.teacher);
@@ -101,9 +97,10 @@ function DayCard({ schedule }: { schedule: DaySchedule }) {
 
 export default function Announcements() {
   const { activeView, container } = useDashboardContext();
+  const { roomSchedule, surveillanceSchedule } = useMathExamData();
   const daySchedule = useMemo(
     () => buildDaySchedule(roomSchedule, surveillanceSchedule),
-    [],
+    [roomSchedule, surveillanceSchedule],
   );
 
   if (!container) {

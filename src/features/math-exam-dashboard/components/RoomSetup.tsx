@@ -2,27 +2,26 @@ import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { LayoutGrid, Users } from "lucide-react";
 
-import { useDashboardContext } from "../context";
-
-const examRooms: { name: string; examCapacity: number }[] = [
-  { name: "S10", examCapacity: 13 },
-  { name: "S11", examCapacity: 15 },
-  { name: "S11 COOP", examCapacity: 12 },
-  { name: "S14", examCapacity: 12 },
-];
-
-const totalExamCapacity = examRooms.reduce(
-  (accumulator, room) => accumulator + room.examCapacity,
-  0,
-);
+import { useDashboardContext, useMathExamData } from "../context";
 
 export default function RoomSetup() {
   const { activeView, container } = useDashboardContext();
-  const [studentCount, setStudentCount] = useState(52);
+  const { examRooms, defaultStudentCount } = useMathExamData();
+
+  const totalExamCapacity = useMemo(
+    () => examRooms.reduce((sum, room) => sum + room.examCapacity, 0),
+    [examRooms],
+  );
+
+  const [studentCount, setStudentCount] = useState(defaultStudentCount);
+
+  useEffect(() => {
+    setStudentCount(defaultStudentCount);
+  }, [defaultStudentCount]);
 
   const sliderMax = useMemo(
     () => Math.max(totalExamCapacity, studentCount, 120),
-    [studentCount],
+    [studentCount, totalExamCapacity],
   );
 
   type RoomAllocation = {
@@ -44,7 +43,7 @@ export default function RoomSetup() {
         capacity: room.examCapacity,
       };
     });
-  }, [studentCount]);
+  }, [examRooms, studentCount]);
 
   const [manualAssignments, setManualAssignments] = useState(autoDistribution);
 

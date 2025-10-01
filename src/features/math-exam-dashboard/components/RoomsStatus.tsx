@@ -12,26 +12,14 @@ import {
 import { cn } from "../../../shared/lib";
 import TodayBadge from "./TodayBadge";
 import TypeBadge from "./TypeBadge";
-import {
-  roomColumns,
-  roomSchedule,
-  surveillanceSchedule,
-  type RoomColumn,
-} from "../data";
-import { useDashboardContext } from "../context";
+import type { RoomColumn, RoomScheduleDay, RoomSession, TypeVariant } from "../data";
+import { useDashboardContext, useMathExamData } from "../context";
 import {
   buildSupportSessionsByRoom,
   getBlockHighlight,
   getTypeVariant,
   isDayLabelToday,
-  type RoomScheduleDay,
-  type RoomSession,
 } from "../utils";
-
-const roomColumnDefinitions = roomColumns.map((room) => ({
-  id: room,
-  label: room,
-}));
 
 function BlockLabel({ session }: { session: RoomSession }) {
   const highlight = getBlockHighlight(session);
@@ -58,9 +46,15 @@ function BlockLabel({ session }: { session: RoomSession }) {
   return <span className={classes.join(" ")}>{session.label}</span>;
 }
 
-function SessionCard({ session }: { session: RoomSession }) {
+function SessionCard({
+  session,
+  typeVariants,
+}: {
+  session: RoomSession;
+  typeVariants: Record<string, TypeVariant>;
+}) {
   const highlight = getBlockHighlight(session);
-  const variant = getTypeVariant(session.type);
+  const variant = getTypeVariant(typeVariants, session.type);
   const classes = [
     "flex",
     "flex-col",
@@ -184,7 +178,13 @@ const isMorningSession = (session?: RoomSession): boolean => {
   return startHour !== null && startHour < 12;
 };
 
-function RoomCell({ sessions }: { sessions: RoomSession[] }) {
+function RoomCell({
+  sessions,
+  typeVariants,
+}: {
+  sessions: RoomSession[];
+  typeVariants: Record<string, TypeVariant>;
+}) {
   if (!sessions.length) {
     return <TableCell className="text-center" />;
   }
@@ -215,18 +215,26 @@ function RoomCell({ sessions }: { sessions: RoomSession[] }) {
       <div className={containerClasses}>
         {shouldReserveMorningSpace ? (
           <div aria-hidden className="invisible">
-            <SessionCard session={singleSession} />
+            <SessionCard session={singleSession} typeVariants={typeVariants} />
           </div>
         ) : null}
         {sessions.map((session, index) => (
-          <SessionCard key={index} session={session} />
+          <SessionCard key={index} session={session} typeVariants={typeVariants} />
         ))}
       </div>
     </TableCell>
   );
 }
 
-function RoomRow({ day }: { day: RoomScheduleDay }) {
+function RoomRow({
+  day,
+  columns,
+  typeVariants,
+}: {
+  day: RoomScheduleDay;
+  columns: { id: RoomColumn; label: string }[];
+  typeVariants: Record<string, TypeVariant>;
+}) {
   const isToday = isDayLabelToday(day.day);
   const stickyShadow = isToday
     ? "shadow-[inset_-16px_0_16px_-16px_rgba(217,119,6,0.45)]"
@@ -251,8 +259,12 @@ function RoomRow({ day }: { day: RoomScheduleDay }) {
           {isToday ? <TodayBadge /> : null}
         </div>
       </TableCell>
-      {roomColumnDefinitions.map((column) => (
-        <RoomCell key={column.id} sessions={day.rooms[column.id] ?? []} />
+      {columns.map((column) => (
+        <RoomCell
+          key={column.id}
+          sessions={day.rooms[column.id] ?? []}
+          typeVariants={typeVariants}
+        />
       ))}
     </TableRow>
   );
@@ -264,7 +276,13 @@ interface RoomDayEntry {
   sessions: RoomSession[];
 }
 
-function RoomDayRows({ entry }: { entry: RoomDayEntry }) {
+function RoomDayRows({
+  entry,
+  typeVariants,
+}: {
+  entry: RoomDayEntry;
+  typeVariants: Record<string, TypeVariant>;
+}) {
   const { day, isToday, sessions } = entry;
 
   if (!sessions.length) {
@@ -292,7 +310,7 @@ function RoomDayRows({ entry }: { entry: RoomDayEntry }) {
     <>
       {sessions.map((session, index) => {
         const highlight = getBlockHighlight(session);
-        const variant = getTypeVariant(session.type);
+        const variant = getTypeVariant(typeVariants, session.type);
         return (
           <TableRow
             key={`${day}-${index}`}
@@ -352,9 +370,11 @@ function RoomDayRows({ entry }: { entry: RoomDayEntry }) {
 function RoomOrganisationCard({
   room,
   days,
+  typeVariants,
 }: {
   room: string;
   days: RoomDayEntry[];
+  typeVariants: Record<string, TypeVariant>;
 }) {
   const hasContent = days.some((entry) => entry.sessions.length);
 
@@ -380,7 +400,7 @@ function RoomOrganisationCard({
           </TableHead>
           <TableBody>
             {days.map((entry) => (
-              <RoomDayRows key={entry.day} entry={entry} />
+              <RoomDayRows key={entry.day} entry={entry} typeVariants={typeVariants} />
             ))}
           </TableBody>
         </Table>
@@ -391,9 +411,16 @@ function RoomOrganisationCard({
 
 export default function RoomsStatus() {
   const { activeView, container } = useDashboardContext();
+  const { roomColumns, roomSchedule, surveillanceSchedule, typeVariants } = useMathExamData();
+
+  const roomColumnDefinitions = useMemo(
+    () => roomColumns.map((room) => ({ id: room, label: room })),
+    [roomColumns],
+  );
+
   const supportSessions = useMemo(
     () => buildSupportSessionsByRoom(surveillanceSchedule),
-    [],
+    [surveillanceSchedule],
   );
   const schedule = useMemo<RoomScheduleDay[]>(() => {
     const baseMap = new Map(roomSchedule.map((day) => [day.day, day] as const));
@@ -418,7 +445,7 @@ export default function RoomsStatus() {
       );
       return { day: dayLabel, rooms } as RoomScheduleDay;
     });
-  }, [supportSessions]);
+  }, [roomColumns, roomSchedule, supportSessions]);
   const perRoomSchedule = useMemo(
     () =>
       roomColumnDefinitions.map((column) => ({
@@ -429,7 +456,7 @@ export default function RoomsStatus() {
           sessions: day.rooms[column.id] ?? [],
         })),
       })),
-    [schedule],
+    [roomColumnDefinitions, schedule],
   );
 
   if (!container) {
@@ -476,7 +503,14 @@ export default function RoomsStatus() {
             </TableHead>
             <TableBody>
               {schedule.length ? (
-                schedule.map((day) => <RoomRow key={day.day} day={day} />)
+                schedule.map((day) => (
+                  <RoomRow
+                    key={day.day}
+                    day={day}
+                    columns={roomColumnDefinitions}
+                    typeVariants={typeVariants}
+                  />
+                ))
               ) : (
                 <TableRow>
                   <TableCell colSpan={roomColumns.length + 1} className="text-center text-sm text-slate-500">
@@ -497,7 +531,12 @@ export default function RoomsStatus() {
         </p>
         <div className="grid gap-6 lg:grid-cols-2">
           {perRoomSchedule.map((room) => (
-            <RoomOrganisationCard key={room.room} room={room.room} days={room.days} />
+            <RoomOrganisationCard
+              key={room.room}
+              room={room.room}
+              days={room.days}
+              typeVariants={typeVariants}
+            />
           ))}
         </div>
       </div>

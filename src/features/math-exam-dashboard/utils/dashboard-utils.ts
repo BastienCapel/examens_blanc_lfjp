@@ -1,13 +1,12 @@
-import {
-  type AccommodationGroup,
-  type DashboardTab,
-  type KeyFigure,
-  type RoomColumn,
-  type RoomScheduleDay,
-  type RoomSession,
-  type SurveillanceMission,
-  type TypeVariant,
-  typeVariants,
+import type {
+  AccommodationGroup,
+  DashboardTab,
+  KeyFigure,
+  RoomColumn,
+  RoomScheduleDay,
+  RoomSession,
+  SurveillanceMission,
+  TypeVariant,
 } from "../data";
 
 export type DashboardView = DashboardTab["id"];
@@ -96,8 +95,10 @@ export const formatDuration = (totalSeconds: number): string => {
   return parts.length ? parts.join(" ") : "0 min";
 };
 
-export const getTypeVariant = (type?: string): TypeVariant =>
-  typeVariants[type ?? ""] ?? typeVariants.default;
+export const getTypeVariant = (
+  typeVariants: Record<string, TypeVariant>,
+  type?: string,
+): TypeVariant => typeVariants[type ?? ""] ?? typeVariants.default;
 
 export const buildTeacherSchedule = (
   schedule: SurveillanceMission[],

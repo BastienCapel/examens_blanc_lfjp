@@ -1,4 +1,8 @@
+import { useMathExamData } from "../context";
+
 export default function Header() {
+  const { header } = useMathExamData();
+
   return (
     <header className="space-y-4">
       <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -12,13 +16,11 @@ export default function Header() {
             <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
               Lycée Français Jacques Prévert de Saly
             </p>
-            <h1 className="text-3xl font-bold text-slate-900">
-              Bac blanc de mathématiques
-            </h1>
+            <h1 className="text-3xl font-bold text-slate-900">{header.title}</h1>
           </div>
         </div>
       </div>
-      <p className="text-lg text-slate-600">Vendredi 13 février 2026 • 09h00</p>
+      <p className="text-lg text-slate-600">{header.date}</p>
     </header>
   );
 }

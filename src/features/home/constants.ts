@@ -23,14 +23,31 @@ export const HOME_DASHBOARD_ENTRY = {
   footerLabel: "Découvrir l'organisation",
 };
 
-export const HOME_MATH_EXAM_ENTRY = {
+export const HOME_MATH_EXAM_20260213_ENTRY = {
   to: "/examens-blancs/mathematiques-2026-02-13",
   iconLabel: "Consulter l'organisation du bac blanc de mathématiques",
-  subtitle: "", 
+  subtitle: "",
   title: "Bac blanc de mathématiques",
   dateLabel: "13 février 2026",
   description:
     "Accédez à la répartition des salles, aux convocations et aux informations pratiques pour l'épreuve de mathématiques.",
   footerLabel: "Voir le planning",
 };
+
+export const HOME_MATH_EXAM_20260523_ENTRY = {
+  to: "/examens-blancs/mathematiques-2026-05-23",
+  iconLabel: "Consulter l'organisation du bac blanc de mathématiques 1ère",
+  subtitle: "",
+  title: "Bac blanc de mathématiques 1ère",
+  dateLabel: "23 mai 2026",
+  description:
+    "Toutes les affectations de salles, convocations et consignes pour l'épreuve de mathématiques des classes de 1ère.",
+  footerLabel: "Découvrir l'organisation",
+};
+
+export const HOME_CALLOUT_ENTRIES = [
+  HOME_DASHBOARD_ENTRY,
+  HOME_MATH_EXAM_20260213_ENTRY,
+  HOME_MATH_EXAM_20260523_ENTRY,
+];
 

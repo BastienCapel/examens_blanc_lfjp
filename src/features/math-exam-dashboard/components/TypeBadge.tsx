@@ -1,3 +1,4 @@
+import { useMathExamData } from "../context";
 import type { SurveillanceMission } from "../utils";
 import { getTypeVariant } from "../utils";
 
@@ -8,10 +9,12 @@ export default function TypeBadge({
   type?: SurveillanceMission["type"] | string;
   compact?: boolean;
 }) {
+  const { typeVariants } = useMathExamData();
+
   if (!type) {
     return null;
   }
-  const variant = getTypeVariant(type);
+  const variant = getTypeVariant(typeVariants, type);
   const textClasses = compact
     ? "text-[10px] font-semibold tracking-wide uppercase"
     : "text-xs font-semibold";

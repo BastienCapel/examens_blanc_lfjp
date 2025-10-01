@@ -6,7 +6,7 @@ import {
   parseDuration,
   type TeacherScheduleGroup,
 } from "../utils";
-import { type TeacherDirectoryEntry, typeVariants } from "../data";
+import type { TeacherDirectoryEntry, TypeVariant } from "../data";
 
 const typeBadgeStyles: Record<string, { background: string; text: string; border: string }> = {
   mathematiques: {
@@ -76,6 +76,7 @@ const createParagraph = (text: string): HTMLParagraphElement => {
 const createMissionCard = (
   mission: TeacherScheduleGroup["missions"][number],
   index: number,
+  typeVariants: Record<string, TypeVariant>,
 ): HTMLDivElement => {
   const card = document.createElement("div");
   card.style.padding = "16px";
@@ -152,6 +153,7 @@ const createMissionCard = (
 const buildConvocationContent = (
   group: TeacherScheduleGroup,
   teacherEntry: TeacherDirectoryEntry | undefined,
+  typeVariants: Record<string, TypeVariant>,
 ): HTMLDivElement => {
   const container = createHiddenContainer();
 
@@ -206,7 +208,7 @@ const buildConvocationContent = (
   missionSection.append(createSectionTitle("Missions"));
 
   group.missions.forEach((mission, index) => {
-    missionSection.append(createMissionCard(mission, index));
+    missionSection.append(createMissionCard(mission, index, typeVariants));
   });
 
   const totalDuration = group.missions.reduce(
@@ -253,12 +255,13 @@ const buildConvocationContent = (
 export async function downloadConvocationPdf(
   group: TeacherScheduleGroup,
   teacherEntry: TeacherDirectoryEntry | undefined,
+  typeVariants: Record<string, TypeVariant>,
 ): Promise<void> {
   if (!group || group.missions.length === 0) {
     throw new Error("Aucune mission sélectionnée");
   }
 
-  const content = buildConvocationContent(group, teacherEntry);
+  const content = buildConvocationContent(group, teacherEntry, typeVariants);
   document.body.appendChild(content);
 
   try {

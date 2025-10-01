@@ -1,13 +1,15 @@
 import { useMemo } from "react";
 
-import { dashboardTabs } from "../data";
+import type { MathExamDashboardData } from "../data";
+import { useMathExamData } from "../context";
 import type { DashboardView } from "../utils";
 
 export default function useDashboardTabs(): {
-  tabs: typeof dashboardTabs;
+  tabs: MathExamDashboardData["dashboardTabs"];
   tabIds: DashboardView[];
 } {
-  const tabs = useMemo(() => dashboardTabs, []);
+  const { dashboardTabs } = useMathExamData();
+  const tabs = useMemo(() => dashboardTabs, [dashboardTabs]);
   const tabIds = useMemo(() => tabs.map(({ id }) => id), [tabs]);
   return { tabs, tabIds };
 }
