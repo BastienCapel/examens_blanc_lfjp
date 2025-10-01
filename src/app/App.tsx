@@ -5,8 +5,11 @@ const HomePage = lazy(() => import("../features/home/pages/HomePage"));
 const ExamDashboardPage = lazy(
   () => import("../features/exam-dashboard/pages/ExamDashboardPage"),
 );
-const MathExamDashboardPage = lazy(
-  () => import("../features/math-exam-dashboard/pages/MathExamDashboardPage"),
+const MathematicsExam20260213Page = lazy(
+  () => import("../features/math-exam-dashboard/pages/MathematicsExam20260213Page"),
+);
+const MathematicsExam20260523Page = lazy(
+  () => import("../features/math-exam-dashboard/pages/MathematicsExam20260523Page"),
 );
 
 export default function App() {
@@ -17,7 +20,11 @@ export default function App() {
         <Route path="/examens-blancs" element={<ExamDashboardPage />} />
         <Route
           path="/examens-blancs/mathematiques-2026-02-13"
-          element={<MathExamDashboardPage />}
+          element={<MathematicsExam20260213Page />}
+        />
+        <Route
+          path="/examens-blancs/mathematiques-2026-05-23"
+          element={<MathematicsExam20260523Page />}
         />
       </Routes>
     </Suspense>

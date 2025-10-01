@@ -1,13 +1,10 @@
-import {
-  accommodationGroups,
-  alertTriangleIcon,
-  infoIcon,
-  keyFigures,
-} from "../data";
+import { AlertTriangle, Info } from "lucide-react";
+
+import { useMathExamData } from "../context";
 import type { AccommodationGroup, KeyFigure } from "../utils";
 
-const InfoIcon = infoIcon;
-const AlertTriangleIcon = alertTriangleIcon;
+const InfoIcon = Info;
+const AlertTriangleIcon = AlertTriangle;
 
 function KeyFigureItem({ figure }: { figure: KeyFigure }) {
   return (
@@ -24,7 +21,7 @@ function KeyFigureItem({ figure }: { figure: KeyFigure }) {
   );
 }
 
-function KeyFiguresCard() {
+function KeyFiguresCard({ figures }: { figures: KeyFigure[] }) {
   return (
     <article className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-blue-100 bg-gradient-to-br from-white via-blue-50/40 to-slate-50 p-6 shadow-lg ring-1 ring-blue-100/60">
       <div
@@ -43,7 +40,7 @@ function KeyFiguresCard() {
         </div>
       </div>
       <div className="relative mt-auto grid grid-cols-2 gap-3">
-        {keyFigures.map((figure) => (
+        {figures.map((figure) => (
           <KeyFigureItem key={`${figure.label}-${figure.value}`} figure={figure} />
         ))}
       </div>
@@ -95,13 +92,15 @@ function AccommodationCard({ group }: { group: AccommodationGroup }) {
 }
 
 export default function Hero() {
+  const { keyFigures, accommodationGroups } = useMathExamData();
+
   return (
     <section aria-labelledby="overview-title" className="space-y-4">
       <h2 id="overview-title" className="sr-only">
         Informations générales
       </h2>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <KeyFiguresCard />
+        <KeyFiguresCard figures={keyFigures} />
         {accommodationGroups.map((group) => (
           <AccommodationCard key={group.title} group={group} />
         ))}

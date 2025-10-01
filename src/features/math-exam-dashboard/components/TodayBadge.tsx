@@ -1,6 +1,6 @@
-import { todayIcon } from "../data";
+import { Sun } from "lucide-react";
 
-const TodayIcon = todayIcon;
+const TodayIcon = Sun;
 
 export default function TodayBadge() {
   return (

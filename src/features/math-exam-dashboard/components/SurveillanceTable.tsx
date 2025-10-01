@@ -1,17 +1,10 @@
 import { useMemo } from "react";
 import { createPortal } from "react-dom";
+import { AlertCircle, CalendarClock, ClipboardList, Clock3, MapPin } from "lucide-react";
 
 import TodayBadge from "./TodayBadge";
 import TypeBadge from "./TypeBadge";
-import {
-  alertCircleIcon,
-  calendarClockIcon,
-  clipboardListIcon,
-  clock3Icon,
-  mapPinIcon,
-  surveillanceSchedule,
-} from "../data";
-import { useDashboardContext } from "../context";
+import { useDashboardContext, useMathExamData } from "../context";
 import {
   buildTeacherSchedule,
   formatDuration,
@@ -20,11 +13,11 @@ import {
   type TeacherScheduleGroup,
 } from "../utils";
 
-const CalendarClockIcon = calendarClockIcon;
-const MapPinIcon = mapPinIcon;
-const Clock3Icon = clock3Icon;
-const ClipboardListIcon = clipboardListIcon;
-const AlertCircleIcon = alertCircleIcon;
+const CalendarClockIcon = CalendarClock;
+const MapPinIcon = MapPin;
+const Clock3Icon = Clock3;
+const ClipboardListIcon = ClipboardList;
+const AlertCircleIcon = AlertCircle;
 
 function MissionCard({ mission }: { mission: TeacherScheduleGroup["missions"][number] }) {
   const durationValue = mission.duration
@@ -105,9 +98,10 @@ function TeacherCard({ group }: { group: TeacherScheduleGroup }) {
 
 export default function SurveillanceTable() {
   const { activeView, container } = useDashboardContext();
+  const { surveillanceSchedule } = useMathExamData();
   const teacherSchedule = useMemo(
     () => buildTeacherSchedule(surveillanceSchedule),
-    [],
+    [surveillanceSchedule],
   );
 
   if (!container) {

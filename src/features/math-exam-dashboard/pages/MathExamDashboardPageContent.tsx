@@ -11,7 +11,7 @@ import {
   SurveillanceTable,
 } from "../components";
 
-export default function ExamDashboardPage() {
+export default function MathExamDashboardPageContent() {
   return (
     <ExamDashboardPageLayout action={<BackToHomeButton />}>
       <Header />

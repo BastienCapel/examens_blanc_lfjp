@@ -1,18 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
+import { AlertCircle, CalendarClock, ClipboardList, MapPin } from "lucide-react";
 
 import TypeBadge from "./TypeBadge";
-import {
-  alertCircleIcon,
-  calendarClockIcon,
-  clipboardListIcon,
-  mapPinIcon,
-  surveillanceSchedule,
-  teacherDirectoryByShortName,
-  typeVariants,
-} from "../data";
-import { useDashboardContext } from "../context";
+import { useDashboardContext, useMathExamData } from "../context";
 import { downloadConvocationPdf } from "../services";
+import type { TypeVariant } from "../data";
 import {
   buildTeacherSchedule,
   formatDuration,
@@ -20,17 +13,23 @@ import {
   type TeacherScheduleGroup,
 } from "../utils";
 
-const CalendarClockIcon = calendarClockIcon;
-const MapPinIcon = mapPinIcon;
-const ClipboardListIcon = clipboardListIcon;
-const AlertCircleIcon = alertCircleIcon;
+const CalendarClockIcon = CalendarClock;
+const MapPinIcon = MapPin;
+const ClipboardListIcon = ClipboardList;
+const AlertCircleIcon = AlertCircle;
 
 type TeacherOption = {
   value: string;
   label: string;
 };
 
-function ConvocationMission({ mission }: { mission: TeacherScheduleGroup["missions"][number] }) {
+function ConvocationMission({
+  mission,
+  typeVariants,
+}: {
+  mission: TeacherScheduleGroup["missions"][number];
+  typeVariants: Record<string, TypeVariant>;
+}) {
   const roomLabel = mission.room && mission.room.trim() !== "-" ? mission.room : "Salle à confirmer";
   const typeLabel = typeVariants[mission.type ?? ""]?.label ?? typeVariants.default.label;
   const duration = mission.duration ? formatDuration(parseDuration(mission.duration)) : "Durée à préciser";
@@ -66,10 +65,12 @@ function ConvocationMission({ mission }: { mission: TeacherScheduleGroup["missio
 
 export default function ConvocationGenerator() {
   const { activeView, container } = useDashboardContext();
+  const { surveillanceSchedule, teacherDirectoryByShortName, typeVariants } =
+    useMathExamData();
 
   const scheduleByTeacher = useMemo(
     () => buildTeacherSchedule(surveillanceSchedule),
-    [],
+    [surveillanceSchedule],
   );
 
   const assignedTeacherGroups = useMemo(() => {
@@ -140,7 +141,7 @@ export default function ConvocationGenerator() {
     }
     try {
       setIsGeneratingPdf(true);
-      await downloadConvocationPdf(selectedGroup, teacherEntry);
+      await downloadConvocationPdf(selectedGroup, teacherEntry, typeVariants);
     } catch (error) {
       console.error("PDF generation failed", error);
       alert("Impossible de générer la convocation. Veuillez réessayer.");
@@ -161,7 +162,7 @@ export default function ConvocationGenerator() {
       setIsGeneratingAll(true);
       for (const group of assignedTeacherGroups) {
         const entry = teacherDirectoryByShortName[group.teacher];
-        await downloadConvocationPdf(group, entry);
+        await downloadConvocationPdf(group, entry, typeVariants);
       }
     } catch (error) {
       console.error("PDF generation failed", error);
@@ -220,7 +221,11 @@ export default function ConvocationGenerator() {
           </div>
           <ul className="space-y-3">
             {selectedGroup.missions.map((mission) => (
-              <ConvocationMission key={`${mission.datetime}-${mission.mission}`} mission={mission} />
+              <ConvocationMission
+                key={`${mission.datetime}-${mission.mission}`}
+                mission={mission}
+                typeVariants={typeVariants}
+              />
             ))}
           </ul>
           <div className="rounded-lg bg-white/70 p-4 text-sm text-slate-600">
