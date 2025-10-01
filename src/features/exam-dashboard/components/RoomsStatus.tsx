@@ -211,7 +211,7 @@ function RoomCell({ sessions }: { sessions: RoomSession[] }) {
   );
 
   return (
-    <TableCell className="text-center align-top">
+    <TableCell className="min-w-[11rem] px-4 py-3 text-center align-top sm:min-w-0 sm:px-6 sm:py-4">
       <div className={containerClasses}>
         {shouldReserveMorningSpace ? (
           <div aria-hidden className="invisible">
@@ -228,6 +228,9 @@ function RoomCell({ sessions }: { sessions: RoomSession[] }) {
 
 function RoomRow({ day }: { day: RoomScheduleDay }) {
   const isToday = isDayLabelToday(day.day);
+  const stickyShadow = isToday
+    ? "shadow-[inset_-16px_0_16px_-16px_rgba(217,119,6,0.45)]"
+    : "shadow-[inset_-16px_0_16px_-16px_rgba(15,23,42,0.25)]";
   return (
     <TableRow
       className={cn(
@@ -237,9 +240,9 @@ function RoomRow({ day }: { day: RoomScheduleDay }) {
     >
       <TableCell
         className={cn(
-          "whitespace-nowrap font-semibold text-slate-900",
-          "align-top",
-          "bg-slate-50",
+          "sticky left-0 z-10 whitespace-nowrap bg-slate-50 font-semibold text-slate-900",
+          "align-top px-4 py-3 text-left sm:px-6 sm:py-4",
+          stickyShadow,
           isToday && "bg-amber-100/60 text-amber-900",
         )}
       >
@@ -449,30 +452,43 @@ export default function RoomsStatus() {
           Visualisez la disponibilité des salles par créneau pour garantir une répartition fluide des épreuves.
         </p>
       </div>
-      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-        <Table className="min-w-full">
-          <TableHead>
-            <TableRow>
-              <TableHeaderCell scope="col">Jour</TableHeaderCell>
-              {roomColumnDefinitions.map((column) => (
-                <TableHeaderCell key={column.id} scope="col">
-                  {column.label}
-                </TableHeaderCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {schedule.length ? (
-              schedule.map((day) => <RoomRow key={day.day} day={day} />)
-            ) : (
+      <div className="relative rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-x-auto rounded-xl">
+          <Table className="min-w-[64rem] lg:min-w-full">
+            <TableHead>
               <TableRow>
-                <TableCell colSpan={roomColumns.length + 1} className="text-center text-sm text-slate-500">
-                  Aucune salle programmée pour le moment.
-                </TableCell>
+                <TableHeaderCell
+                  scope="col"
+                  className="sticky left-0 z-20 bg-slate-100 px-4 py-3 text-slate-900 shadow-[inset_-16px_0_16px_-16px_rgba(15,23,42,0.3)] sm:px-6"
+                >
+                  Jour
+                </TableHeaderCell>
+                {roomColumnDefinitions.map((column) => (
+                  <TableHeaderCell
+                    key={column.id}
+                    scope="col"
+                    className="min-w-[11rem] whitespace-nowrap px-4 py-3 align-bottom sm:min-w-0 sm:px-6"
+                  >
+                    {column.label}
+                  </TableHeaderCell>
+                ))}
               </TableRow>
-            )}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {schedule.length ? (
+                schedule.map((day) => <RoomRow key={day.day} day={day} />)
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={roomColumns.length + 1} className="text-center text-sm text-slate-500">
+                    Aucune salle programmée pour le moment.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-white to-transparent md:hidden" aria-hidden />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-white to-transparent md:hidden" aria-hidden />
       </div>
       <div className="space-y-4">
         <h3 className="text-lg font-semibold text-slate-900">Organisation détaillée par salle</h3>
