@@ -14,7 +14,7 @@ const teacherDirectory = createTeacherDirectory([
 
 const roomSchedule: RoomScheduleDay[] = [
   {
-    day: "Vendredi 22/05",
+    day: "Samedi 23/05",
     rooms: {
       S10: [
         {
@@ -59,7 +59,7 @@ const roomSchedule: RoomScheduleDay[] = [
 export const mathExamDashboardData20260523: MathExamDashboardData = {
   header: {
     title: "Bac blanc de mathématiques 1ère",
-    date: "Vendredi 22 mai 2026 • 11h10",
+    date: "Samedi 23 mai 2026 • 11h10",
   },
   keyFigures: [
     { value: "4", label: "Salles mobilisées" },
@@ -91,7 +91,7 @@ export const mathExamDashboardData20260523: MathExamDashboardData = {
   surveillanceSchedule: [
     {
       teacher: "CAPEL E.",
-      datetime: "vendredi 22/05 à 11h10",
+      datetime: "samedi 23/05 à 11h10",
       room: "S15",
       mission: "Bac blanc mathématiques 1ère",
       duration: "2:00:00",
@@ -99,7 +99,7 @@ export const mathExamDashboardData20260523: MathExamDashboardData = {
     },
     {
       teacher: "FRAYON A.",
-      datetime: "vendredi 22/05 à 11h10",
+      datetime: "samedi 23/05 à 11h10",
       room: "S13",
       mission: "Bac blanc mathématiques 1ère",
       duration: "2:00:00",
@@ -107,7 +107,7 @@ export const mathExamDashboardData20260523: MathExamDashboardData = {
     },
     {
       teacher: "NDOYE A.",
-      datetime: "vendredi 22/05 à 11h10",
+      datetime: "samedi 23/05 à 11h10",
       room: "S14",
       mission: "Bac blanc mathématiques 1ère",
       duration: "2:00:00",
@@ -115,7 +115,7 @@ export const mathExamDashboardData20260523: MathExamDashboardData = {
     },
     {
       teacher: "SERVATE S.",
-      datetime: "vendredi 22/05 à 11h10",
+      datetime: "samedi 23/05 à 11h10",
       room: "S10",
       mission: "Bac blanc mathématiques 1ère",
       duration: "2:00:00",

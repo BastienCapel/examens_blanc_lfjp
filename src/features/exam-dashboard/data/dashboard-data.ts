@@ -77,7 +77,7 @@ const teacherDirectorySource: TeacherDirectorySourceEntry[] = [
   { civility: "Monsieur", lastName: "FRAYON", firstName: "Antoine" },
   { civility: "Madame", lastName: "GIBUS", firstName: "Amandine" },
   { civility: "Monsieur", lastName: "GOMIS", firstName: "Alain" },
-  { civility: "Monsieur", lastName: "JAÏT", firstName: "Layla" },
+  { civility: "Madame", lastName: "JAÏT", firstName: "Layla" },
   { civility: "Madame", lastName: "JENOUDET", firstName: "Sandra" },
   { civility: "Madame", lastName: "KREMER", firstName: "Laurence" },
   { civility: "Madame", lastName: "KUNTZ", firstName: "Emilie" },
