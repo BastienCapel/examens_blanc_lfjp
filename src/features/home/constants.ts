@@ -23,3 +23,14 @@ export const HOME_DASHBOARD_ENTRY = {
   footerLabel: "Découvrir l'organisation",
 };
 
+export const HOME_MATH_EXAM_ENTRY = {
+  to: "/examens-blancs/mathematiques-2026-02-13",
+  iconLabel: "Consulter l'organisation du bac blanc de mathématiques",
+  subtitle: "", 
+  title: "Bac blanc de mathématiques",
+  dateLabel: "13 février 2026",
+  description:
+    "Accédez à la répartition des salles, aux convocations et aux informations pratiques pour l'épreuve de mathématiques.",
+  footerLabel: "Voir le planning",
+};
+
