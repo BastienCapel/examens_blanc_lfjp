@@ -182,7 +182,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   {
     teacher: "NDOYE A.",
     datetime: "vendredi 13/02 à 09h00",
-    room: "S11",
+    room: "S12",
     mission: "Bac blanc de mathématiques",
     duration: "4:00:00",
     type: "mathematiques",
@@ -197,7 +197,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   },
 ];
 
-export const roomColumns = ["S10", "S11", "S11 COOP", "S14"] as const;
+export const roomColumns = ["S10", "S12", "S11 COOP", "S14"] as const;
 
 export type RoomColumn = (typeof roomColumns)[number];
 
@@ -228,7 +228,7 @@ export const roomSchedule: RoomScheduleDay[] = [
           highlight: true,
         },
       ],
-      S11: [
+      S12: [
         {
           time: "09h00 - 13h00",
           teacher: "NDOYE A.",
