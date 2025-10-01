@@ -21,13 +21,13 @@ export default function HomeHero({
   return (
     <div className="max-w-4xl space-y-6">
       {hasLogos ? (
-        <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+        <div className="flex w-full flex-wrap items-center justify-center gap-4 sm:gap-6">
           {logos?.map((logo) => (
             <img
               key={logo.src}
               src={logo.src}
               alt={logo.alt ?? ""}
-              className="h-16 w-auto flex-shrink-0 rounded-lg border border-slate-200 bg-white object-contain shadow-sm"
+              className="h-24 w-auto rounded-lg border border-slate-200 bg-white object-contain shadow-sm sm:h-28"
               loading="lazy"
             />
           ))}
