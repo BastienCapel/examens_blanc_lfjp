@@ -4,7 +4,11 @@ import HomeCallToActionCard from "../components/HomeCallToActionCard";
 import HomeEventMeta from "../components/HomeEventMeta";
 import HomeHero from "../components/HomeHero";
 import HomeLayout from "../components/HomeLayout";
-import { HOME_DASHBOARD_ENTRY, HOME_PAGE_CONTENT } from "../constants";
+import {
+  HOME_DASHBOARD_ENTRY,
+  HOME_MATH_EXAM_ENTRY,
+  HOME_PAGE_CONTENT,
+} from "../constants";
 
 export default function HomePage() {
   return (
@@ -16,24 +20,20 @@ export default function HomePage() {
         description={HOME_PAGE_CONTENT.description}
       />
 
-      <div className="flex w-full max-w-3xl flex-col items-center gap-6">
-        <HomeCallToActionCard
-          to={HOME_DASHBOARD_ENTRY.to}
-          icon={GraduationCap}
-          iconLabel={HOME_DASHBOARD_ENTRY.iconLabel}
-          subtitle={HOME_DASHBOARD_ENTRY.subtitle}
-          title={HOME_DASHBOARD_ENTRY.title}
-          description={HOME_DASHBOARD_ENTRY.description}
-          footerLabel={HOME_DASHBOARD_ENTRY.footerLabel}
-          meta={
-            <HomeEventMeta
-              icon={CalendarDays}
-              label={HOME_DASHBOARD_ENTRY.dateLabel}
-              description=""
-            />
-          }
-        />
-
+      <div className="grid w-full max-w-4xl grid-cols-1 gap-6 lg:grid-cols-2">
+        {[HOME_DASHBOARD_ENTRY, HOME_MATH_EXAM_ENTRY].map((entry) => (
+          <HomeCallToActionCard
+            key={entry.to}
+            to={entry.to}
+            icon={GraduationCap}
+            iconLabel={entry.iconLabel}
+            subtitle={entry.subtitle}
+            title={entry.title}
+            description={entry.description}
+            footerLabel={entry.footerLabel}
+            meta={<HomeEventMeta icon={CalendarDays} label={entry.dateLabel} description="" />}
+          />
+        ))}
       </div>
     </HomeLayout>
   );
