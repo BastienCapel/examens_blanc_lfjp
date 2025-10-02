@@ -353,6 +353,8 @@ export const bacBlancEAFDashboardData20260407: MathExamDashboardData = {
         "RISPAL Charlie",
         "NDOUR Fatou",
         "SOBLOG Oscar",
+        "FALL CLAMENS Omar",
+        "ZARB Frédy",
       ],
       note: "Informer la vie scolaire de tout besoin complémentaire avant le 3 avril.",
       noteClasses: "bg-amber-100/70 text-amber-900",
