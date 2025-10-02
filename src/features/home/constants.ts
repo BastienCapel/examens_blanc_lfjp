@@ -49,7 +49,7 @@ export const HOME_EAF_EXAM_20260407_ENTRY = {
   to: "/examens-blancs/eaf-2026-04-07",
   iconLabel: "Consulter l'organisation du bac blanc EAF",
   subtitle: "",
-  title: "Bac blanc EAF 2nde & Terminale",
+  title: "Bac blanc EAF 1re & Terminale",
   dateLabel: "7 au 10 avril 2026",
   description:
     "Accédez aux répartitions, convocations et consignes pour les épreuves de français, philosophie et spécialités.",
