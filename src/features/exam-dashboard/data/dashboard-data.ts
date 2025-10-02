@@ -230,7 +230,6 @@ export const accommodationGroups: AccommodationGroup[] = [
     description: "Liste des élèves avec aménagements d'examen :",
     students: [
       "JENOUDET Thiméo",
-      "Owen Thibault",
       "SARR Sokhna Faty",
       "KERDUDO Zeina",
     ],
