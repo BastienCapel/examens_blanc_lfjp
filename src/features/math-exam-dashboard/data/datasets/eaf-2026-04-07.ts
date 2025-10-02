@@ -326,7 +326,8 @@ export const bacBlancEAFDashboardData20260407: MathExamDashboardData = {
   header: {
     title: "Bac blanc EAF – 1re et Terminale",
     date: "Du mardi 7 au vendredi 10 avril 2026",
-    subtitle: "Sessions de français, philosophie et spécialités",
+    subtitle:
+      "Mardi : EAF (1re) · Mercredi : Philosophie (Terminale) · Jeudi : Spécialité n°1 · Vendredi : Spécialité n°2",
   },
   keyFigures: [
     { value: "6", label: "Salles mobilisées" },
