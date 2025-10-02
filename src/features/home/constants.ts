@@ -21,6 +21,8 @@ export interface HomeCalloutEntry {
   title: string;
   dateLabel: string;
   date: string;
+  deadlineLabel: string;
+  deadlineDate: string;
   description: string;
   footerLabel: string;
   category: HomeCalloutCategory;
@@ -33,6 +35,8 @@ export const HOME_DASHBOARD_ENTRY: HomeCalloutEntry = {
   title: "Baccalauréat blanc 1ère et Terminale",
   dateLabel: "10, 11 et 12 décembre 2025",
   date: "2025-12-10",
+  deadlineLabel: "1er décembre 2025",
+  deadlineDate: "2025-12-01",
   description:
     "Cliquez pour accéder à la préparation détaillée des épreuves, aux répartitions des salles et aux outils pédagogiques.",
   footerLabel: "Accéder à l'organisation complète",
@@ -46,6 +50,8 @@ export const HOME_MATH_EXAM_20260213_ENTRY: HomeCalloutEntry = {
   title: "Bac blanc de mathématiques",
   dateLabel: "13 février 2026",
   date: "2026-02-13",
+  deadlineLabel: "6 février 2026",
+  deadlineDate: "2026-02-06",
   description:
     "Accédez à la répartition des salles, aux convocations et aux informations pratiques pour l'épreuve de mathématiques.",
   footerLabel: "Accéder à l'organisation complète",
@@ -59,6 +65,8 @@ export const HOME_MATH_EXAM_20260523_ENTRY: HomeCalloutEntry = {
   title: "Bac blanc de mathématiques 1ère",
   dateLabel: "23 mai 2026",
   date: "2026-05-23",
+  deadlineLabel: "15 mai 2026",
+  deadlineDate: "2026-05-15",
   description:
     "Toutes les affectations de salles, convocations et consignes pour l'épreuve de mathématiques des classes de 1ère.",
   footerLabel: "Accéder à l'organisation complète",
@@ -72,6 +80,8 @@ export const HOME_EAF_EXAM_20260407_ENTRY: HomeCalloutEntry = {
   title: "Baccalauréat blanc 1ère et Terminale",
   dateLabel: "7 au 10 avril 2026",
   date: "2026-04-07",
+  deadlineLabel: "24 mars 2026",
+  deadlineDate: "2026-03-24",
   description:
     "Cliquez pour accéder à la préparation détaillée des épreuves, aux répartitions des salles et aux consignes : mardi EAF (1re), mercredi philosophie (Terminale), jeudi spécialité n°1, vendredi spécialité n°2.",
   footerLabel: "Accéder à l'organisation complète",

@@ -328,6 +328,10 @@ export const bacBlancEAFDashboardData20260407: MathExamDashboardData = {
     date: "Du mardi 7 au vendredi 10 avril 2026",
     subtitle:
       "Mardi : EAF (1re) · Mercredi : Philosophie (Terminale) · Jeudi : Spécialité n°1 · Vendredi : Spécialité n°2",
+    reprographyDeadline: {
+      label: "24 mars 2026",
+      date: "2026-03-24",
+    },
   },
   keyFigures: [
     { value: "6", label: "Salles mobilisées" },

@@ -1,3 +1,5 @@
+import { CalendarClock } from "lucide-react";
+
 export default function Header() {
   return (
     <header className="space-y-4">
@@ -19,6 +21,10 @@ export default function Header() {
         </div>
       </div>
       <p className="text-lg text-slate-600">10, 11 et 12 Décembre 2025</p>
+      <div className="flex items-center gap-3 text-sm text-slate-600 sm:text-base">
+        <CalendarClock className="h-5 w-5 text-slate-500" aria-hidden="true" />
+        <span>Transmission des sujets à la direction avant le 1er décembre 2025 pour reprographie.</span>
+      </div>
     </header>
   );
 }
