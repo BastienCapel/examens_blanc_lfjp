@@ -356,8 +356,6 @@ export const bacBlancEAFDashboardData20260407: MathExamDashboardData = {
         "FALL CLAMENS Omar",
         "ZARB Frédy",
       ],
-      note: "Informer la vie scolaire de tout besoin complémentaire avant le 3 avril.",
-      noteClasses: "bg-amber-100/70 text-amber-900",
     },
     {
       icon: { Icon: BookOpen, bg: "bg-sky-100", color: "text-sky-700" },
@@ -368,8 +366,6 @@ export const bacBlancEAFDashboardData20260407: MathExamDashboardData = {
         "SARR Sokhna Faty",
         "KERDUDO Zeina",
       ],
-      note: "Derniers justificatifs attendus pour finalisation le 28 mars.",
-      noteClasses: "bg-blue-100/70 text-blue-900",
     },
   ],
   teacherDirectory,
