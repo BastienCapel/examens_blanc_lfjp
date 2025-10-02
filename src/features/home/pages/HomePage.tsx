@@ -1,4 +1,4 @@
-import { CalendarDays, Calculator, GraduationCap } from "lucide-react";
+import { CalendarClock, CalendarDays, Calculator, GraduationCap } from "lucide-react";
 
 import HomeCallToActionCard from "../components/HomeCallToActionCard";
 import HomeEventMeta from "../components/HomeEventMeta";
@@ -39,7 +39,16 @@ export default function HomePage() {
               title={entry.title}
               description={entry.description}
               footerLabel={entry.footerLabel}
-              meta={<HomeEventMeta icon={CalendarDays} label={entry.dateLabel} description="" />}
+              meta={
+                <div className="space-y-2 text-left">
+                  <HomeEventMeta icon={CalendarDays} label={entry.dateLabel} description="" />
+                  <HomeEventMeta
+                    icon={CalendarClock}
+                    label={`Sujets à transmettre avant le ${entry.deadlineLabel}`}
+                    description="Direction & reprographie"
+                  />
+                </div>
+              }
             />
           );
         })}

@@ -60,6 +60,10 @@ export const mathExamDashboardData20260523: MathExamDashboardData = {
   header: {
     title: "Bac blanc de mathématiques 1ère",
     date: "Samedi 23 mai 2026 • 11h10",
+    reprographyDeadline: {
+      label: "15 mai 2026",
+      date: "2026-05-15",
+    },
   },
   keyFigures: [
     { value: "4", label: "Salles mobilisées" },
