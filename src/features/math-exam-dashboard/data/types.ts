@@ -17,7 +17,12 @@ export interface TeacherDirectorySourceEntry {
   firstName: string;
 }
 
-export type SurveillanceType = "mathematiques" | "support";
+export type SurveillanceType =
+  | "mathematiques"
+  | "support"
+  | "eaf"
+  | "specialite"
+  | "philosophie";
 
 export interface TypeVariant {
   label: string;
