@@ -1,12 +1,22 @@
-import { CalendarDays, GraduationCap } from "lucide-react";
+import { CalendarDays, Calculator, GraduationCap } from "lucide-react";
 
 import HomeCallToActionCard from "../components/HomeCallToActionCard";
 import HomeEventMeta from "../components/HomeEventMeta";
 import HomeHero from "../components/HomeHero";
 import HomeLayout from "../components/HomeLayout";
+import type { HomeCalloutEntry } from "../constants";
 import { HOME_CALLOUT_ENTRIES, HOME_PAGE_CONTENT } from "../constants";
 
 export default function HomePage() {
+  const calloutEntries = [...HOME_CALLOUT_ENTRIES].sort((a, b) =>
+    new Date(a.date).getTime() - new Date(b.date).getTime(),
+  );
+
+  const iconByCategory: Record<HomeCalloutEntry["category"], typeof GraduationCap> = {
+    general: GraduationCap,
+    math: Calculator,
+  };
+
   return (
     <HomeLayout>
       <HomeHero
@@ -17,19 +27,22 @@ export default function HomePage() {
       />
 
       <div className="grid w-full max-w-4xl grid-cols-1 gap-6 lg:grid-cols-2">
-        {HOME_CALLOUT_ENTRIES.map((entry) => (
-          <HomeCallToActionCard
-            key={entry.to}
-            to={entry.to}
-            icon={GraduationCap}
-            iconLabel={entry.iconLabel}
-            subtitle={entry.subtitle}
-            title={entry.title}
-            description={entry.description}
-            footerLabel={entry.footerLabel}
-            meta={<HomeEventMeta icon={CalendarDays} label={entry.dateLabel} description="" />}
-          />
-        ))}
+        {calloutEntries.map((entry) => {
+          const Icon = iconByCategory[entry.category];
+          return (
+            <HomeCallToActionCard
+              key={entry.to}
+              to={entry.to}
+              icon={Icon}
+              iconLabel={entry.iconLabel}
+              subtitle={entry.subtitle}
+              title={entry.title}
+              description={entry.description}
+              footerLabel={entry.footerLabel}
+              meta={<HomeEventMeta icon={CalendarDays} label={entry.dateLabel} description="" />}
+            />
+          );
+        })}
       </div>
     </HomeLayout>
   );
