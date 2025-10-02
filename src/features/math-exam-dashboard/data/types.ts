@@ -91,6 +91,9 @@ export interface MathExamDashboardData {
     title: string;
     date: string;
     subtitle?: string;
+    reprographyDeadline?: {
+      label: string;
+    };
   };
   keyFigures: KeyFigure[];
   accommodationGroups: AccommodationGroup[];

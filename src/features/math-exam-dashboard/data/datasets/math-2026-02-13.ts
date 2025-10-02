@@ -60,6 +60,9 @@ export const mathExamDashboardData20260213: MathExamDashboardData = {
   header: {
     title: "Bac blanc de mathématiques",
     date: "Vendredi 13 février 2026 • 09h00",
+    reprographyDeadline: {
+      label: "Vendredi 6 février 2026",
+    },
   },
   keyFigures: [
     { value: "4", label: "Salles mobilisées" },
