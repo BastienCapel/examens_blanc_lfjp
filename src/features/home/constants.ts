@@ -67,13 +67,13 @@ export const HOME_MATH_EXAM_20260523_ENTRY: HomeCalloutEntry = {
 
 export const HOME_EAF_EXAM_20260407_ENTRY: HomeCalloutEntry = {
   to: "/examens-blancs/eaf-2026-04-07",
-  iconLabel: "Consulter l'organisation du bac blanc EAF",
+  iconLabel: "Accéder à l'organisation du baccalauréat blanc 1ère et Terminale",
   subtitle: "",
-  title: "Bac blanc EAF 1re & Terminale",
+  title: "Baccalauréat blanc 1ère et Terminale",
   dateLabel: "7 au 10 avril 2026",
   date: "2026-04-07",
   description:
-    "Accédez aux répartitions, convocations et consignes : mardi EAF (1re), mercredi philosophie (Terminale), jeudi spécialité n°1, vendredi spécialité n°2.",
+    "Cliquez pour accéder à la préparation détaillée des épreuves, aux répartitions des salles et aux consignes : mardi EAF (1re), mercredi philosophie (Terminale), jeudi spécialité n°1, vendredi spécialité n°2.",
   footerLabel: "Accéder à l'organisation complète",
   category: "general",
 };
