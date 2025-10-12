@@ -38,9 +38,9 @@ export const HOME_DASHBOARD_ENTRY: HomeCalloutEntry = {
 
 export const HOME_MATH_EXAM_20260213_ENTRY: HomeCalloutEntry = {
   to: "/examens-blancs/mathematiques-2026-02-13",
-  iconLabel: "Consulter l'organisation du bac blanc de mathématiques 1ère",
+  iconLabel: "Consulter l'organisation du bac blanc de maths 1ère",
   subtitle: "",
-  title: "Bac blanc de mathématiques 1ère",
+  title: "Bac blanc de maths 1ère",
   dateLabel: "13 février 2026",
   date: "2026-02-13",
   footerLabel: "Accéder à l'organisation complète",
@@ -49,9 +49,9 @@ export const HOME_MATH_EXAM_20260213_ENTRY: HomeCalloutEntry = {
 
 export const HOME_MATH_EXAM_20260523_ENTRY: HomeCalloutEntry = {
   to: "/examens-blancs/mathematiques-2026-05-23",
-  iconLabel: "Consulter l'organisation du bac blanc de mathématiques 1ère",
+  iconLabel: "Consulter l'organisation du bac blanc de maths 1ère",
   subtitle: "",
-  title: "Bac blanc de mathématiques 1ère",
+  title: "Bac blanc de maths 1ère",
   dateLabel: "23 mai 2026",
   date: "2026-05-23",
   footerLabel: "Accéder à l'organisation complète",
