@@ -21,7 +21,6 @@ export interface HomeCalloutEntry {
   title: string;
   dateLabel: string;
   date: string;
-  description: string;
   footerLabel: string;
   category: HomeCalloutCategory;
 }
@@ -33,21 +32,17 @@ export const HOME_DASHBOARD_ENTRY: HomeCalloutEntry = {
   title: "Baccalauréat blanc 1ère et Terminale",
   dateLabel: "10, 11 et 12 décembre 2025",
   date: "2025-12-10",
-  description:
-    "Cliquez pour accéder à la préparation détaillée des épreuves, aux répartitions des salles et aux outils pédagogiques.",
   footerLabel: "Accéder à l'organisation complète",
   category: "general",
 };
 
 export const HOME_MATH_EXAM_20260213_ENTRY: HomeCalloutEntry = {
   to: "/examens-blancs/mathematiques-2026-02-13",
-  iconLabel: "Consulter l'organisation du bac blanc de mathématiques",
+  iconLabel: "Consulter l'organisation du bac blanc de mathématiques 1ère",
   subtitle: "",
-  title: "Bac blanc de mathématiques",
+  title: "Bac blanc de mathématiques 1ère",
   dateLabel: "13 février 2026",
   date: "2026-02-13",
-  description:
-    "Accédez à la répartition des salles, aux convocations et aux informations pratiques pour l'épreuve de mathématiques.",
   footerLabel: "Accéder à l'organisation complète",
   category: "math",
 };
@@ -59,8 +54,6 @@ export const HOME_MATH_EXAM_20260523_ENTRY: HomeCalloutEntry = {
   title: "Bac blanc de mathématiques 1ère",
   dateLabel: "23 mai 2026",
   date: "2026-05-23",
-  description:
-    "Toutes les affectations de salles, convocations et consignes pour l'épreuve de mathématiques des classes de 1ère.",
   footerLabel: "Accéder à l'organisation complète",
   category: "math",
 };
@@ -72,8 +65,6 @@ export const HOME_EAF_EXAM_20260407_ENTRY: HomeCalloutEntry = {
   title: "Baccalauréat blanc 1ère et Terminale",
   dateLabel: "7 au 10 avril 2026",
   date: "2026-04-07",
-  description:
-    "Cliquez pour accéder à la préparation détaillée des épreuves, aux répartitions des salles et aux consignes : mardi EAF (1re), mercredi philosophie (Terminale), jeudi spécialité n°1, vendredi spécialité n°2.",
   footerLabel: "Accéder à l'organisation complète",
   category: "general",
 };
