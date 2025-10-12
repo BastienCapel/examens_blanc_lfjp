@@ -26,7 +26,7 @@ export default function HomePage() {
         description={HOME_PAGE_CONTENT.description}
       />
 
-      <div className="grid w-full max-w-4xl grid-cols-1 gap-6 lg:grid-cols-2">
+      <div className="grid w-full max-w-5xl grid-cols-1 gap-6 lg:grid-cols-2">
         {calloutEntries.map((entry) => {
           const Icon = iconByCategory[entry.category];
           return (

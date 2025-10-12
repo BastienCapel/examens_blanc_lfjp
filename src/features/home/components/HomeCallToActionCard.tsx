@@ -24,15 +24,15 @@ export default function HomeCallToActionCard({
   return (
     <Link
       to={to}
-      className="group relative w-full max-w-2xl overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 text-left shadow-lg transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl"
+      className="group relative w-full overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 text-left shadow-lg transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl sm:p-10"
       aria-label={iconLabel}
     >
       <div className="absolute -left-24 -top-24 h-48 w-48 rounded-full bg-sky-200/60 blur-3xl transition-opacity duration-300 group-hover:opacity-60" />
       <div className="absolute -bottom-16 -right-16 h-56 w-56 rounded-full bg-indigo-200/70 blur-3xl transition-opacity duration-300 group-hover:opacity-60" />
 
       <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-8">
-        <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-500 text-white shadow-lg">
-          <Icon className="h-12 w-12" aria-hidden="true" />
+        <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-500 text-white shadow-lg">
+          <Icon className="h-10 w-10 flex-shrink-0" strokeWidth={1.6} aria-hidden="true" />
         </div>
 
         <div className="space-y-3">
