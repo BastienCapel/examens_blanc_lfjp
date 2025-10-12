@@ -37,7 +37,6 @@ export default function HomePage() {
               iconLabel={entry.iconLabel}
               subtitle={entry.subtitle}
               title={entry.title}
-              description={entry.description}
               footerLabel={entry.footerLabel}
               meta={<HomeEventMeta icon={CalendarDays} label={entry.dateLabel} description="" />}
             />

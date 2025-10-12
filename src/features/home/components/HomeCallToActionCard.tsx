@@ -8,7 +8,6 @@ interface HomeCallToActionCardProps {
   iconLabel: string;
   title: string;
   subtitle?: string;
-  description: string;
   footerLabel: string;
   meta?: ReactNode;
 }
@@ -19,7 +18,6 @@ export default function HomeCallToActionCard({
   iconLabel,
   title,
   subtitle,
-  description,
   footerLabel,
   meta,
 }: HomeCallToActionCardProps) {
@@ -45,7 +43,6 @@ export default function HomeCallToActionCard({
           ) : null}
           <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">{title}</h2>
           {meta}
-          <p className="text-sm text-slate-500 sm:text-base">{description}</p>
         </div>
       </div>
 
