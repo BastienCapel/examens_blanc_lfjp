@@ -32,7 +32,7 @@ export default function HomeCallToActionCard({
 
       <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-8">
         <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-500 text-white shadow-lg">
-          <Icon className="h-12 w-12" aria-hidden="true" />
+          <Icon className="h-14 w-14" strokeWidth={1.6} aria-hidden="true" />
         </div>
 
         <div className="space-y-3">
