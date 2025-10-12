@@ -31,8 +31,8 @@ export default function HomeCallToActionCard({
       <div className="absolute -bottom-16 -right-16 h-56 w-56 rounded-full bg-indigo-200/70 blur-3xl transition-opacity duration-300 group-hover:opacity-60" />
 
       <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-8">
-        <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-500 text-white shadow-lg">
-          <Icon className="h-14 w-14" strokeWidth={1.6} aria-hidden="true" />
+        <div className="flex h-24 w-24 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-500 text-white shadow-lg">
+          <Icon className="h-14 w-14 flex-shrink-0" strokeWidth={1.6} aria-hidden="true" />
         </div>
 
         <div className="space-y-3">
