@@ -329,7 +329,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
     type: "philosophie",
   },
   {
-    teacher: "FALL B.",
+    teacher: "GOMIS A.",
     datetime: "jeudi 11/12 à 08h00",
     room: "S9 PRIO / EPS",
     mission: "Bac blanc : Enseignement de spécialité N°1",
@@ -345,7 +345,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
     type: "philosophie",
   },
   {
-    teacher: "FALL B.",
+    teacher: "GOMIS A.",
     datetime: "vendredi 12/12 à 10h00",
     room: "Salles 9, 11, 12, 13, 14, 15",
     mission:
@@ -363,7 +363,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
     type: "support",
   },
   {
-    teacher: "GOMIS A.",
+    teacher: "FALL B.",
     datetime: "jeudi 11/12 à 14h05",
     room: "S15",
     mission: "Bac blanc EAF",
@@ -379,7 +379,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
     type: "philosophie",
   },
   {
-    teacher: "GOMIS A.",
+    teacher: "FALL B.",
     datetime: "vendredi 12/12 à 08h00",
     room: "S13",
     mission: "Bac blanc : Enseignement de spécialité N°2",
@@ -451,6 +451,15 @@ export const surveillanceSchedule: SurveillanceMission[] = [
     mission:
       "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause",
     duration: "2:00:00",
+    type: "support",
+  },
+  {
+    teacher: "DAVID V.",
+    datetime: "vendredi 12/12 à 11h10",
+    room: "Salles 9, 11, 12, 13, 14, 15",
+    mission:
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause",
+    duration: "1:00:00",
     type: "support",
   },
   {
@@ -591,7 +600,7 @@ export const roomSchedule: RoomScheduleDay[] = [
         {
           label: "Matin",
           time: "08h00 - 13h00",
-          teacher: "FALL B.",
+          teacher: "GOMIS A.",
           detail: "Spécialité N°1",
           highlight: true,
           type: "specialite",
@@ -686,7 +695,7 @@ export const roomSchedule: RoomScheduleDay[] = [
         {
           label: "Après-midi",
           time: "14h05 - 18h05",
-          teacher: "GOMIS A.",
+          teacher: "FALL B.",
           detail: "EAF",
           type: "eaf",
         },
@@ -731,7 +740,7 @@ export const roomSchedule: RoomScheduleDay[] = [
       S13: [
         {
           time: "08h00 - 12h00",
-          teacher: "GOMIS A.",
+          teacher: "FALL B.",
           detail: "Spécialité N°2",
           type: "specialite",
         },
