@@ -297,7 +297,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   },
   {
     teacher: "CAPEL E.",
-    datetime: "vendredi 12/12 à 08h00",
+    datetime: "vendredi 12/04 à 08h00",
     room: "S11",
     mission: "Bac blanc : Enseignement de spécialité N°2",
     duration: "4:00:00",
@@ -355,10 +355,10 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   },
   {
     teacher: "FRAYON A., GIBUS A.",
-    datetime: "mercredi 10/12 à 10h00",
-    room: "Salles 9, 11, 12, 13, 14, 15",
+    datetime: "mercredi 10/04 à 10h00",
+    room: "Salles 9, 12, 13, 14, 15",
     mission:
-      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause",
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause Salle 9, 12, 13, 14, 15",
     duration: "2:00:00",
     type: "support",
   },
@@ -430,7 +430,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   },
   {
     teacher: "MICHON GUILLAUME M.",
-    datetime: "jeudi 11/12 à 08h00",
+    datetime: "lundi 08/04 à 08h00",
     room: "S14",
     mission: "Bac blanc : Enseignement de spécialité N°1",
     duration: "4:00:00",
@@ -438,7 +438,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   },
   {
     teacher: "MICHON GUILLAUME M.",
-    datetime: "mercredi 10/12 à 08h00",
+    datetime: "mercredi 10/04 à 08h00",
     room: "S14",
     mission: "Bac blanc de philosophie",
     duration: "4:00:00",
@@ -446,10 +446,10 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   },
   {
     teacher: "MICHON GUILLAUME M.",
-    datetime: "vendredi 12/12 à 09h00",
-    room: "Salles 9, 11, 12, 13, 14, 15",
+    datetime: "vendredi 12/04 à 09h00",
+    room: "Salles 9, 12, 13, 14, 15",
     mission:
-      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause",
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause Salle 9, 12, 13, 14, 15",
     duration: "2:00:00",
     type: "support",
   },
