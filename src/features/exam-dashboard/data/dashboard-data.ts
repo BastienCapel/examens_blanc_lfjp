@@ -297,7 +297,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   },
   {
     teacher: "CAPEL E.",
-    datetime: "vendredi 12/04 à 08h00",
+    datetime: "vendredi 12/12 à 08h00",
     room: "S15",
     mission: "Bac blanc : Enseignement de spécialité N°2",
     duration: "4:00:00",
@@ -355,7 +355,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   },
   {
     teacher: "FRAYON A., GIBUS A.",
-    datetime: "mercredi 10/04 à 10h00",
+    datetime: "mercredi 10/12 à 10h00",
     room: "Salles 9, 12, 13, 14, 15",
     mission:
       "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause Salle 9, 12, 13, 14, 15",
@@ -430,7 +430,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   },
   {
     teacher: "MICHON GUILLAUME M.",
-    datetime: "lundi 08/04 à 08h00",
+    datetime: "lundi 08/12 à 08h00",
     room: "S14",
     mission: "Bac blanc : Enseignement de spécialité N°1",
     duration: "4:00:00",
@@ -438,7 +438,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   },
   {
     teacher: "MICHON GUILLAUME M.",
-    datetime: "mercredi 10/04 à 08h00",
+    datetime: "mercredi 10/12 à 08h00",
     room: "S14",
     mission: "Bac blanc de philosophie",
     duration: "4:00:00",
@@ -446,7 +446,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   },
   {
     teacher: "MICHON GUILLAUME M.",
-    datetime: "vendredi 12/04 à 09h00",
+    datetime: "vendredi 12/12 à 09h00",
     room: "Salles 9, 12, 13, 14, 15",
     mission:
       "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause Salle 9, 12, 13, 14, 15",
@@ -720,14 +720,7 @@ export const roomSchedule: RoomScheduleDay[] = [
           type: "specialite",
         },
       ],
-      S11: [
-        {
-          time: "08h00 - 12h00",
-          teacher: "CAPEL E.",
-          detail: "Spécialité N°2",
-          type: "specialite",
-        },
-      ],
+      S11: [],
       S12: [
         {
           time: "08h00 - 12h00",
@@ -752,7 +745,14 @@ export const roomSchedule: RoomScheduleDay[] = [
           type: "specialite",
         },
       ],
-      S15: [],
+      S15: [
+        {
+          time: "08h00 - 12h00",
+          teacher: "CAPEL E.",
+          detail: "Spécialité N°2",
+          type: "specialite",
+        },
+      ],
     },
   },
 ];
