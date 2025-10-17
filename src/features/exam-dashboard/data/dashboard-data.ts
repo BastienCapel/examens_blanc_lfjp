@@ -298,7 +298,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   {
     teacher: "CAPEL E.",
     datetime: "vendredi 12/04 à 08h00",
-    room: "S11",
+    room: "S15",
     mission: "Bac blanc : Enseignement de spécialité N°2",
     duration: "4:00:00",
     type: "specialite",
