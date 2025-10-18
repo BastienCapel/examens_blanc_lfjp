@@ -187,7 +187,7 @@ const roomSchedule: RoomScheduleDay[] = [
         {
           label: "Matin",
           time: "08h00 - 12h00",
-          teacher: "MICHON G. M.",
+          teacher: "CAPEL E.",
           detail: "Spécialité N°1",
           type: "specialite",
           highlight: true,
@@ -339,7 +339,7 @@ export const bacBlancEAFDashboardData20260407: MathExamDashboardData = {
       extra: "31 missions planifiées",
     },
     {
-      value: "107,5",
+      value: "108,0",
       unit: "h",
       label: "Surveillance cumulée",
       extra: "Inclut les missions de renfort",
@@ -525,7 +525,7 @@ export const bacBlancEAFDashboardData20260407: MathExamDashboardData = {
       type: "specialite",
     },
     {
-      teacher: "MICHON GUILLAUME M.",
+      teacher: "CAPEL E.",
       datetime: "jeudi 09/04 à 08h00",
       room: "S13",
       mission: "Bac blanc : Enseignement de spécialité N°1",
@@ -549,11 +549,11 @@ export const bacBlancEAFDashboardData20260407: MathExamDashboardData = {
       type: "support",
     },
     {
-      teacher: "CAPEL E.",
+      teacher: "FRAYON A.",
       datetime: "jeudi 09/04 à 10h00",
       room: "Salles 9, 12, 13, 14, 15",
       mission: "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause",
-      duration: "2:00:00",
+      duration: "1:30:00",
       type: "support",
     },
     {
