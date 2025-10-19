@@ -1,6 +1,7 @@
 import {
   Announcements,
   BackToHomeButton,
+  CulturalPrograms,
   ConvocationGenerator,
   ExamDashboard,
   ExamDashboardPageLayout,
@@ -16,6 +17,7 @@ export default function ExamDashboardPage() {
     <ExamDashboardPageLayout action={<BackToHomeButton />}>
       <Header />
       <Hero />
+      <CulturalPrograms />
       <ExamDashboard>
         <RoomSetup />
         <SurveillanceTable />
