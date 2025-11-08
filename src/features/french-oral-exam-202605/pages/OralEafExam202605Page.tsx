@@ -255,10 +255,7 @@ export default function OralEafExam202605Page() {
                     La préparation de 30&nbsp;minutes s'effectue dans la salle, devant le jury, pendant que le candidat
                     précédent termine son oral de 30&nbsp;minutes (dont 10&nbsp;minutes d'entretien).
                   </li>
-                  <li>
-                    Chaque jury accueille au maximum 10 candidats par jour ; veillez à équilibrer les répartitions entre les
-                    jurys et sur l'ensemble des journées.
-                  </li>
+                  <li>Chaque jury accueille au maximum 10 candidats par jour.</li>
                   <li>
                     Les oraux débutent le 1er&nbsp;mai et la convocation fait foi pour justifier l'absence en cours des
                     élèves concernés.
