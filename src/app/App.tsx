@@ -14,6 +14,9 @@ const MathematicsExam20260523Page = lazy(
 const BacBlancEAF20260407Page = lazy(
   () => import("../features/math-exam-dashboard/pages/BacBlancEAF20260407Page"),
 );
+const OralEafExam202605Page = lazy(
+  () => import("../features/french-oral-exam-202605/pages/OralEafExam202605Page"),
+);
 
 export default function App() {
   return (
@@ -32,6 +35,10 @@ export default function App() {
         <Route
           path="/examens-blancs/eaf-2026-04-07"
           element={<BacBlancEAF20260407Page />}
+        />
+        <Route
+          path="/examens-blancs/oraux-eaf-2026-05"
+          element={<OralEafExam202605Page />}
         />
       </Routes>
     </Suspense>

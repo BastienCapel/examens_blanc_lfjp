@@ -69,10 +69,22 @@ export const HOME_EAF_EXAM_20260407_ENTRY: HomeCalloutEntry = {
   category: "general",
 };
 
+export const HOME_EAF_ORAL_202605_ENTRY: HomeCalloutEntry = {
+  to: "/examens-blancs/oraux-eaf-2026-05",
+  iconLabel: "Consulter l'organisation des oraux blancs de français",
+  subtitle: "",
+  title: "Oraux blancs EAF 1ère",
+  dateLabel: "11, 12 et 13 mai 2026",
+  date: "2026-05-11",
+  footerLabel: "Accéder au planning détaillé",
+  category: "general",
+};
+
 export const HOME_CALLOUT_ENTRIES: HomeCalloutEntry[] = [
   HOME_DASHBOARD_ENTRY,
   HOME_MATH_EXAM_20260213_ENTRY,
   HOME_EAF_EXAM_20260407_ENTRY,
+  HOME_EAF_ORAL_202605_ENTRY,
   HOME_MATH_EXAM_20260523_ENTRY,
 ];
 
