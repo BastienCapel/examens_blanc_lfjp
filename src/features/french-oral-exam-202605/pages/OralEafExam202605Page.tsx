@@ -257,8 +257,8 @@ export default function OralEafExam202605Page() {
                   </li>
                   <li>Chaque jury accueille au maximum 10 candidats par jour.</li>
                   <li>
-                    Les oraux débutent le 1er&nbsp;mai et la convocation fait foi pour justifier l'absence en cours des
-                    élèves concernés.
+                    Les oraux s'étalent du 11 au 13&nbsp;mai et la convocation fait foi pour justifier l'absence en cours
+                    des élèves concernés.
                   </li>
                   <li>
                     Une feuille d'émargement est à faire signer à l'issue de chaque passage pour attester la présence du
