@@ -1,4 +1,10 @@
-import { CalendarDays, Calculator, GraduationCap } from "lucide-react";
+import {
+  CalendarDays,
+  Calculator,
+  GraduationCap,
+  Mic,
+  type LucideIcon,
+} from "lucide-react";
 
 import HomeCallToActionCard from "../components/HomeCallToActionCard";
 import HomeEventMeta from "../components/HomeEventMeta";
@@ -12,9 +18,10 @@ export default function HomePage() {
     new Date(a.date).getTime() - new Date(b.date).getTime(),
   );
 
-  const iconByCategory: Record<HomeCalloutEntry["category"], typeof GraduationCap> = {
+  const iconByCategory: Record<HomeCalloutEntry["category"], LucideIcon> = {
     general: GraduationCap,
     math: Calculator,
+    oral: Mic,
   };
 
   return (
