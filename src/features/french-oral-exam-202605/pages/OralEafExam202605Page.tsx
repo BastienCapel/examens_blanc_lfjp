@@ -243,15 +243,34 @@ export default function OralEafExam202605Page() {
               <div className="space-y-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
                 <h2 className="text-2xl font-semibold text-slate-900">Organisation générale</h2>
                 <p className="text-slate-600">
-                  Les oraux se déroulent sur trois journées consécutives avec un premier passage dès 8&nbsp;h. Chaque
-                  candidat est attendu 30 minutes avant son passage pour l'accueil, l'installation et la préparation de la
-                  salle. Merci de respecter scrupuleusement les horaires de convocation afin de garantir la fluidité de la
-                  journée.
+                  Les oraux blancs se tiennent sur trois journées consécutives avec un premier passage dès 8&nbsp;h. Chaque
+                  candidat se présente directement dans la salle de son jury 30 minutes avant son horaire de convocation :
+                  aucune préparation de salle n'est requise et aucun dossier individuel n'est à apporter.
                 </p>
                 <ul className="list-disc space-y-2 pl-5 text-slate-600">
-                  <li>Accueil des candidats au rez-de-chaussée du bâtiment des Humanités 15 minutes avant leur convocation.</li>
-                  <li>Dossiers individuels et textes vus en classe à remettre au jury dès l'installation du candidat.</li>
-                  <li>Un responsable de niveau est présent chaque matin pour fluidifier l'installation et gérer les imprévus.</li>
+                  <li>
+                    Trois jurys distincts — Mme&nbsp;FALL, Mme&nbsp;MOURANDIOP et M.&nbsp;BARTOU — chacun dans une salle dédiée.
+                  </li>
+                  <li>
+                    La préparation de 30&nbsp;minutes s'effectue dans la salle, devant le jury, pendant que le candidat
+                    précédent termine son oral de 30&nbsp;minutes (dont 10&nbsp;minutes d'entretien).
+                  </li>
+                  <li>
+                    Chaque jury accueille au maximum 10 candidats par jour ; veillez à équilibrer les répartitions entre les
+                    jurys et sur l'ensemble des journées.
+                  </li>
+                  <li>
+                    Les oraux débutent le 1er&nbsp;mai et la convocation fait foi pour justifier l'absence en cours des
+                    élèves concernés.
+                  </li>
+                  <li>
+                    Une feuille d'émargement est à faire signer à l'issue de chaque passage pour attester la présence du
+                    candidat.
+                  </li>
+                  <li>
+                    Les emplois du temps des personnels sont banalisés pour la session ; ceux des élèves restent maintenus en
+                    dehors de leur convocation.
+                  </li>
                 </ul>
               </div>
 
@@ -259,17 +278,24 @@ export default function OralEafExam202605Page() {
                 <h3 className="text-xl font-semibold text-slate-900">Points de coordination</h3>
                 <ul className="space-y-3 text-sm text-slate-600">
                   <li>
-                    <span className="font-semibold text-slate-900">Référente organisation :</span> Mme S. Dupont (poste 221)
+                    <span className="font-semibold text-slate-900">Référente organisation :</span> Mme Brouillat, CPE.
                   </li>
                   <li>
-                    <span className="font-semibold text-slate-900">Surveillance des couloirs :</span> Vie scolaire (planning
-                    dédié affiché à l'accueil).
+                    <span className="font-semibold text-slate-900">Surveillance des couloirs :</span> non prévue.
                   </li>
                   <li>
-                    <span className="font-semibold text-slate-900">Documents d'évaluation :</span> disponibles dans le
-                    classeur partagé « EAF Oraux 2026 ».
+                    <span className="font-semibold text-slate-900">Documents d'évaluation :</span> aucun document à
+                    distribuer pour cette session.
                   </li>
                 </ul>
+                <a
+                  href="https://drive.google.com/drive/folders/1AtdSnOHxFaKLK0vf8Wy4nSTAZXntlypQ?usp=sharing"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
+                >
+                  Accéder aux convocations
+                </a>
               </aside>
             </div>
 
