@@ -12,7 +12,7 @@ export const HOME_PAGE_CONTENT = {
     "Cet espace réunit l'ensemble des informations pratiques nécessaires pour préparer, coordonner et faire vivre les épreuves. Vous y trouverez les documents, convocations, affectations de salles et les consignes indispensables pour guider sereinement chaque étape du déroulement des examens blancs.",
 };
 
-export type HomeCalloutCategory = "general" | "math";
+export type HomeCalloutCategory = "general" | "math" | "oral";
 
 export interface HomeCalloutEntry {
   to: string;
@@ -77,7 +77,7 @@ export const HOME_EAF_ORAL_202605_ENTRY: HomeCalloutEntry = {
   dateLabel: "11, 12 et 13 mai 2026",
   date: "2026-05-11",
   footerLabel: "Accéder au planning détaillé",
-  category: "general",
+  category: "oral",
 };
 
 export const HOME_CALLOUT_ENTRIES: HomeCalloutEntry[] = [
