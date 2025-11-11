@@ -1,4 +1,5 @@
 import { Fragment, useMemo, useState } from "react";
+import { Download } from "lucide-react";
 
 import { ExamDashboardPageLayout, BackToHomeButton } from "../../exam-dashboard/components";
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../../../shared/components";
@@ -41,6 +42,41 @@ function formatShortDate(isoDate: string): string {
 
 function formatRoomLabel(room: string): string {
   return `Salle ${room}`;
+}
+
+function toCsvValue(value: string | number): string {
+  const stringValue = String(value ?? "").replace(/\r?\n/g, " ");
+
+  if (/[";\n]/.test(stringValue)) {
+    return `"${stringValue.replace(/"/g, '""')}"`;
+  }
+
+  return stringValue;
+}
+
+function downloadCsv(filename: string, rows: Array<Array<string | number>>): void {
+  const csvContent = rows.map((row) => row.map(toCsvValue).join(";")).join("\n");
+  const blob = new Blob(["\uFEFF", csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", filename);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  URL.revokeObjectURL(url);
+}
+
+function toFilenameSlug(value: string): string {
+  return value
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")
+    .slice(0, 60);
 }
 
 function getGroupedCandidates(
@@ -180,6 +216,34 @@ export default function OralEafExam202605Page() {
       })),
     [candidatesByJury],
   );
+
+  const handleDownloadJuryPlanning = (jury: string, candidates: OralCandidate[]) => {
+    const header = ["Nom du candidat", "Classe", "Date", "Convocation", "Passage", "Salle"];
+    const rows = candidates.map((candidate) => [
+      candidate.candidate,
+      candidate.className,
+      formatShortDate(candidate.date),
+      candidate.convocationTime,
+      candidate.examTime,
+      formatRoomLabel(candidate.room),
+    ]);
+
+    downloadCsv(`planning-jury-${toFilenameSlug(jury)}.csv`, [header, ...rows]);
+  };
+
+  const handleDownloadRoomPlanning = (room: string, candidates: OralCandidate[]) => {
+    const header = ["Nom du candidat", "Classe", "Date", "Convocation", "Passage", "Jury"];
+    const rows = candidates.map((candidate) => [
+      candidate.candidate,
+      candidate.className,
+      formatShortDate(candidate.date),
+      candidate.convocationTime,
+      candidate.examTime,
+      candidate.jury,
+    ]);
+
+    downloadCsv(`planning-salle-${toFilenameSlug(room)}.csv`, [header, ...rows]);
+  };
 
   return (
     <ExamDashboardPageLayout action={<BackToHomeButton />}>
@@ -333,12 +397,22 @@ export default function OralEafExam202605Page() {
           <section className="space-y-8">
             {candidatesByJury.map(({ key, candidates }) => (
               <div key={key} className="space-y-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                <header className="space-y-1">
-                  <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">Jury</p>
-                  <h2 className="text-2xl font-bold text-slate-900">{key}</h2>
-                  <p className="text-sm text-slate-600">
-                    {formatRoomLabel(candidates[0]?.room ?? "")} – {candidates.length} candidats
-                  </p>
+                <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                  <div className="space-y-1">
+                    <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">Jury</p>
+                    <h2 className="text-2xl font-bold text-slate-900">{key}</h2>
+                    <p className="text-sm text-slate-600">
+                      {formatRoomLabel(candidates[0]?.room ?? "")} – {candidates.length} candidats
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleDownloadJuryPlanning(key, candidates)}
+                    className="inline-flex items-center gap-2 self-start rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+                  >
+                    <Download aria-hidden="true" className="h-4 w-4" />
+                    Télécharger le planning
+                  </button>
                 </header>
                 <div className="space-y-6">
                   {getGroupedCandidates(candidates, (candidate) => candidate.date).map(({ key: date, candidates: perDate }) => (
@@ -357,12 +431,22 @@ export default function OralEafExam202605Page() {
           <section className="space-y-8">
             {candidatesByRoom.map(({ key, candidates }) => (
               <div key={key} className="space-y-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                <header className="space-y-1">
-                  <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">Salle</p>
-                  <h2 className="text-2xl font-bold text-slate-900">{formatRoomLabel(key)}</h2>
-                  <p className="text-sm text-slate-600">
-                    Jury {candidates[0]?.jury ?? ""} – {candidates.length} candidats
-                  </p>
+                <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                  <div className="space-y-1">
+                    <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">Salle</p>
+                    <h2 className="text-2xl font-bold text-slate-900">{formatRoomLabel(key)}</h2>
+                    <p className="text-sm text-slate-600">
+                      Jury {candidates[0]?.jury ?? ""} – {candidates.length} candidats
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleDownloadRoomPlanning(key, candidates)}
+                    className="inline-flex items-center gap-2 self-start rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+                  >
+                    <Download aria-hidden="true" className="h-4 w-4" />
+                    Télécharger le planning
+                  </button>
                 </header>
                 <div className="space-y-6">
                   {getGroupedCandidates(candidates, (candidate) => candidate.date).map(({ key: date, candidates: perDate }) => (
