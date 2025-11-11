@@ -1,5 +1,6 @@
 import { Fragment, useMemo, useState } from "react";
-import { Download } from "lucide-react";
+import { Download, FileText } from "lucide-react";
+import { jsPDF } from "jspdf";
 
 import { ExamDashboardPageLayout, BackToHomeButton } from "../../exam-dashboard/components";
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "../../../shared/components";
@@ -67,6 +68,116 @@ function downloadCsv(filename: string, rows: Array<Array<string | number>>): voi
   document.body.removeChild(link);
 
   URL.revokeObjectURL(url);
+}
+
+interface PdfColumn {
+  header: string;
+  widthRatio: number;
+}
+
+interface DownloadPlanningPdfOptions {
+  filename: string;
+  title: string;
+  subtitle: string;
+  columns: PdfColumn[];
+  rows: Array<Array<string>>;
+}
+
+function downloadPlanningPdf({ filename, title, subtitle, columns, rows }: DownloadPlanningPdfOptions): void {
+  const doc = new jsPDF({ unit: "pt", format: "a4" });
+  const marginX = 48;
+  const marginY = 64;
+  const usableWidth = doc.internal.pageSize.getWidth() - marginX * 2;
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const columnWidths = columns.map((column) => column.widthRatio * usableWidth);
+
+  const drawHeader = (y: number): number => {
+    const headerHeight = 28;
+    let x = marginX;
+
+    doc.setFillColor(15, 23, 42);
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+
+    columns.forEach((column, index) => {
+      const width = columnWidths[index];
+      doc.rect(x, y, width, headerHeight, "F");
+      doc.text(column.header, x + 8, y + headerHeight - 10);
+      x += width;
+    });
+
+    return y + headerHeight;
+  };
+
+  const renderRows = (startY: number): void => {
+    let y = startY;
+    const lineHeight = 14;
+    const rowPadding = 8;
+
+    rows.forEach((row, rowIndex) => {
+      const splitCells = row.map((value, index) =>
+        doc.splitTextToSize(value, Math.max(columnWidths[index] - rowPadding * 2, 32)),
+      );
+
+      const maxLines = Math.max(...splitCells.map((cell) => (cell.length === 0 ? 1 : cell.length)));
+      const contentHeight = maxLines * lineHeight;
+      const rowHeight = contentHeight + rowPadding * 2;
+
+      if (y + rowHeight > pageHeight - marginY) {
+        doc.addPage();
+        y = drawHeader(marginY);
+      }
+
+      let x = marginX;
+
+      doc.setDrawColor(226, 232, 240);
+
+      splitCells.forEach((cell, index) => {
+        const width = columnWidths[index];
+        if (rowIndex % 2 === 0) {
+          doc.setFillColor(248, 250, 252);
+          doc.rect(x, y, width, rowHeight, "F");
+        } else {
+          doc.setFillColor(255, 255, 255);
+          doc.rect(x, y, width, rowHeight, "F");
+        }
+        doc.rect(x, y, width, rowHeight);
+
+        doc.setTextColor(15, 23, 42);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(11);
+
+        let textY = y + rowPadding + lineHeight;
+        cell.forEach((line) => {
+          doc.text(line, x + rowPadding, textY);
+          textY += lineHeight;
+        });
+
+        x += width;
+      });
+
+      y += rowHeight;
+    });
+  };
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(18);
+  doc.setTextColor(15, 23, 42);
+  doc.text(title, marginX, marginY - 12);
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(12);
+  doc.setTextColor(71, 85, 105);
+  const subtitleLines = doc.splitTextToSize(subtitle, usableWidth);
+  subtitleLines.forEach((line, index) => {
+    doc.text(line, marginX, marginY + index * 16);
+  });
+
+  const tableStartY = drawHeader(marginY + subtitleLines.length * 16 + 24);
+  renderRows(tableStartY);
+
+  doc.save(filename);
 }
 
 function toFilenameSlug(value: string): string {
@@ -217,9 +328,8 @@ export default function OralEafExam202605Page() {
     [candidatesByJury],
   );
 
-  const handleDownloadJuryPlanning = (jury: string, candidates: OralCandidate[]) => {
-    const header = ["Nom du candidat", "Classe", "Date", "Convocation", "Passage", "Salle"];
-    const rows = candidates.map((candidate) => [
+  const buildJuryPlanningRows = (candidates: OralCandidate[]) =>
+    candidates.map((candidate) => [
       candidate.candidate,
       candidate.className,
       formatShortDate(candidate.date),
@@ -228,12 +338,8 @@ export default function OralEafExam202605Page() {
       formatRoomLabel(candidate.room),
     ]);
 
-    downloadCsv(`planning-jury-${toFilenameSlug(jury)}.csv`, [header, ...rows]);
-  };
-
-  const handleDownloadRoomPlanning = (room: string, candidates: OralCandidate[]) => {
-    const header = ["Nom du candidat", "Classe", "Date", "Convocation", "Passage", "Jury"];
-    const rows = candidates.map((candidate) => [
+  const buildRoomPlanningRows = (candidates: OralCandidate[]) =>
+    candidates.map((candidate) => [
       candidate.candidate,
       candidate.className,
       formatShortDate(candidate.date),
@@ -242,7 +348,56 @@ export default function OralEafExam202605Page() {
       candidate.jury,
     ]);
 
+  const handleDownloadJuryPlanningCsv = (jury: string, candidates: OralCandidate[]) => {
+    const header = ["Nom du candidat", "Classe", "Date", "Convocation", "Passage", "Salle"];
+    const rows = buildJuryPlanningRows(candidates);
+
+    downloadCsv(`planning-jury-${toFilenameSlug(jury)}.csv`, [header, ...rows]);
+  };
+
+  const handleDownloadJuryPlanningPdf = (jury: string, candidates: OralCandidate[]) => {
+    const rows = buildJuryPlanningRows(candidates);
+
+    downloadPlanningPdf({
+      filename: `planning-jury-${toFilenameSlug(jury)}.pdf`,
+      title: `Planning jury ${jury}`,
+      subtitle: `${formatRoomLabel(candidates[0]?.room ?? "")} – ${candidates.length} candidats`,
+      columns: [
+        { header: "Nom du candidat", widthRatio: 0.28 },
+        { header: "Classe", widthRatio: 0.12 },
+        { header: "Date", widthRatio: 0.14 },
+        { header: "Convocation", widthRatio: 0.12 },
+        { header: "Passage", widthRatio: 0.12 },
+        { header: "Salle", widthRatio: 0.22 },
+      ],
+      rows: rows.map((row) => row.map((value) => String(value ?? ""))),
+    });
+  };
+
+  const handleDownloadRoomPlanningCsv = (room: string, candidates: OralCandidate[]) => {
+    const header = ["Nom du candidat", "Classe", "Date", "Convocation", "Passage", "Jury"];
+    const rows = buildRoomPlanningRows(candidates);
+
     downloadCsv(`planning-salle-${toFilenameSlug(room)}.csv`, [header, ...rows]);
+  };
+
+  const handleDownloadRoomPlanningPdf = (room: string, candidates: OralCandidate[]) => {
+    const rows = buildRoomPlanningRows(candidates);
+
+    downloadPlanningPdf({
+      filename: `planning-salle-${toFilenameSlug(room)}.pdf`,
+      title: `Planning salle ${formatRoomLabel(room)}`,
+      subtitle: `Jury ${candidates[0]?.jury ?? ""} – ${candidates.length} candidats`,
+      columns: [
+        { header: "Nom du candidat", widthRatio: 0.28 },
+        { header: "Classe", widthRatio: 0.12 },
+        { header: "Date", widthRatio: 0.14 },
+        { header: "Convocation", widthRatio: 0.12 },
+        { header: "Passage", widthRatio: 0.12 },
+        { header: "Jury", widthRatio: 0.22 },
+      ],
+      rows: rows.map((row) => row.map((value) => String(value ?? ""))),
+    });
   };
 
   return (
@@ -405,14 +560,24 @@ export default function OralEafExam202605Page() {
                       {formatRoomLabel(candidates[0]?.room ?? "")} – {candidates.length} candidats
                     </p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => handleDownloadJuryPlanning(key, candidates)}
-                    className="inline-flex items-center gap-2 self-start rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
-                  >
-                    <Download aria-hidden="true" className="h-4 w-4" />
-                    Télécharger le planning
-                  </button>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleDownloadJuryPlanningCsv(key, candidates)}
+                      className="inline-flex items-center gap-2 self-start rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+                    >
+                      <Download aria-hidden="true" className="h-4 w-4" />
+                      CSV
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDownloadJuryPlanningPdf(key, candidates)}
+                      className="inline-flex items-center gap-2 self-start rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+                    >
+                      <FileText aria-hidden="true" className="h-4 w-4" />
+                      PDF
+                    </button>
+                  </div>
                 </header>
                 <div className="space-y-6">
                   {getGroupedCandidates(candidates, (candidate) => candidate.date).map(({ key: date, candidates: perDate }) => (
@@ -439,14 +604,24 @@ export default function OralEafExam202605Page() {
                       Jury {candidates[0]?.jury ?? ""} – {candidates.length} candidats
                     </p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => handleDownloadRoomPlanning(key, candidates)}
-                    className="inline-flex items-center gap-2 self-start rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
-                  >
-                    <Download aria-hidden="true" className="h-4 w-4" />
-                    Télécharger le planning
-                  </button>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleDownloadRoomPlanningCsv(key, candidates)}
+                      className="inline-flex items-center gap-2 self-start rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+                    >
+                      <Download aria-hidden="true" className="h-4 w-4" />
+                      CSV
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDownloadRoomPlanningPdf(key, candidates)}
+                      className="inline-flex items-center gap-2 self-start rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+                    >
+                      <FileText aria-hidden="true" className="h-4 w-4" />
+                      PDF
+                    </button>
+                  </div>
                 </header>
                 <div className="space-y-6">
                   {getGroupedCandidates(candidates, (candidate) => candidate.date).map(({ key: date, candidates: perDate }) => (
