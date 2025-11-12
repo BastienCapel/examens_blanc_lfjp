@@ -331,9 +331,9 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   {
     teacher: "DAVID V.",
     datetime: "vendredi 12/12 à 10h00",
-    room: "Salles 9, 10, 12, 13, 15",
+    room: "Salles 9, 10, 12, 13, 14",
     mission:
-      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13 et 15",
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13 et 14",
     duration: "2:00:00",
     type: "support",
   },
@@ -431,9 +431,9 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   {
     teacher: "MICHON GUILLAUME M.",
     datetime: "vendredi 12/12 à 09h00",
-    room: "Salles 9, 10, 12, 13, 15",
+    room: "Salles 9, 10, 12, 13, 14",
     mission:
-      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13 et 15",
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13 et 14",
     duration: "2:00:00",
     type: "support",
   },
