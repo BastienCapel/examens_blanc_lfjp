@@ -471,14 +471,6 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   },
   {
     teacher: "NDOYE A.",
-    datetime: "jeudi 11/12 à 14h05",
-    room: "S14",
-    mission: "Bac blanc EAF",
-    duration: "4:00:00",
-    type: "eaf",
-  },
-  {
-    teacher: "NDOYE A.",
     datetime: "vendredi 12/12 à 08h00",
     room: "S12",
     mission: "Bac blanc : Enseignement de spécialité N°2",
@@ -640,23 +632,7 @@ export const roomSchedule: RoomScheduleDay[] = [
           type: "eaf",
         },
       ],
-      S14: [
-        {
-          label: "Matin",
-          time: "08h00 - 12h00",
-          teacher: "MICHON G. M.",
-          detail: "Spécialité N°1",
-          highlight: true,
-          type: "specialite",
-        },
-        {
-          label: "Après-midi",
-          time: "14h05 - 18h05",
-          teacher: "NDOYE A.",
-          detail: "EAF",
-          type: "eaf",
-        },
-      ],
+      S14: [],
       S15: [
         {
           label: "Matin",
