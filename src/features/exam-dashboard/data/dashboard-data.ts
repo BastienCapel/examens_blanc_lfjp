@@ -289,18 +289,18 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   {
     teacher: "BOSSU C., PIAGGIO F.",
     datetime: "jeudi 11/12 à 15h30",
-    room: "Salles 9, 10, 12, 13, 14, 15",
+    room: "Salles 9, 10, 12, 13, 15",
     mission:
-      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13, 14 et 15",
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13 et 15",
     duration: "2:30:00",
     type: "support",
   },
   {
     teacher: "CHABERT K., DRAMÉ C., JAÏT L.",
     datetime: "jeudi 11/12 à 11h10",
-    room: "Salles 9, 10, 12, 13, 14, 15",
+    room: "Salles 9, 10, 12, 13, 15",
     mission:
-      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13, 14 et 15",
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13 et 15",
     duration: "1:00:00",
     type: "support",
   },
@@ -331,9 +331,9 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   {
     teacher: "DAVID V.",
     datetime: "vendredi 12/12 à 10h00",
-    room: "Salles 9, 10, 12, 13, 14, 15",
+    room: "Salles 9, 10, 12, 13, 15",
     mission:
-      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13, 14 et 15",
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13 et 15",
     duration: "2:00:00",
     type: "support",
   },
@@ -348,9 +348,9 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   {
     teacher: "FRAYON A., GIBUS A.",
     datetime: "mercredi 10/12 à 10h00",
-    room: "Salles 9, 10, 12, 13, 14, 15",
+    room: "Salles 9, 10, 12, 13, 15",
     mission:
-      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13, 14 et 15",
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13 et 15",
     duration: "2:00:00",
     type: "support",
   },
@@ -381,9 +381,9 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   {
     teacher: "JAÏT L.",
     datetime: "jeudi 11/12 à 08h00",
-    room: "Salles 9, 10, 12, 13, 14, 15",
+    room: "Salles 9, 10, 12, 13, 15",
     mission:
-      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13, 14 et 15",
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13 et 15",
     duration: "2:00:00",
     type: "support",
   },
@@ -398,9 +398,9 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   {
     teacher: "MBOUP N.",
     datetime: "jeudi 11/12 à 10h00",
-    room: "Salles 9, 10, 12, 13, 14, 15",
+    room: "Salles 9, 10, 12, 13, 15",
     mission:
-      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13, 14 et 15",
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13 et 15",
     duration: "1:30:00",
     type: "support",
   },
@@ -431,9 +431,9 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   {
     teacher: "MICHON GUILLAUME M.",
     datetime: "vendredi 12/12 à 09h00",
-    room: "Salles 9, 10, 12, 13, 14, 15",
+    room: "Salles 9, 10, 12, 13, 15",
     mission:
-      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13, 14 et 15",
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13 et 15",
     duration: "2:00:00",
     type: "support",
   },
@@ -641,14 +641,6 @@ export const roomSchedule: RoomScheduleDay[] = [
         },
       ],
       S14: [
-        {
-          label: "Matin",
-          time: "08h00 - 12h00",
-          teacher: "MICHON G. M.",
-          detail: "Spécialité N°1",
-          highlight: true,
-          type: "specialite",
-        },
         {
           label: "Après-midi",
           time: "14h05 - 18h05",
