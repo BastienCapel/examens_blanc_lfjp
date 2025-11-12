@@ -642,14 +642,6 @@ export const roomSchedule: RoomScheduleDay[] = [
       ],
       S14: [
         {
-          label: "Matin",
-          time: "08h00 - 12h00",
-          teacher: "MICHON G. M.",
-          detail: "Spécialité N°1",
-          highlight: true,
-          type: "specialite",
-        },
-        {
           label: "Après-midi",
           time: "14h05 - 18h05",
           teacher: "NDOYE A.",
