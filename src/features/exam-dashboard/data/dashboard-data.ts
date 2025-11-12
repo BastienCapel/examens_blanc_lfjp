@@ -287,6 +287,24 @@ export const surveillanceSchedule: SurveillanceMission[] = [
     type: "philosophie",
   },
   {
+    teacher: "BOSSU C., PIAGGIO F.",
+    datetime: "jeudi 11/12 à 15h30",
+    room: "Salles 9, 10, 12, 13 et 15",
+    mission:
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13 et 15",
+    duration: "2:30:00",
+    type: "support",
+  },
+  {
+    teacher: "CHABERT K., DRAMÉ C., JAÏT L.",
+    datetime: "jeudi 11/12 à 11h10",
+    room: "Salles 9, 10, 12, 13 et 15",
+    mission:
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13 et 15",
+    duration: "1:00:00",
+    type: "support",
+  },
+  {
     teacher: "DAVID V.",
     datetime: "jeudi 11/12 à 08h00",
     room: "S12",
@@ -362,6 +380,15 @@ export const surveillanceSchedule: SurveillanceMission[] = [
   },
   {
     teacher: "JAÏT L.",
+    datetime: "jeudi 11/12 à 08h00",
+    room: "Salles 9, 10, 12, 13 et 15",
+    mission:
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13 et 15",
+    duration: "2:00:00",
+    type: "support",
+  },
+  {
+    teacher: "JAÏT L.",
     datetime: "jeudi 11/12 à 13h05",
     room: "S9 PRIO / EPS",
     mission: "Bac blanc EAF",
@@ -375,6 +402,15 @@ export const surveillanceSchedule: SurveillanceMission[] = [
     mission: "Bac blanc EAF",
     duration: "4:00:00",
     type: "eaf",
+  },
+  {
+    teacher: "MBOUP N.",
+    datetime: "jeudi 11/12 à 10h00",
+    room: "Salles 9, 10, 12, 13 et 15",
+    mission:
+      "Remplacer les surveillants du baccalauréat blanc pour qu'ils prennent une pause dans les salles 9, 10, 12, 13 et 15",
+    duration: "1:30:00",
+    type: "support",
   },
   {
     teacher: "MBOUP N.",
