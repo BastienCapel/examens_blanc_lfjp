@@ -22,7 +22,12 @@ export type SurveillanceType =
   | "support"
   | "eaf"
   | "specialite"
-  | "philosophie";
+  | "philosophie"
+  | "francais"
+  | "grammaire"
+  | "redaction"
+  | "histoireGeographie"
+  | "sciences";
 
 export interface TypeVariant {
   label: string;
@@ -75,6 +80,12 @@ export interface RoomScheduleDay {
   rooms: Record<RoomColumn, RoomSession[]>;
 }
 
+export interface StudentDistributionEntry {
+  student: string;
+  className: string;
+  room: string;
+}
+
 export interface DashboardTab {
   id: "setup" | "teacher" | "convocation" | "room" | "day";
   label: string;
@@ -106,4 +117,5 @@ export interface MathExamDashboardData {
   defaultStudentCount: number;
   typeVariants: Record<string, TypeVariant>;
   dashboardTabs: DashboardTab[];
+  studentDistribution?: StudentDistributionEntry[];
 }

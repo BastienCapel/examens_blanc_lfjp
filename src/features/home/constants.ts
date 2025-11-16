@@ -80,8 +80,20 @@ export const HOME_EAF_ORAL_202605_ENTRY: HomeCalloutEntry = {
   category: "oral",
 };
 
+export const HOME_DNB_ZAO_202602_ENTRY: HomeCalloutEntry = {
+  to: "/examens-blancs/dnb-blanc-zao-2026-02-03",
+  iconLabel: "Organisation du DNB blanc établissements ZAO",
+  subtitle: "",
+  title: "DNB blanc de ZAO",
+  dateLabel: "3 et 4 février 2026",
+  date: "2026-02-03",
+  footerLabel: "Consulter plannings et surveillances",
+  category: "general",
+};
+
 export const HOME_CALLOUT_ENTRIES: HomeCalloutEntry[] = [
   HOME_DASHBOARD_ENTRY,
+  HOME_DNB_ZAO_202602_ENTRY,
   HOME_MATH_EXAM_20260213_ENTRY,
   HOME_EAF_EXAM_20260407_ENTRY,
   HOME_EAF_ORAL_202605_ENTRY,
