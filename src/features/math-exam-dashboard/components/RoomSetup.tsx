@@ -3,10 +3,11 @@ import { createPortal } from "react-dom";
 import { LayoutGrid, Users } from "lucide-react";
 
 import { useDashboardContext, useMathExamData } from "../context";
+import type { StudentDistributionEntry } from "../data";
 
 export default function RoomSetup() {
   const { activeView, container } = useDashboardContext();
-  const { examRooms, defaultStudentCount } = useMathExamData();
+  const { examRooms, defaultStudentCount, studentDistribution = [] } = useMathExamData();
 
   const totalExamCapacity = useMemo(
     () => examRooms.reduce((sum, room) => sum + room.examCapacity, 0),
@@ -69,6 +70,22 @@ export default function RoomSetup() {
   const overCapacity = Math.max(totalAssigned - totalExamCapacity, 0);
   const studentsLeftToAssign = Math.max(studentCount - totalAssigned, 0);
   const extraAssignedStudents = Math.max(totalAssigned - studentCount, 0);
+
+  const groupedDistribution = useMemo(() => {
+    const groups = new Map<string, StudentDistributionEntry[]>();
+    studentDistribution.forEach((entry) => {
+      const current = groups.get(entry.room) ?? [];
+      current.push(entry);
+      groups.set(entry.room, current);
+    });
+
+    return Array.from(groups.entries())
+      .map(([room, entries]) => ({
+        room,
+        students: entries.sort((a, b) => a.student.localeCompare(b.student, "fr", { sensitivity: "base" })),
+      }))
+      .sort((a, b) => a.room.localeCompare(b.room, "fr", { sensitivity: "base" }));
+  }, [studentDistribution]);
 
   if (!container) {
     return null;
@@ -282,6 +299,47 @@ export default function RoomSetup() {
           </div>
         </div>
       </div>
+      {groupedDistribution.length ? (
+        <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+          <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-6 py-4">
+            <div>
+              <h4 className="text-base font-semibold text-slate-900">Répartition officielle des élèves</h4>
+              <p className="mt-1 text-sm text-slate-500">
+                Affectations fournies par la vie scolaire : utilisez-les comme référence pour préparer les listes de table et la
+                signalétique des salles.
+              </p>
+            </div>
+          </div>
+          <div className="grid gap-4 p-6 md:grid-cols-2 xl:grid-cols-3">
+            {groupedDistribution.map(({ room, students }) => (
+              <div key={room} className="rounded-lg border border-slate-200 bg-slate-50 p-4 shadow-sm">
+                <div className="mb-3 flex items-center justify-between gap-2">
+                  <h5 className="text-sm font-semibold text-slate-800">{room}</h5>
+                  <span className="text-xs font-medium text-slate-500">{students.length} élève{students.length > 1 ? "s" : ""}</span>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="min-w-full text-left text-sm text-slate-700">
+                    <thead className="text-xs uppercase tracking-wide text-slate-500">
+                      <tr>
+                        <th scope="col" className="py-1 pr-2">Élève</th>
+                        <th scope="col" className="py-1 pr-2">Classe</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200">
+                      {students.map((entry) => (
+                        <tr key={`${room}-${entry.student}`}>
+                          <td className="py-1 pr-2 font-medium text-slate-900">{entry.student}</td>
+                          <td className="py-1 pr-2 text-slate-600">{entry.className}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </section>,
     container,
   );
