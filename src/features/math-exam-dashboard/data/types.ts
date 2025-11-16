@@ -87,7 +87,7 @@ export interface StudentDistributionEntry {
 }
 
 export interface DashboardTab {
-  id: "setup" | "teacher" | "convocation" | "room" | "day";
+  id: "setup" | "teacher" | "convocation" | "room" | "day" | "students";
   label: string;
   Icon: LucideIcon;
 }

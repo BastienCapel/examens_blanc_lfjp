@@ -13,6 +13,7 @@ import {
   ListChecks,
   Map,
   PenLine,
+  School,
   type LucideIcon,
 } from "lucide-react";
 
@@ -731,7 +732,10 @@ export const dnbZaoDashboardData202602: MathExamDashboardData = {
   ],
   defaultStudentCount: 59,
   typeVariants,
-  dashboardTabs: defaultDashboardTabs,
+  dashboardTabs: [
+    ...defaultDashboardTabs,
+    { id: "students", label: "Listes élèves par salle", Icon: School },
+  ],
   studentDistribution: [
     { student: "AUBRY Albert Akoi Agamemnon", className: "3EME1", room: "S12" },
     { student: "BA Abygaëlle", className: "3EME2", room: "S12" },

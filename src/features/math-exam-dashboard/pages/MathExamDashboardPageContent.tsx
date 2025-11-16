@@ -8,6 +8,7 @@ import {
   Hero,
   RoomSetup,
   RoomsStatus,
+  StudentRoomList,
   SurveillanceTable,
 } from "../components";
 
@@ -20,6 +21,7 @@ export default function MathExamDashboardPageContent() {
         <RoomSetup />
         <SurveillanceTable />
         <ConvocationGenerator />
+        <StudentRoomList />
         <RoomsStatus />
         <Announcements />
       </ExamDashboard>
