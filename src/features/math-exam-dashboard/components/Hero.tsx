@@ -55,7 +55,7 @@ function normalizeAccommodationStudent(student: AccommodationGroup["students"][n
 function AccommodationCard({ group }: { group: AccommodationGroup }) {
   const { Icon, bg, color } = group.icon;
   return (
-    <article className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-white via-slate-50/70 to-slate-100 p-6 shadow-lg transition-transform hover:-translate-y-1 hover:shadow-xl">
+    <article className="relative flex h-full flex-col rounded-3xl border border-slate-200 bg-gradient-to-br from-white via-slate-50/70 to-slate-100 p-6 shadow-lg transition-transform hover:-translate-y-1 hover:shadow-xl">
       <div
         aria-hidden
         className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full bg-slate-200/50 blur-3xl"
@@ -73,14 +73,30 @@ function AccommodationCard({ group }: { group: AccommodationGroup }) {
         <div className="flex flex-wrap gap-2">
           {group.students.map((student) => {
             const normalizedStudent = normalizeAccommodationStudent(student);
+            const hasDetails = Boolean(normalizedStudent.details?.trim());
+            const tooltipId = hasDetails
+              ? `accommodation-tooltip-${group.title.replace(/[^a-zA-Z0-9]+/g, "-")}-${normalizedStudent.name.replace(/[^a-zA-Z0-9]+/g, "-")}`
+              : undefined;
 
             return (
-              <span
-                key={`${group.title}-${normalizedStudent.name}`}
-                className="rounded-full bg-white/80 px-3 py-1 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-slate-200"
-                title={normalizedStudent.details ?? undefined}
-              >
-                {normalizedStudent.name}
+              <span key={`${group.title}-${normalizedStudent.name}`} className="group relative inline-flex">
+                <span
+                  className="rounded-full bg-white/80 px-3 py-1 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-slate-200"
+                  title={normalizedStudent.details ?? undefined}
+                  tabIndex={hasDetails ? 0 : -1}
+                  aria-describedby={tooltipId}
+                >
+                  {normalizedStudent.name}
+                </span>
+                {hasDetails ? (
+                  <span
+                    id={tooltipId}
+                    role="tooltip"
+                    className="pointer-events-none absolute left-1/2 top-[calc(100%+0.35rem)] z-10 w-64 -translate-x-1/2 rounded-xl bg-slate-900 px-3 py-2 text-xs font-semibold text-slate-50 opacity-0 shadow-xl ring-1 ring-black/5 transition duration-150 ease-out group-hover:opacity-100 group-focus-within:opacity-100"
+                  >
+                    {normalizedStudent.details}
+                  </span>
+                ) : null}
               </span>
             );
           })}
