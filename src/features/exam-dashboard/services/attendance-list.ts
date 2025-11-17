@@ -200,13 +200,22 @@ export async function downloadAttendanceList(
 
     const renderWidth = canvas.width;
     const renderHeight = canvas.height;
-    const ratio = Math.min(pageWidth / renderWidth, pageHeight / renderHeight);
-    const width = renderWidth * ratio;
-    const height = renderHeight * ratio;
-    const offsetX = (pageWidth - width) / 2;
-    const offsetY = (pageHeight - height) / 2;
+    const imgWidth = pageWidth;
+    const imgHeight = (renderHeight * imgWidth) / renderWidth;
 
-    pdf.addImage(imgData, "PNG", offsetX, offsetY, width, height);
+    let heightLeft = imgHeight;
+    let position = 0;
+
+    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
+
     pdf.save("emargement-surveillants.pdf");
   } finally {
     content.remove();
