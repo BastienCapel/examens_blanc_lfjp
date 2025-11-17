@@ -23,7 +23,7 @@ const teacherDirectory = createTeacherDirectory([
   { civility: "Madame", lastName: "BOSSU", firstName: "Claire" },
   { civility: "Madame", lastName: "CAPEL", firstName: "Eve" },
   { civility: "Madame", lastName: "CHABERT", firstName: "Karine" },
-  { civility: "Monsieur", lastName: "D'AQUINO", firstName: "Roselyne" },
+  { civility: "Madame", lastName: "D'AQUINO", firstName: "Roselyne" },
   { civility: "Madame", lastName: "DIADIO", firstName: "Ira" },
   { civility: "Madame", lastName: "DRAMÉ", firstName: "Claire" },
   { civility: "Monsieur", lastName: "DAVID", firstName: "Vincent" },
