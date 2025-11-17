@@ -48,6 +48,10 @@ function KeyFiguresCard({ figures }: { figures: KeyFigure[] }) {
   );
 }
 
+function normalizeAccommodationStudent(student: AccommodationGroup["students"][number]) {
+  return typeof student === "string" ? { name: student } : student;
+}
+
 function AccommodationCard({ group }: { group: AccommodationGroup }) {
   const { Icon, bg, color } = group.icon;
   return (
@@ -67,14 +71,19 @@ function AccommodationCard({ group }: { group: AccommodationGroup }) {
       </div>
       <div className="relative mt-6 flex flex-1 flex-col">
         <div className="flex flex-wrap gap-2">
-          {group.students.map((student) => (
-            <span
-              key={`${group.title}-${student}`}
-              className="rounded-full bg-white/80 px-3 py-1 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-slate-200"
-            >
-              {student}
-            </span>
-          ))}
+          {group.students.map((student) => {
+            const normalizedStudent = normalizeAccommodationStudent(student);
+
+            return (
+              <span
+                key={`${group.title}-${normalizedStudent.name}`}
+                className="rounded-full bg-white/80 px-3 py-1 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-slate-200"
+                title={normalizedStudent.details ?? undefined}
+              >
+                {normalizedStudent.name}
+              </span>
+            );
+          })}
         </div>
         {group.note ? (
           <div

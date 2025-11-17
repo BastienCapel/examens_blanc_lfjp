@@ -416,11 +416,34 @@ export const dnbZaoDashboardData202602: MathExamDashboardData = {
       title: "Aménagements individuels",
       description: "Élèves bénéficiant de mesures adaptées pendant les épreuves écrites et orales :",
       students: [
-        "PEREZ NGOLI Micha : tiers temps - épreuves écrites, tiers temps - épreuves orales, ordinateur ou tablette, utilisation de logiciels spécifiques : géogébra, non prise en compte de la qualité rédactionnelle dont l'orthographe, dictée aménagée, oral : autorisation de s'exprimer selon les modalités qu'il utilise habituellement dans la communication orale.",
-        "DIOUF Yanis : tiers temps : épreuve écrites, consignes orales : données à voix haute en articulant, assistant : reformulation des consignes, non prise en compte de la qualité rédactionnelle dont l'orthographe, dictée aménagée",
-        "GRASSAGLIATA Milena : tiers temps : épreuves écrites, non prise en compte de la qualité rédactionnelle dont l'orthographe, dictée aménagée",
-        "VILLAIN Candice : tiers temps : épreuves écrites, calculatrice simple non programmée",
-        "BERGOT Mathieu : tiers temps - épreuves écrites, assistant : reformulation des consignes, non prise en compte de la qualité rédactionnelle dont l'orthographe, dictée aménagée, calculatrice simple non programmée",
+        {
+          name: "PEREZ NGOLI Micha",
+          details:
+            "tiers temps - épreuves écrites, tiers temps - épreuves orales, ordinateur ou tablette, utilisation de logiciels spécifiques : géogébra, non prise en compte de la qualité rédactionnelle dont l'orthographe, dictée aménagée, oral : autorisation de s'exprimer selon les modalités qu'il utilise habituellement dans la communication orale.",
+        },
+        {
+          name: "DIOUF Yanis",
+          details:
+            "tiers temps : épreuve écrites, consignes orales : données à voix haute en articulant, assistant : reformulation des consignes, non prise en compte de la qualité rédactionnelle dont l'orthographe, dictée aménagée",
+        },
+        {
+          name: "GRASSAGLIATA Milena",
+          details:
+            "tiers temps : épreuves écrites, non prise en compte de la qualité rédactionnelle dont l'orthographe, dictée aménagée",
+        },
+        {
+          name: "VILLAIN Candice",
+          details: "tiers temps : épreuves écrites, calculatrice simple non programmée",
+        },
+        {
+          name: "BERGOT Mathieu",
+          details:
+            "tiers temps - épreuves écrites, assistant : reformulation des consignes, non prise en compte de la qualité rédactionnelle dont l'orthographe, dictée aménagée, calculatrice simple non programmée",
+        },
+        {
+          name: "Hassimiou DIALLO",
+          details: "Tiers temps, dictée aménagée, ne pas pénaliser l'orthographe",
+        },
       ],
       note: "Les surveillants veillent à rappeler les consignes adaptées dès l'installation des élèves.",
       noteClasses: "bg-slate-100 text-slate-700",

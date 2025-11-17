@@ -46,11 +46,16 @@ export interface KeyFigure {
   extra?: string;
 }
 
+export interface AccommodationStudent {
+  name: string;
+  details?: string;
+}
+
 export interface AccommodationGroup {
   icon: { Icon: LucideIcon; bg: string; color: string };
   title: string;
   description: string;
-  students: string[];
+  students: (AccommodationStudent | string)[];
   note?: string;
   noteClasses?: string;
 }
