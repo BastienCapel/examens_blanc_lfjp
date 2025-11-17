@@ -12,7 +12,7 @@ import {
   typeVariants,
 } from "../data";
 import { useDashboardContext } from "../context";
-import { downloadConvocationPdf } from "../services";
+import { downloadAttendanceList, downloadConvocationPdf } from "../services";
 import {
   buildTeacherSchedule,
   formatDuration,
@@ -90,6 +90,7 @@ export default function ConvocationGenerator() {
   const [selectedTeacher, setSelectedTeacher] = useState<string>(defaultTeacher);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [isGeneratingAll, setIsGeneratingAll] = useState(false);
+  const [isGeneratingAttendanceList, setIsGeneratingAttendanceList] = useState(false);
 
   useEffect(() => {
     if (!teacherOptions.length) {
@@ -150,7 +151,7 @@ export default function ConvocationGenerator() {
   };
 
   const handleDownloadAll = async () => {
-    if (isGeneratingAll || isGeneratingPdf) {
+    if (isGeneratingAll || isGeneratingPdf || isGeneratingAttendanceList) {
       return;
     }
     if (!assignedTeacherGroups.length) {
@@ -168,6 +169,25 @@ export default function ConvocationGenerator() {
       alert("Impossible de générer la convocation. Veuillez réessayer.");
     } finally {
       setIsGeneratingAll(false);
+    }
+  };
+
+  const handleDownloadAttendanceList = async () => {
+    if (isGeneratingAttendanceList || isGeneratingAll || isGeneratingPdf) {
+      return;
+    }
+    if (!assignedTeacherGroups.length) {
+      alert("Aucune convocation disponible pour le téléchargement.");
+      return;
+    }
+    try {
+      setIsGeneratingAttendanceList(true);
+      await downloadAttendanceList(assignedTeacherGroups, teacherDirectoryByShortName);
+    } catch (error) {
+      console.error("Attendance list generation failed", error);
+      alert("Impossible de générer la feuille d'émargement. Veuillez réessayer.");
+    } finally {
+      setIsGeneratingAttendanceList(false);
     }
   };
 
@@ -236,7 +256,7 @@ export default function ConvocationGenerator() {
             <button
               type="button"
               onClick={handleDownload}
-              disabled={!hasMissions || isGeneratingPdf || isGeneratingAll}
+              disabled={!hasMissions || isGeneratingPdf || isGeneratingAll || isGeneratingAttendanceList}
               className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-300"
             >
               Télécharger la convocation de {teacherDisplayName}
@@ -244,10 +264,18 @@ export default function ConvocationGenerator() {
             <button
               type="button"
               onClick={handleDownloadAll}
-              disabled={isGeneratingAll || isGeneratingPdf}
+              disabled={isGeneratingAll || isGeneratingPdf || isGeneratingAttendanceList}
               className="inline-flex items-center justify-center gap-2 rounded-lg border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm transition-colors duration-200 hover:bg-blue-50 disabled:cursor-not-allowed disabled:border-slate-200 disabled:text-slate-300"
             >
               Télécharger toutes les convocations
+            </button>
+            <button
+              type="button"
+              onClick={handleDownloadAttendanceList}
+              disabled={isGeneratingAttendanceList || isGeneratingAll || isGeneratingPdf}
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm transition-colors duration-200 hover:bg-slate-50 disabled:cursor-not-allowed disabled:border-slate-200 disabled:text-slate-300"
+            >
+              Télécharger la feuille d'émargement
             </button>
           </div>
         </div>
