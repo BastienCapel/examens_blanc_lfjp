@@ -1,4 +1,5 @@
 export { default as Announcements } from "./Announcements";
+export { default as BacBlancStudents } from "./BacBlancStudents";
 export { default as ConvocationGenerator } from "./ConvocationGenerator";
 export { default as ExamDashboard } from "./ExamDashboard";
 export { default as Header } from "./Header";

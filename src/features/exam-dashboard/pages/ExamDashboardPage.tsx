@@ -1,6 +1,7 @@
 import {
   Announcements,
   BackToHomeButton,
+  BacBlancStudents,
   ConvocationGenerator,
   ExamDashboard,
   ExamDashboardPageLayout,
@@ -18,6 +19,7 @@ export default function ExamDashboardPage() {
       <Hero />
       <ExamDashboard>
         <RoomSetup />
+        <BacBlancStudents />
         <SurveillanceTable />
         <ConvocationGenerator />
         <RoomsStatus />
