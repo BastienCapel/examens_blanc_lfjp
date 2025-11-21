@@ -1081,7 +1081,7 @@ export const dashboardTabs: DashboardTab[] = [
   { id: "setup", label: "Paramétrage des salles", Icon: Settings },
   { id: "teacher", label: "Vue par enseignant", Icon: Users },
   { id: "convocation", label: "Convocations", Icon: ClipboardList },
-  { id: "students", label: "Bac blanc 1", Icon: Users2 },
+  { id: "students", label: "Élèves", Icon: Users2 },
   { id: "room", label: "Vue par salle", Icon: LayoutGrid },
   { id: "day", label: "Vue par jour", Icon: Calendar },
 ];
