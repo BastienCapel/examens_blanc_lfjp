@@ -1,11 +1,54 @@
+import { useMemo, useState } from "react";
 import { createPortal } from "react-dom";
-import { Users2 } from "lucide-react";
+import { FileDown, Users2 } from "lucide-react";
 
 import { bacBlanc1Students } from "../data";
 import { useDashboardContext } from "../context";
+import {
+  downloadAllStudentConvocations,
+  downloadStudentConvocation,
+  downloadStudentConvocationsForClass,
+} from "../services";
 
 export default function BacBlancStudents() {
   const { activeView, container } = useDashboardContext();
+  const classOptions = useMemo(
+    () => Array.from(new Set(bacBlanc1Students.map((student) => student.className))).sort(),
+    [],
+  );
+  const [selectedClass, setSelectedClass] = useState(classOptions[0] ?? "");
+
+  const classStudents = useMemo(
+    () => bacBlanc1Students.filter((student) => student.className === selectedClass),
+    [selectedClass],
+  );
+
+  const handleDownloadStudent = async (studentIndex: number) => {
+    try {
+      await downloadStudentConvocation(bacBlanc1Students[studentIndex]);
+    } catch (error) {
+      console.error(error);
+      alert("Impossible de générer la convocation de l'élève. Veuillez réessayer.");
+    }
+  };
+
+  const handleDownloadClass = async () => {
+    try {
+      await downloadStudentConvocationsForClass(classStudents, selectedClass);
+    } catch (error) {
+      console.error(error);
+      alert("Aucune convocation disponible pour cette classe.");
+    }
+  };
+
+  const handleDownloadAll = async () => {
+    try {
+      await downloadAllStudentConvocations(bacBlanc1Students);
+    } catch (error) {
+      console.error(error);
+      alert("Impossible de générer les convocations. Veuillez réessayer.");
+    }
+  };
 
   if (!container) {
     return null;
@@ -50,6 +93,43 @@ export default function BacBlancStudents() {
               Utilisez cette vue pour préparer les convocations et la répartition des salles par spécialité.
             </p>
           </div>
+          <div className="flex flex-col gap-2 text-sm sm:flex-row sm:items-center sm:gap-3">
+            <div className="flex items-center gap-2">
+              <label htmlFor="class-selector" className="text-sm font-medium text-slate-600">
+                Classe
+              </label>
+              <select
+                id="class-selector"
+                value={selectedClass}
+                onChange={(event) => setSelectedClass(event.target.value)}
+                className="rounded-md border border-slate-300 px-3 py-1 text-sm text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+              >
+                {classOptions.map((className) => (
+                  <option key={className} value={className}>
+                    {className}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={handleDownloadClass}
+                className="inline-flex items-center gap-2 rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm transition hover:border-blue-200 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+              >
+                <FileDown className="h-4 w-4" aria-hidden="true" />
+                Télécharger la classe
+              </button>
+              <button
+                type="button"
+                onClick={handleDownloadAll}
+                className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              >
+                <FileDown className="h-4 w-4" aria-hidden="true" />
+                Toutes les convocations
+              </button>
+            </div>
+          </div>
         </div>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-slate-200 text-left">
@@ -79,10 +159,13 @@ export default function BacBlancStudents() {
                 <th scope="col" className="px-6 py-3">
                   Spécialité 2 (Ven. 12 déc. 08h00)
                 </th>
+                <th scope="col" className="px-6 py-3 text-right">
+                  Convocation
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200 text-sm text-slate-700">
-              {bacBlanc1Students.map((student) => (
+              {bacBlanc1Students.map((student, index) => (
                 <tr key={`${student.lastName}-${student.firstName}`} className="hover:bg-slate-50">
                   <td className="whitespace-nowrap px-6 py-3 font-semibold uppercase text-slate-900">
                     {student.lastName}
@@ -107,6 +190,16 @@ export default function BacBlancStudents() {
                   </td>
                   <td className="whitespace-nowrap px-6 py-3 font-semibold text-blue-700">
                     {student.specialty2Room}
+                  </td>
+                  <td className="whitespace-nowrap px-6 py-3 text-right">
+                    <button
+                      type="button"
+                      onClick={() => handleDownloadStudent(index)}
+                      className="inline-flex items-center gap-2 rounded-md border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm transition hover:border-blue-200 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                    >
+                      <FileDown className="h-4 w-4" aria-hidden="true" />
+                      Télécharger
+                    </button>
                   </td>
                 </tr>
               ))}
