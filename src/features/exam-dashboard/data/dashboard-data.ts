@@ -130,6 +130,9 @@ export interface BacBlancStudentEntry {
   specialty1: string;
   specialty2: string;
   className: string;
+  philosophyRoom: string;
+  specialty1Room: string;
+  specialty2Room: string;
 }
 
 export const bacBlanc1Students: BacBlancStudentEntry[] = [
@@ -139,6 +142,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE HGGSP",
     specialty2: "SPE SES",
     className: "TERMINALE2",
+    philosophyRoom: "S12",
+    specialty1Room: "S13",
+    specialty2Room: "S10",
   },
   {
     lastName: "ACETO",
@@ -146,6 +152,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE HGGSP",
     specialty2: "SPE SES",
     className: "TERMINALE2",
+    philosophyRoom: "S12",
+    specialty1Room: "S13",
+    specialty2Room: "S10",
   },
   {
     lastName: "APACK",
@@ -153,6 +162,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE HGGSP",
     specialty2: "SPE SES",
     className: "TERMINALE2",
+    philosophyRoom: "S12",
+    specialty1Room: "S13",
+    specialty2Room: "S10",
   },
   {
     lastName: "ARRON",
@@ -160,6 +172,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE MATHS",
     specialty2: "SPE SVT",
     className: "TERMINALE1",
+    philosophyRoom: "S12",
+    specialty1Room: "S10",
+    specialty2Room: "S13",
   },
   {
     lastName: "BA",
@@ -167,6 +182,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE MATHS",
     specialty2: "SPE SES",
     className: "TERMINALE1",
+    philosophyRoom: "S12",
+    specialty1Room: "S10",
+    specialty2Room: "S10",
   },
   {
     lastName: "BABO",
@@ -174,6 +192,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE MATHS",
     specialty2: "SPE SVT",
     className: "TERMINALE1",
+    philosophyRoom: "S12",
+    specialty1Room: "S10",
+    specialty2Room: "S10",
   },
   {
     lastName: "BARIC",
@@ -181,6 +202,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE LLCE AMC",
     specialty2: "SPE SES",
     className: "TERMINALE2",
+    philosophyRoom: "S12",
+    specialty1Room: "S12",
+    specialty2Room: "S10",
   },
   {
     lastName: "BASTIDE AHMED",
@@ -188,6 +212,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE MATHS",
     specialty2: "SPE SPC",
     className: "TERMINALE1",
+    philosophyRoom: "S12",
+    specialty1Room: "S10",
+    specialty2Room: "S13",
   },
   {
     lastName: "BELKHAYAT ZOUKKARI",
@@ -195,6 +222,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE MATHS",
     specialty2: "SPE SES",
     className: "TERMINALE1",
+    philosophyRoom: "S13",
+    specialty1Room: "S10",
+    specialty2Room: "S10",
   },
   {
     lastName: "BRARD",
@@ -202,6 +232,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE LLCE AMC",
     specialty2: "SPE SES",
     className: "TERMINALE2",
+    philosophyRoom: "S13",
+    specialty1Room: "S12",
+    specialty2Room: "S10",
   },
   {
     lastName: "BRUNIE",
@@ -209,6 +242,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE SES",
     specialty2: "SPE SVT",
     className: "TERMINALE1",
+    philosophyRoom: "S13",
+    specialty1Room: "S15",
+    specialty2Room: "S13",
   },
   {
     lastName: "BUOVOLO",
@@ -216,6 +252,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE MATHS",
     specialty2: "SPE SPC",
     className: "TERMINALE1",
+    philosophyRoom: "S13",
+    specialty1Room: "S10",
+    specialty2Room: "S13",
   },
   {
     lastName: "CERNEJESKI",
@@ -223,6 +262,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE HGGSP",
     specialty2: "SPE SES",
     className: "TERMINALE2",
+    philosophyRoom: "S13",
+    specialty1Room: "S13",
+    specialty2Room: "S12",
   },
   {
     lastName: "CISSE",
@@ -230,6 +272,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE HGGSP",
     specialty2: "SPE SES",
     className: "TERMINALE2",
+    philosophyRoom: "S13",
+    specialty1Room: "S10",
+    specialty2Room: "S13",
   },
   {
     lastName: "CISSE",
@@ -237,6 +282,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE MATHS",
     specialty2: "SPE SPC",
     className: "TERMINALE1",
+    philosophyRoom: "S13",
+    specialty1Room: "S13",
+    specialty2Room: "S12",
   },
   {
     lastName: "DANCOING",
@@ -244,6 +292,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE LLCE AMC",
     specialty2: "SPE SVT",
     className: "TERMINALE2",
+    philosophyRoom: "S13",
+    specialty1Room: "S12",
+    specialty2Room: "S13",
   },
   {
     lastName: "DE GAIGNERON JOLLIMON DE MAROLLES",
@@ -251,6 +302,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE HGGSP",
     specialty2: "SPE SVT",
     className: "TERMINALE2",
+    philosophyRoom: "S14",
+    specialty1Room: "S13",
+    specialty2Room: "S14",
   },
   {
     lastName: "DJOUKWE",
@@ -258,6 +312,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE MATHS",
     specialty2: "SPE SES",
     className: "TERMINALE1",
+    philosophyRoom: "S14",
+    specialty1Room: "S10",
+    specialty2Room: "S12",
   },
   {
     lastName: "FALL",
@@ -265,6 +322,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE MATHS",
     specialty2: "SPE SVT",
     className: "TERMINALE1",
+    philosophyRoom: "S9",
+    specialty1Room: "S9",
+    specialty2Room: "S9",
   },
   {
     lastName: "FALL CLAMENS",
@@ -272,6 +332,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE HGGSP",
     specialty2: "SPE SES",
     className: "TERMINALE2",
+    philosophyRoom: "S14",
+    specialty1Room: "S10",
+    specialty2Room: "S14",
   },
   {
     lastName: "GALAND",
@@ -279,6 +342,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE MATHS",
     specialty2: "SPE SPC",
     className: "TERMINALE1",
+    philosophyRoom: "S15",
+    specialty1Room: "S10",
+    specialty2Room: "S13",
   },
   {
     lastName: "GAZI",
@@ -286,6 +352,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE LLCE AMC",
     specialty2: "SPE SES",
     className: "TERMINALE2",
+    philosophyRoom: "S14",
+    specialty1Room: "S12",
+    specialty2Room: "S12",
   },
   {
     lastName: "JACOBE",
@@ -293,6 +362,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE LLCE AMC",
     specialty2: "SPE SVT",
     className: "TERMINALE2",
+    philosophyRoom: "S14",
+    specialty1Room: "S12",
+    specialty2Room: "S14",
   },
   {
     lastName: "KOUROUMA",
@@ -300,6 +372,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE MATHS",
     specialty2: "SPE SES",
     className: "TERMINALE1",
+    philosophyRoom: "S14",
+    specialty1Room: "S10",
+    specialty2Room: "S12",
   },
   {
     lastName: "LANZETTI",
@@ -307,6 +382,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE LLCE AMC",
     specialty2: "SPE SES",
     className: "TERMINALE2",
+    philosophyRoom: "S14",
+    specialty1Room: "S12",
+    specialty2Room: "S12",
   },
   {
     lastName: "MAREGA",
@@ -314,6 +392,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE MATHS",
     specialty2: "SPE SES",
     className: "TERMINALE1",
+    philosophyRoom: "S14",
+    specialty1Room: "S10",
+    specialty2Room: "S12",
   },
   {
     lastName: "MBOUP",
@@ -321,6 +402,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE SES",
     specialty2: "SPE LLCE AMC",
     className: "TERMINALE2",
+    philosophyRoom: "S14",
+    specialty1Room: "S15",
+    specialty2Room: "S10",
   },
   {
     lastName: "MBOW",
@@ -328,6 +412,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE SPC",
     specialty2: "SPE SVT",
     className: "TERMINALE1",
+    philosophyRoom: "S15",
+    specialty1Room: "S15",
+    specialty2Room: "S14",
   },
   {
     lastName: "MERDJANOPOULOS",
@@ -335,6 +422,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE MATHS",
     specialty2: "SPE SPC",
     className: "TERMINALE1",
+    philosophyRoom: "S15",
+    specialty1Room: "S10",
+    specialty2Room: "S13",
   },
   {
     lastName: "MESSINA",
@@ -342,6 +432,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE SES",
     specialty2: "SPE SVT",
     className: "TERMINALE1",
+    philosophyRoom: "S15",
+    specialty1Room: "S15",
+    specialty2Room: "S14",
   },
   {
     lastName: "MINGOU",
@@ -349,6 +442,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE HGGSP",
     specialty2: "SPE SES",
     className: "TERMINALE2",
+    philosophyRoom: "S15",
+    specialty1Room: "S13",
+    specialty2Room: "S12",
   },
   {
     lastName: "MONTMASSON",
@@ -356,6 +452,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE HGGSP",
     specialty2: "SPE SES",
     className: "TERMINALE2",
+    philosophyRoom: "S15",
+    specialty1Room: "S13",
+    specialty2Room: "S12",
   },
   {
     lastName: "MOUABE",
@@ -363,6 +462,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE SES",
     specialty2: "SPE SVT",
     className: "TERMINALE1",
+    philosophyRoom: "S15",
+    specialty1Room: "S15",
+    specialty2Room: "S14",
   },
   {
     lastName: "N'JAMBONG",
@@ -370,6 +472,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE HGGSP",
     specialty2: "SPE SES",
     className: "TERMINALE2",
+    philosophyRoom: "S15",
+    specialty1Room: "S13",
+    specialty2Room: "S12",
   },
   {
     lastName: "NDAW",
@@ -377,6 +482,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE LLCE AMC",
     specialty2: "SPE SES",
     className: "TERMINALE2",
+    philosophyRoom: "S10",
+    specialty1Room: "S12",
+    specialty2Room: "S12",
   },
   {
     lastName: "NDOUR",
@@ -384,6 +492,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE HGGSP",
     specialty2: "SPE SES",
     className: "TERMINALE2",
+    philosophyRoom: "S9",
+    specialty1Room: "S9",
+    specialty2Room: "S9",
   },
   {
     lastName: "NGOM",
@@ -391,6 +502,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE HGGSP",
     specialty2: "SPE LLCE AMC",
     className: "TERMINALE2",
+    philosophyRoom: "S10",
+    specialty1Room: "S13",
+    specialty2Room: "S10",
   },
   {
     lastName: "NIANG",
@@ -398,6 +512,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE MATHS",
     specialty2: "SPE SPC",
     className: "TERMINALE1",
+    philosophyRoom: "S10",
+    specialty1Room: "S10",
+    specialty2Room: "S13",
   },
   {
     lastName: "PERINER",
@@ -405,6 +522,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE LLCE AMC",
     specialty2: "SPE SVT",
     className: "TERMINALE2",
+    philosophyRoom: "S10",
+    specialty1Room: "S12",
+    specialty2Room: "S14",
   },
   {
     lastName: "RAGUIN",
@@ -412,6 +532,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE SPC",
     specialty2: "SPE SVT",
     className: "TERMINALE1",
+    philosophyRoom: "S10",
+    specialty1Room: "S15",
+    specialty2Room: "S14",
   },
   {
     lastName: "RISPAL",
@@ -419,6 +542,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE SPC",
     specialty2: "SPE SVT",
     className: "TERMINALE1",
+    philosophyRoom: "S9",
+    specialty1Room: "S9",
+    specialty2Room: "S9",
   },
   {
     lastName: "ROWLAND",
@@ -426,6 +552,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE LLCE AMC",
     specialty2: "SPE SES",
     className: "TERMINALE2",
+    philosophyRoom: "S10",
+    specialty1Room: "S12",
+    specialty2Room: "S12",
   },
   {
     lastName: "SIDHOUM",
@@ -433,6 +562,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE MATHS",
     specialty2: "SPE SPC",
     className: "TERMINALE1",
+    philosophyRoom: "S10",
+    specialty1Room: "S10",
+    specialty2Room: "S13",
   },
   {
     lastName: "SOBLOG",
@@ -440,6 +572,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE SPC",
     specialty2: "SPE SVT",
     className: "TERMINALE1",
+    philosophyRoom: "S9",
+    specialty1Room: "S9",
+    specialty2Room: "S9",
   },
   {
     lastName: "SON",
@@ -447,6 +582,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE SES",
     specialty2: "SPE SVT",
     className: "TERMINALE1",
+    philosophyRoom: "S10",
+    specialty1Room: "S15",
+    specialty2Room: "S14",
   },
   {
     lastName: "SOW",
@@ -454,6 +592,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE LLCE AMC",
     specialty2: "SPE SVT",
     className: "TERMINALE2",
+    philosophyRoom: "S10",
+    specialty1Room: "S12",
+    specialty2Room: "S14",
   },
   {
     lastName: "SOW",
@@ -461,6 +602,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE LLCE AMC",
     specialty2: "SPE SVT",
     className: "TERMINALE2",
+    philosophyRoom: "S15",
+    specialty1Room: "S12",
+    specialty2Room: "S14",
   },
   {
     lastName: "WONE",
@@ -468,6 +612,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE HGGSP",
     specialty2: "SPE LLCE AMC",
     className: "TERMINALE2",
+    philosophyRoom: "S13",
+    specialty1Room: "S13",
+    specialty2Room: "S10",
   },
   {
     lastName: "ZARB",
@@ -475,6 +622,9 @@ export const bacBlanc1Students: BacBlancStudentEntry[] = [
     specialty1: "SPE MATHS",
     specialty2: "SPE SPC",
     className: "TERMINALE1",
+    philosophyRoom: "S9",
+    specialty1Room: "S9",
+    specialty2Room: "S9",
   },
 ];
 
