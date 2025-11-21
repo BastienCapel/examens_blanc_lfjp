@@ -14,13 +14,13 @@ export default function BacBlancStudents() {
   const { activeView, container } = useDashboardContext();
   const classOptions = useMemo(
     () => Array.from(new Set(bacBlanc1Students.map((student) => student.className))).sort(),
-    [],
+    [bacBlanc1Students],
   );
   const [selectedClass, setSelectedClass] = useState(classOptions[0] ?? "");
 
   const classStudents = useMemo(
     () => bacBlanc1Students.filter((student) => student.className === selectedClass),
-    [selectedClass],
+    [bacBlanc1Students, selectedClass],
   );
 
   const handleDownloadStudent = async (studentIndex: number) => {
