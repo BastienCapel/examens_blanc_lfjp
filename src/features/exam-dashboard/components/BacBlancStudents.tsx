@@ -27,7 +27,8 @@ export default function BacBlancStudents() {
             Bac blanc 1 — élèves et spécialités
           </h3>
           <p className="text-sm text-slate-500">
-            Liste des élèves convoqués avec leurs spécialités 1 et 2 issues du parcours de Terminale.
+            Liste des élèves convoqués avec leurs spécialités 1 et 2 issues du
+            parcours de Terminale et leur salle de composition par épreuve.
           </p>
         </div>
         <div className="flex items-center gap-3 rounded-lg bg-blue-50 px-4 py-3 text-blue-700">
@@ -69,6 +70,15 @@ export default function BacBlancStudents() {
                 <th scope="col" className="px-6 py-3">
                   Classe
                 </th>
+                <th scope="col" className="px-6 py-3">
+                  Philosophie (Mer. 10 déc. 08h00)
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Spécialité 1 (Jeu. 11 déc. 08h00)
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Spécialité 2 (Ven. 12 déc. 08h00)
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200 text-sm text-slate-700">
@@ -88,6 +98,15 @@ export default function BacBlancStudents() {
                   </td>
                   <td className="whitespace-nowrap px-6 py-3 text-slate-600">
                     {student.className}
+                  </td>
+                  <td className="whitespace-nowrap px-6 py-3 font-semibold text-slate-800">
+                    {student.philosophyRoom}
+                  </td>
+                  <td className="whitespace-nowrap px-6 py-3 font-semibold text-blue-700">
+                    {student.specialty1Room}
+                  </td>
+                  <td className="whitespace-nowrap px-6 py-3 font-semibold text-blue-700">
+                    {student.specialty2Room}
                   </td>
                 </tr>
               ))}
