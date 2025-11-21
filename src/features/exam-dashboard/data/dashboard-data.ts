@@ -124,6 +124,360 @@ export const teacherDirectoryByShortName: Record<string, TeacherDirectoryEntry> 
     return acc;
   }, {} as Record<string, TeacherDirectoryEntry>);
 
+export interface BacBlancStudentEntry {
+  lastName: string;
+  firstName: string;
+  specialty1: string;
+  specialty2: string;
+  className: string;
+}
+
+export const bacBlanc1Students: BacBlancStudentEntry[] = [
+  {
+    lastName: "ABOUDOU AMOUSSA",
+    firstName: "Inès",
+    specialty1: "SPE HGGSP",
+    specialty2: "SPE SES",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "ACETO",
+    firstName: "Awa",
+    specialty1: "SPE HGGSP",
+    specialty2: "SPE SES",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "APACK",
+    firstName: "Nayla",
+    specialty1: "SPE HGGSP",
+    specialty2: "SPE SES",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "ARRON",
+    firstName: "Hélène",
+    specialty1: "SPE MATHS",
+    specialty2: "SPE SVT",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "BA",
+    firstName: "Khalifa Ababacar",
+    specialty1: "SPE MATHS",
+    specialty2: "SPE SES",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "BABO",
+    firstName: "Yanis",
+    specialty1: "SPE MATHS",
+    specialty2: "SPE SVT",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "BARIC",
+    firstName: "Yerim",
+    specialty1: "SPE LLCE AMC",
+    specialty2: "SPE SES",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "BASTIDE AHMED",
+    firstName: "Malik",
+    specialty1: "SPE MATHS",
+    specialty2: "SPE SPC",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "BELKHAYAT ZOUKKARI",
+    firstName: "Mouna",
+    specialty1: "SPE MATHS",
+    specialty2: "SPE SES",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "BRARD",
+    firstName: "Louka",
+    specialty1: "SPE LLCE AMC",
+    specialty2: "SPE SES",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "BRUNIE",
+    firstName: "Sarah",
+    specialty1: "SPE SES",
+    specialty2: "SPE SVT",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "BUOVOLO",
+    firstName: "Mariam",
+    specialty1: "SPE MATHS",
+    specialty2: "SPE SPC",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "CERNEJESKI",
+    firstName: "Hugo",
+    specialty1: "SPE HGGSP",
+    specialty2: "SPE SES",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "CISSE",
+    firstName: "Ibrahima",
+    specialty1: "SPE HGGSP",
+    specialty2: "SPE SES",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "CISSE",
+    firstName: "Combé",
+    specialty1: "SPE MATHS",
+    specialty2: "SPE SPC",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "DANCOING",
+    firstName: "Louna",
+    specialty1: "SPE LLCE AMC",
+    specialty2: "SPE SVT",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "DE GAIGNERON JOLLIMON DE MAROLLES",
+    firstName: "Philippine",
+    specialty1: "SPE HGGSP",
+    specialty2: "SPE SVT",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "DJOUKWE",
+    firstName: "David",
+    specialty1: "SPE MATHS",
+    specialty2: "SPE SES",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "FALL",
+    firstName: "Djellya Yacine",
+    specialty1: "SPE MATHS",
+    specialty2: "SPE SVT",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "FALL CLAMENS",
+    firstName: "Omar  Louis",
+    specialty1: "SPE HGGSP",
+    specialty2: "SPE SES",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "GALAND",
+    firstName: "Aurelien",
+    specialty1: "SPE MATHS",
+    specialty2: "SPE SPC",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "GAZI",
+    firstName: "Ethan",
+    specialty1: "SPE LLCE AMC",
+    specialty2: "SPE SES",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "JACOBE",
+    firstName: "Lou",
+    specialty1: "SPE LLCE AMC",
+    specialty2: "SPE SVT",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "KOUROUMA",
+    firstName: "Bakary",
+    specialty1: "SPE MATHS",
+    specialty2: "SPE SES",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "LANZETTI",
+    firstName: "Luigi",
+    specialty1: "SPE LLCE AMC",
+    specialty2: "SPE SES",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "MAREGA",
+    firstName: "Yssa",
+    specialty1: "SPE MATHS",
+    specialty2: "SPE SES",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "MBOUP",
+    firstName: "Mame Diarra",
+    specialty1: "SPE SES",
+    specialty2: "SPE LLCE AMC",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "MBOW",
+    firstName: "Ramatoulaye",
+    specialty1: "SPE SPC",
+    specialty2: "SPE SVT",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "MERDJANOPOULOS",
+    firstName: "Louka",
+    specialty1: "SPE MATHS",
+    specialty2: "SPE SPC",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "MESSINA",
+    firstName: "Tom",
+    specialty1: "SPE SES",
+    specialty2: "SPE SVT",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "MINGOU",
+    firstName: "Cécilia",
+    specialty1: "SPE HGGSP",
+    specialty2: "SPE SES",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "MONTMASSON",
+    firstName: "Héléna Amy",
+    specialty1: "SPE HGGSP",
+    specialty2: "SPE SES",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "MOUABE",
+    firstName: "Aaron",
+    specialty1: "SPE SES",
+    specialty2: "SPE SVT",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "N'JAMBONG",
+    firstName: "Asaja",
+    specialty1: "SPE HGGSP",
+    specialty2: "SPE SES",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "NDAW",
+    firstName: "Mary Louise",
+    specialty1: "SPE LLCE AMC",
+    specialty2: "SPE SES",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "NDOUR",
+    firstName: "Fatou",
+    specialty1: "SPE HGGSP",
+    specialty2: "SPE SES",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "NGOM",
+    firstName: "Khadija",
+    specialty1: "SPE HGGSP",
+    specialty2: "SPE LLCE AMC",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "NIANG",
+    firstName: "Papa Ibrahima Cheikh",
+    specialty1: "SPE MATHS",
+    specialty2: "SPE SPC",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "PERINER",
+    firstName: "Angie",
+    specialty1: "SPE LLCE AMC",
+    specialty2: "SPE SVT",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "RAGUIN",
+    firstName: "Kesya",
+    specialty1: "SPE SPC",
+    specialty2: "SPE SVT",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "RISPAL",
+    firstName: "Charlie",
+    specialty1: "SPE SPC",
+    specialty2: "SPE SVT",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "ROWLAND",
+    firstName: "NoahDilhane",
+    specialty1: "SPE LLCE AMC",
+    specialty2: "SPE SES",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "SIDHOUM",
+    firstName: "Anas",
+    specialty1: "SPE MATHS",
+    specialty2: "SPE SPC",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "SOBLOG",
+    firstName: "Oscar",
+    specialty1: "SPE SPC",
+    specialty2: "SPE SVT",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "SON",
+    firstName: "Ye Seon",
+    specialty1: "SPE SES",
+    specialty2: "SPE SVT",
+    className: "TERMINALE1",
+  },
+  {
+    lastName: "SOW",
+    firstName: "Aminata Soraya",
+    specialty1: "SPE LLCE AMC",
+    specialty2: "SPE SVT",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "SOW",
+    firstName: "Diyé",
+    specialty1: "SPE LLCE AMC",
+    specialty2: "SPE SVT",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "WONE",
+    firstName: "Fatimata",
+    specialty1: "SPE HGGSP",
+    specialty2: "SPE LLCE AMC",
+    className: "TERMINALE2",
+  },
+  {
+    lastName: "ZARB",
+    firstName: "Frédy",
+    specialty1: "SPE MATHS",
+    specialty2: "SPE SPC",
+    className: "TERMINALE1",
+  },
+];
+
 export type SurveillanceType =
   | "philosophie"
   | "specialite"
@@ -718,7 +1072,7 @@ export const roomSchedule: RoomScheduleDay[] = [
 ];
 
 export interface DashboardTab {
-  id: "setup" | "teacher" | "convocation" | "room" | "day";
+  id: "setup" | "teacher" | "convocation" | "students" | "room" | "day";
   label: string;
   Icon: LucideIcon;
 }
@@ -727,6 +1081,7 @@ export const dashboardTabs: DashboardTab[] = [
   { id: "setup", label: "Paramétrage des salles", Icon: Settings },
   { id: "teacher", label: "Vue par enseignant", Icon: Users },
   { id: "convocation", label: "Convocations", Icon: ClipboardList },
+  { id: "students", label: "Bac blanc 1", Icon: Users2 },
   { id: "room", label: "Vue par salle", Icon: LayoutGrid },
   { id: "day", label: "Vue par jour", Icon: Calendar },
 ];
