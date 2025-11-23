@@ -187,7 +187,6 @@ export async function downloadAttendanceList(
       scale: 2,
       backgroundColor: "#ffffff",
     });
-    const imgData = canvas.toDataURL("image/png");
 
     const pdf = new jsPDF({
       orientation: "portrait",
@@ -200,21 +199,65 @@ export async function downloadAttendanceList(
 
     const renderWidth = canvas.width;
     const renderHeight = canvas.height;
-    const imgWidth = pageWidth;
-    const imgHeight = (renderHeight * imgWidth) / renderWidth;
+    const scaleFactor = pageWidth / renderWidth;
+    const pageHeightInCanvas = pageHeight / scaleFactor;
 
-    let heightLeft = imgHeight;
-    let position = 0;
+    const contentRect = content.getBoundingClientRect();
+    const rows = Array.from(content.querySelectorAll("tbody tr"));
 
-    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
+    let lastBreak = 0;
+    const slices: Array<{ start: number; height: number }> = [];
 
-    while (heightLeft > 0) {
-      position = heightLeft - imgHeight;
-      pdf.addPage();
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
+    rows.forEach((row) => {
+      const rowRect = row.getBoundingClientRect();
+      const rowTop = rowRect.top - contentRect.top;
+      const rowBottom = rowRect.bottom - contentRect.top;
+
+      if (rowBottom - lastBreak > pageHeightInCanvas) {
+        const sliceHeight = rowTop - lastBreak;
+        if (sliceHeight > 0) {
+          slices.push({ start: lastBreak, height: sliceHeight });
+        }
+        lastBreak = rowTop;
+      }
+    });
+
+    const finalHeight = renderHeight - lastBreak;
+    if (finalHeight > 0) {
+      slices.push({ start: lastBreak, height: finalHeight });
     }
+
+    slices.forEach((slice, index) => {
+      const pageCanvas = document.createElement("canvas");
+      pageCanvas.width = renderWidth;
+      pageCanvas.height = slice.height;
+
+      const context = pageCanvas.getContext("2d");
+      if (!context) {
+        throw new Error("Canvas 2D context non disponible");
+      }
+
+      context.drawImage(
+        canvas,
+        0,
+        slice.start,
+        renderWidth,
+        slice.height,
+        0,
+        0,
+        renderWidth,
+        slice.height,
+      );
+
+      const pageImgHeight = slice.height * scaleFactor;
+      const pageImgData = pageCanvas.toDataURL("image/png");
+
+      if (index > 0) {
+        pdf.addPage();
+      }
+
+      pdf.addImage(pageImgData, "PNG", 0, 0, pageWidth, pageImgHeight);
+    });
 
     pdf.save("emargement-surveillants.pdf");
   } finally {
