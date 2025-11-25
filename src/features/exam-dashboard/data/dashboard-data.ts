@@ -950,7 +950,7 @@ export const surveillanceSchedule: SurveillanceMission[] = [
     type: "specialite",
   },
   {
-    teacher: "MOURAIN DIOP F.",
+    teacher: "PEREZ F.",
     datetime: "jeudi 11/12 à 14h05",
     room: "S13",
     mission: "Bac blanc EAF",
@@ -1139,7 +1139,7 @@ export const roomSchedule: RoomScheduleDay[] = [
         {
           label: "Après-midi",
           time: "14h05 - 18h05",
-          teacher: "MOURAIN DIOP F.",
+          teacher: "PEREZ F.",
           detail: "EAF",
           type: "eaf",
         },
