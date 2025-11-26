@@ -135,6 +135,94 @@ export interface BacBlancStudentEntry {
   specialty2Room: string;
 }
 
+export interface PremiereBacBlancStudentEntry {
+  lastName: string;
+  firstName: string;
+  className: string;
+  room: string;
+}
+
+export const bacBlanc1PremiereStudents: PremiereBacBlancStudentEntry[] = [
+  { lastName: "ALLIER", firstName: "Faustine", className: "1ERE1", room: "S12" },
+  {
+    lastName: "BENSON",
+    firstName: "Marilyse Lucia Fanta",
+    className: "1ERE1",
+    room: "S12",
+  },
+  { lastName: "BIER", firstName: "Awa Eve", className: "1ERE2", room: "S12" },
+  { lastName: "BOUSSO", firstName: "Coumba", className: "1ERE1", room: "S12" },
+  {
+    lastName: "BOYER",
+    firstName: "Camille Laurence Nella",
+    className: "1ERE1",
+    room: "S12",
+  },
+  { lastName: "BRU", firstName: "Marie", className: "1ERE1", room: "S12" },
+  { lastName: "CALDEIRA", firstName: "Giovanna", className: "1ERE2", room: "S12" },
+  { lastName: "CISSE-SOHM", firstName: "Elah-Khayta", className: "1ERE2", room: "S12" },
+  { lastName: "CROIZAT", firstName: "Liliane", className: "1ERE2", room: "S12" },
+  {
+    lastName: "DARWICHE",
+    firstName: "Iris Marie Raymonde",
+    className: "1ERE1",
+    room: "S12",
+  },
+  { lastName: "DAVID", firstName: "Hoel", className: "1ERE1", room: "S13" },
+  {
+    lastName: "DE GAIGNERON JOLLIMON DE MAROLLES",
+    firstName: "Clovis",
+    className: "1ERE1",
+    room: "S13",
+  },
+  { lastName: "DIAGNE", firstName: "Seydina Alioune", className: "1ERE1", room: "S13" },
+  { lastName: "DIAKHABY", firstName: "Safia", className: "1ERE2", room: "S13" },
+  { lastName: "DIAKITE", firstName: "Assietou Dite Assy", className: "1ERE2", room: "S13" },
+  { lastName: "DIALLO", firstName: "Marvin Noah Diouldé", className: "1ERE2", room: "S13" },
+  { lastName: "ELABIB", firstName: "Fatiha", className: "1ERE2", room: "S10" },
+  { lastName: "ENNADIFI", firstName: "Mohamed", className: "1ERE2", room: "S13" },
+  { lastName: "FALL", firstName: "Cheikh Saliou Mbacké", className: "1ERE1", room: "S13" },
+  { lastName: "FALL", firstName: "Souleymane", className: "1ERE1", room: "S13" },
+  { lastName: "FAYE", firstName: "Imane", className: "1ERE2", room: "S13" },
+  { lastName: "GAFFARI", firstName: "Mattéo", className: "1ERE1", room: "S14" },
+  { lastName: "GAYE", firstName: "Ababacar", className: "1ERE1", room: "S14" },
+  { lastName: "GNING", firstName: "Maya Aïssatou", className: "1ERE1", room: "S14" },
+  { lastName: "HACHIM", firstName: "Rayan", className: "1ERE2", room: "S14" },
+  { lastName: "HAFFNER", firstName: "Juliette", className: "1ERE1", room: "S14" },
+  {
+    lastName: "JENOUDET",
+    firstName: "Thiméo Owen Thibault",
+    className: "1ERE1",
+    room: "S9 PRIO/EPS",
+  },
+  { lastName: "KERDUDO", firstName: "Zeina", className: "1ERE2", room: "S9 PRIO/EPS" },
+  { lastName: "LAH", firstName: "Aïssa", className: "1ERE1", room: "S14" },
+  { lastName: "LAM", firstName: "Magate Aïcha", className: "1ERE1", room: "S14" },
+  { lastName: "LAMBERT", firstName: "Clara Noémie", className: "1ERE2", room: "S14" },
+  { lastName: "LARSEN", firstName: "Diara Kalstrup", className: "1ERE2", room: "S14" },
+  { lastName: "LAURIENTE", firstName: "Alexandra", className: "1ERE1", room: "S14" },
+  { lastName: "LEMAIRE", firstName: "Simon", className: "1ERE1", room: "S15" },
+  { lastName: "MBAYE", firstName: "Assy", className: "1ERE2", room: "S15" },
+  { lastName: "MBOUP", firstName: "Amy", className: "1ERE2", room: "S15" },
+  { lastName: "METZ", firstName: "Celia", className: "1ERE2", room: "S15" },
+  { lastName: "MOUAQIT", firstName: "Achraf", className: "1ERE1", room: "S15" },
+  { lastName: "NDIAYE", firstName: "Felwine Alicia", className: "1ERE2", room: "S15" },
+  { lastName: "NDIAYE", firstName: "Maty", className: "1ERE2", room: "S15" },
+  { lastName: "NGOM", firstName: "Aicha Khoyane", className: "1ERE2", room: "S15" },
+  { lastName: "NIANG", firstName: "Fatoumata Helene Semou", className: "1ERE2", room: "S15" },
+  { lastName: "NOUHANDO ROD", firstName: "Orient", className: "1ERE2", room: "S15" },
+  { lastName: "RUNG", firstName: "Agathe", className: "1ERE2", room: "S10" },
+  { lastName: "SALL", firstName: "Tamsir", className: "1ERE1", room: "S10" },
+  { lastName: "SAMBA", firstName: "Babacar", className: "1ERE2", room: "S10" },
+  { lastName: "SANÉ", firstName: "Djiraël Tidjani Kany", className: "1ERE1", room: "S10" },
+  { lastName: "SARR", firstName: "Mame Diarra Bousso", className: "1ERE2", room: "S10" },
+  { lastName: "SARR", firstName: "Sokhna Faty", className: "1ERE1", room: "S9 PRIO/EPS" },
+  { lastName: "SAVI", firstName: "Loris Tahirou", className: "1ERE1", room: "S9 PRIO/EPS" },
+  { lastName: "SECK", firstName: "Ousseynatou", className: "1ERE1", room: "S10" },
+  { lastName: "TSHIBANDA", firstName: "Raymond", className: "1ERE1", room: "S10" },
+  { lastName: "WONE", firstName: "Oumar", className: "1ERE2", room: "S10" },
+];
+
 export const bacBlanc1Students: BacBlancStudentEntry[] = [
   {
     lastName: "ABOUDOU AMOUSSA",

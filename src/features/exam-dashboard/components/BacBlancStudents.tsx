@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { FileDown, Users2 } from "lucide-react";
 
-import { bacBlanc1Students } from "../data";
+import { bacBlanc1PremiereStudents, bacBlanc1Students } from "../data";
 import { useDashboardContext } from "../context";
 import {
   downloadAllStudentConvocations,
@@ -201,6 +201,54 @@ export default function BacBlancStudents() {
                       Télécharger
                     </button>
                   </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+        <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-6 py-4">
+          <div>
+            <h4 className="text-base font-semibold text-slate-900">
+              Élèves de Première — épreuve du jeudi après-midi
+            </h4>
+            <p className="text-sm text-slate-500">
+              Liste des élèves convoqués et leur salle d'examen pour l'épreuve de l'après-midi.
+            </p>
+          </div>
+          <div className="rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">
+            {bacBlanc1PremiereStudents.length} élèves
+          </div>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-slate-200 text-left">
+            <thead className="bg-slate-50 text-sm font-medium text-slate-600">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  Nom
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Prénom
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Classe
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Salle épreuve jeudi (après-midi)
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200 text-sm text-slate-700">
+              {bacBlanc1PremiereStudents.map((student) => (
+                <tr key={`${student.lastName}-${student.firstName}`} className="hover:bg-slate-50">
+                  <td className="whitespace-nowrap px-6 py-3 font-semibold uppercase text-slate-900">
+                    {student.lastName}
+                  </td>
+                  <td className="whitespace-nowrap px-6 py-3 text-slate-800">{student.firstName}</td>
+                  <td className="whitespace-nowrap px-6 py-3 text-slate-600">{student.className}</td>
+                  <td className="whitespace-nowrap px-6 py-3 font-semibold text-blue-700">{student.room}</td>
                 </tr>
               ))}
             </tbody>
