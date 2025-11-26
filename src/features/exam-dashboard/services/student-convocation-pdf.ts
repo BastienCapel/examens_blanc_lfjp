@@ -270,25 +270,6 @@ const createPremiereConvocationTemplate = (): PremiereConvocationTemplate => {
   return { badge, container, greeting, list };
 };
 
-let bacTemplate: BacConvocationTemplate | null = null;
-let premiereTemplate: PremiereConvocationTemplate | null = null;
-
-const getBacConvocationTemplate = (): BacConvocationTemplate => {
-  if (!bacTemplate) {
-    bacTemplate = createBacConvocationTemplate();
-  }
-
-  return bacTemplate;
-};
-
-const getPremiereConvocationTemplate = (): PremiereConvocationTemplate => {
-  if (!premiereTemplate) {
-    premiereTemplate = createPremiereConvocationTemplate();
-  }
-
-  return premiereTemplate;
-};
-
 const updateBacConvocationContent = (
   template: BacConvocationTemplate,
   student: BacBlancStudentEntry,
@@ -314,7 +295,7 @@ const appendConvocationPage = async (
   student: BacBlancStudentEntry,
   isFirstPage: boolean,
 ): Promise<void> => {
-  const template = getBacConvocationTemplate();
+  const template = createBacConvocationTemplate();
   updateBacConvocationContent(template, student);
   document.body.appendChild(template.container);
 
@@ -351,7 +332,7 @@ const appendPremiereConvocationPage = async (
   student: PremiereBacBlancStudentEntry,
   isFirstPage: boolean,
 ): Promise<void> => {
-  const template = getPremiereConvocationTemplate();
+  const template = createPremiereConvocationTemplate();
   updatePremiereConvocationContent(template, student);
   document.body.appendChild(template.container);
 
