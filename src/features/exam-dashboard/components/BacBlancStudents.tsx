@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { FileDown, Users2 } from "lucide-react";
 
 import { bacBlanc1PremiereStudents, bacBlanc1Students } from "../data";
+import type { PremiereBacBlancStudentEntry } from "../data";
 import { useDashboardContext } from "../context";
 import {
   downloadAllStudentConvocations,
@@ -10,6 +11,7 @@ import {
   downloadStudentConvocation,
   downloadStudentConvocationsForClass,
   downloadPremiereStudentConvocationsForClass,
+  downloadPremiereStudentConvocation,
 } from "../services";
 
 export default function BacBlancStudents() {
@@ -82,6 +84,17 @@ export default function BacBlancStudents() {
     } catch (error) {
       console.error(error);
       alert("Impossible de générer les convocations. Veuillez réessayer.");
+    }
+  };
+
+  const handleDownloadPremiereStudent = async (
+    student: PremiereBacBlancStudentEntry,
+  ) => {
+    try {
+      await downloadPremiereStudentConvocation(student);
+    } catch (error) {
+      console.error(error);
+      alert("Impossible de générer la convocation de l'élève. Veuillez réessayer.");
     }
   };
 
@@ -246,13 +259,13 @@ export default function BacBlancStudents() {
       <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
         <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-6 py-4">
           <div>
-              <h4 className="text-base font-semibold text-slate-900">
-                Élèves de Première — épreuve du jeudi après-midi
-              </h4>
-              <p className="text-sm text-slate-500">
-                Liste des élèves convoqués et leur salle d'examen pour l'épreuve de l'après-midi.
-              </p>
-            </div>
+            <h4 className="text-base font-semibold text-slate-900">
+              Élèves de Première — épreuve du jeudi après-midi
+            </h4>
+            <p className="text-sm text-slate-500">
+              Liste des élèves convoqués et leur salle d'examen pour l'épreuve de l'après-midi.
+            </p>
+          </div>
           <div className="flex flex-col gap-2 text-sm sm:flex-row sm:items-center sm:gap-3">
             <div className="flex items-center gap-2">
               <label htmlFor="premiere-class-selector" className="text-sm font-medium text-slate-600">
@@ -307,6 +320,9 @@ export default function BacBlancStudents() {
                 <th scope="col" className="px-6 py-3">
                   Salle épreuve jeudi (après-midi)
                 </th>
+                <th scope="col" className="px-6 py-3 text-right">
+                  Convocation
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200 text-sm text-slate-700">
@@ -318,6 +334,16 @@ export default function BacBlancStudents() {
                   <td className="whitespace-nowrap px-6 py-3 text-slate-800">{student.firstName}</td>
                   <td className="whitespace-nowrap px-6 py-3 text-slate-600">{student.className}</td>
                   <td className="whitespace-nowrap px-6 py-3 font-semibold text-blue-700">{student.room}</td>
+                  <td className="whitespace-nowrap px-6 py-3 text-right">
+                    <button
+                      type="button"
+                      onClick={() => handleDownloadPremiereStudent(student)}
+                      className="inline-flex items-center gap-2 rounded-md border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm transition hover:border-blue-200 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                    >
+                      <FileDown className="h-4 w-4" aria-hidden="true" />
+                      Télécharger
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

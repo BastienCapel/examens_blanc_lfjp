@@ -393,6 +393,16 @@ export async function downloadStudentConvocation(
   pdf.save(`convocation-${sanitizeFilename(student.lastName)}-${sanitizeFilename(student.firstName)}.pdf`);
 }
 
+export async function downloadPremiereStudentConvocation(
+  student: PremiereBacBlancStudentEntry,
+): Promise<void> {
+  const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+  await appendPremiereConvocationPage(pdf, student, true);
+  pdf.save(
+    `convocation-${sanitizeFilename(student.lastName)}-${sanitizeFilename(student.firstName)}.pdf`,
+  );
+}
+
 export async function downloadStudentConvocationsForClass(
   students: BacBlancStudentEntry[],
   className: string,
