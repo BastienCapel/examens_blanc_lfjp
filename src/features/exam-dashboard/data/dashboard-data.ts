@@ -733,6 +733,7 @@ export const accommodationGroups: AccommodationGroup[] = [
     title: "Première",
     description: "Liste des élèves avec aménagements d'examen :",
     students: [
+      "SAVI Loris",
       "JENOUDET Thiméo",
       "SARR Sokhna Faty",
       "KERDUDO Zeina",
