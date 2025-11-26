@@ -33,6 +33,15 @@ export default function HomePage() {
         description={HOME_PAGE_CONTENT.description}
       />
 
+      <section className="w-full max-w-5xl">
+        <img
+          src={HOME_PAGE_CONTENT.presidentMessageImage.src}
+          alt={HOME_PAGE_CONTENT.presidentMessageImage.alt}
+          className="h-auto w-full rounded-3xl border border-slate-200 object-cover shadow-xl"
+          loading="lazy"
+        />
+      </section>
+
       <div className="grid w-full max-w-5xl grid-cols-1 gap-6 lg:grid-cols-2">
         {calloutEntries.map((entry) => {
           const Icon = iconByCategory[entry.category];
