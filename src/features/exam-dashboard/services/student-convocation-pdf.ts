@@ -91,9 +91,28 @@ const getPremiereExamSession = (
   memo: "Présentez-vous 30 minutes avant le début de l'épreuve avec votre pièce d'identité.",
 });
 
-const buildStudentConvocationContent = (
-  student: BacBlancStudentEntry,
-): HTMLDivElement => {
+const CONVOCATION_BATCH_SIZE = 10;
+
+type BacConvocationTemplate = {
+  badge: HTMLSpanElement;
+  container: HTMLDivElement;
+  greeting: HTMLParagraphElement;
+  list: HTMLUListElement;
+};
+
+type PremiereConvocationTemplate = {
+  badge: HTMLSpanElement;
+  container: HTMLDivElement;
+  greeting: HTMLParagraphElement;
+  list: HTMLUListElement;
+};
+
+const createBaseContainer = (title: string): {
+  badge: HTMLSpanElement;
+  container: HTMLDivElement;
+  greeting: HTMLParagraphElement;
+  list: HTMLUListElement;
+} => {
   const container = document.createElement("div");
   container.style.width = "794px";
   container.style.minHeight = "1123px";
@@ -113,14 +132,13 @@ const buildStudentConvocationContent = (
   header.style.alignItems = "center";
 
   const heading = document.createElement("h1");
-  heading.textContent = "Convocation aux examens blancs – Décembre 2025";
+  heading.textContent = title;
   heading.style.margin = "0";
   heading.style.fontSize = "22px";
   heading.style.fontWeight = "700";
   heading.style.color = "#1d4ed8";
 
   const badge = document.createElement("span");
-  badge.textContent = student.className;
   badge.style.padding = "8px 12px";
   badge.style.borderRadius = "9999px";
   badge.style.backgroundColor = "#eff6ff";
@@ -130,9 +148,7 @@ const buildStudentConvocationContent = (
 
   header.append(heading, badge);
 
-  const greeting = createParagraph(
-    `Nous avons le plaisir de convoquer ${student.firstName} ${student.lastName} (${student.className}) pour les examens blancs qui se tiendront selon le calendrier suivant :`,
-  );
+  const greeting = createParagraph("");
 
   const list = document.createElement("ul");
   list.style.margin = "0";
@@ -141,172 +157,156 @@ const buildStudentConvocationContent = (
   list.style.flexDirection = "column";
   list.style.gap = "8px";
 
-  getExamSessionsForStudent(student).forEach((session) => {
-    list.append(createListItem(session));
+  container.append(header, greeting, list);
+
+  return { container, badge, greeting, list };
+};
+
+const createRequirementsSection = (requirements: string[]): HTMLDivElement => {
+  const requirementsContainer = document.createElement("div");
+  requirementsContainer.style.padding = "16px";
+  requirementsContainer.style.borderRadius = "12px";
+  requirementsContainer.style.backgroundColor = "#f8fafc";
+  requirementsContainer.style.border = "1px solid #e2e8f0";
+  requirementsContainer.style.display = "flex";
+  requirementsContainer.style.flexDirection = "column";
+  requirementsContainer.style.gap = "8px";
+
+  requirementsContainer.append(createParagraph("Pour cet examen, vous devrez vous munir des éléments suivants :"));
+
+  const requirementsList = document.createElement("ul");
+  requirementsList.style.margin = "0";
+  requirementsList.style.paddingLeft = "18px";
+
+  requirements.forEach((item) => {
+    const li = document.createElement("li");
+    li.textContent = item;
+    li.style.marginBottom = "4px";
+    requirementsList.append(li);
   });
+
+  requirementsContainer.append(requirementsList);
+
+  return requirementsContainer;
+};
+
+const createClosingSection = (
+  closingLines: string[],
+  integrityText: string,
+): HTMLDivElement => {
+  const wrapper = document.createElement("div");
+  wrapper.style.display = "flex";
+  wrapper.style.flexDirection = "column";
+  wrapper.style.gap = "18px";
+
+  const integrity = createParagraph(integrityText);
+
+  const closing = document.createElement("div");
+  closing.style.marginTop = "12px";
+  closing.style.display = "flex";
+  closing.style.flexDirection = "column";
+  closing.style.gap = "4px";
+
+  closingLines.forEach((line) => {
+    closing.append(createParagraph(line));
+  });
+
+  wrapper.append(integrity, closing);
+  return wrapper;
+};
+
+const createBacConvocationTemplate = (): BacConvocationTemplate => {
+  const { badge, container, greeting, list } = createBaseContainer(
+    "Convocation aux examens blancs – Décembre 2025",
+  );
 
   const reminder = createParagraph(
     "Cette série d'évaluations est un élément crucial de votre parcours scolaire et votre présence est indispensable.",
   );
 
-  const requirements = document.createElement("div");
-  requirements.style.padding = "16px";
-  requirements.style.borderRadius = "12px";
-  requirements.style.backgroundColor = "#f8fafc";
-  requirements.style.border = "1px solid #e2e8f0";
-  requirements.style.display = "flex";
-  requirements.style.flexDirection = "column";
-  requirements.style.gap = "8px";
-
-  requirements.append(
-    createParagraph("Pour cet examen, vous devrez vous munir des éléments suivants :"),
-  );
-
-  const requirementsList = document.createElement("ul");
-  requirementsList.style.margin = "0";
-  requirementsList.style.paddingLeft = "18px";
-
-  const requirementItems = [
+  const requirements = createRequirementsSection([
     "Cette convocation.",
     "Une pièce d'identité valide.",
-  ];
+  ]);
 
-  requirementItems.forEach((item) => {
-    const li = document.createElement("li");
-    li.textContent = item;
-    li.style.marginBottom = "4px";
-    requirementsList.append(li);
-  });
-
-  requirements.append(requirementsList);
-
-  const integrity = createParagraph(
+  const closing = createClosingSection(
+    [
+      "Nous comptons sur votre présence et vous souhaitons une excellente préparation.",
+      "Cordialement,",
+      "Le proviseur",
+    ],
     "Nous vous rappelons également l'importance d'arriver à l'heure, d'éviter toute forme de tentative de fraude et du respect strict du règlement intérieur. Des mesures pourront être prises en cas de non-respect de ces directives.",
   );
 
-  const closing = document.createElement("div");
-  closing.style.marginTop = "12px";
-  closing.style.display = "flex";
-  closing.style.flexDirection = "column";
-  closing.style.gap = "4px";
-
-  closing.append(
-    createParagraph("Nous comptons sur votre présence et vous souhaitons une excellente préparation."),
-    createParagraph("Cordialement,"),
-    createParagraph("Le proviseur"),
-  );
-
-  container.append(header, greeting, list, reminder, requirements, integrity, closing);
-
-  return container;
+  container.append(reminder, requirements, closing);
+  return { badge, container, greeting, list };
 };
 
-const buildPremiereConvocationContent = (
-  student: PremiereBacBlancStudentEntry,
-): HTMLDivElement => {
-  const container = document.createElement("div");
-  container.style.width = "794px";
-  container.style.minHeight = "1123px";
-  container.style.margin = "0 auto";
-  container.style.padding = "48px";
-  container.style.background = "#ffffff";
-  container.style.boxSizing = "border-box";
-  container.style.fontFamily = "'Inter', system-ui, -apple-system, sans-serif";
-  container.style.color = "#0f172a";
-  container.style.display = "flex";
-  container.style.flexDirection = "column";
-  container.style.gap = "18px";
-
-  const header = document.createElement("header");
-  header.style.display = "flex";
-  header.style.justifyContent = "space-between";
-  header.style.alignItems = "center";
-
-  const heading = document.createElement("h1");
-  heading.textContent = "Convocation aux examens blancs – Première";
-  heading.style.margin = "0";
-  heading.style.fontSize = "22px";
-  heading.style.fontWeight = "700";
-  heading.style.color = "#1d4ed8";
-
-  const badge = document.createElement("span");
-  badge.textContent = student.className;
-  badge.style.padding = "8px 12px";
-  badge.style.borderRadius = "9999px";
-  badge.style.backgroundColor = "#eff6ff";
-  badge.style.color = "#1d4ed8";
-  badge.style.fontWeight = "600";
-  badge.style.fontSize = "13px";
-
-  header.append(heading, badge);
-
-  const greeting = createParagraph(
-    `Nous avons le plaisir de convoquer ${student.firstName} ${student.lastName} (${student.className}) pour l'épreuve anticipée de français qui se tiendra selon le calendrier suivant :`,
+const createPremiereConvocationTemplate = (): PremiereConvocationTemplate => {
+  const { badge, container, greeting, list } = createBaseContainer(
+    "Convocation aux examens blancs – Première",
   );
-
-  const session = getPremiereExamSession(student);
-  const list = document.createElement("ul");
-  list.style.margin = "0";
-  list.style.paddingLeft = "18px";
-  list.style.display = "flex";
-  list.style.flexDirection = "column";
-  list.style.gap = "8px";
-
-  list.append(createListItem(session));
 
   const reminder = createParagraph(
     "Votre présence est indispensable pour valider cette épreuve. Pensez à vérifier votre salle et votre heure d'arrivée.",
   );
 
-  const requirements = document.createElement("div");
-  requirements.style.padding = "16px";
-  requirements.style.borderRadius = "12px";
-  requirements.style.backgroundColor = "#f8fafc";
-  requirements.style.border = "1px solid #e2e8f0";
-  requirements.style.display = "flex";
-  requirements.style.flexDirection = "column";
-  requirements.style.gap = "8px";
-
-  requirements.append(createParagraph("Pour cet examen, vous devrez vous munir des éléments suivants :"));
-
-  const requirementsList = document.createElement("ul");
-  requirementsList.style.margin = "0";
-  requirementsList.style.paddingLeft = "18px";
-
-  const requirementItems = [
+  const requirements = createRequirementsSection([
     "Cette convocation.",
     "Une pièce d'identité valide.",
     "Le matériel nécessaire pour l'épreuve écrite.",
-  ];
+  ]);
 
-  requirementItems.forEach((item) => {
-    const li = document.createElement("li");
-    li.textContent = item;
-    li.style.marginBottom = "4px";
-    requirementsList.append(li);
-  });
-
-  requirements.append(requirementsList);
-
-  const integrity = createParagraph(
+  const closing = createClosingSection(
+    [
+      "Nous vous souhaitons une excellente préparation.",
+      "Cordialement,",
+      "Le proviseur",
+    ],
     "Merci de respecter le règlement intérieur et les consignes de surveillance pendant toute la durée de l'épreuve.",
   );
 
-  const closing = document.createElement("div");
-  closing.style.marginTop = "12px";
-  closing.style.display = "flex";
-  closing.style.flexDirection = "column";
-  closing.style.gap = "4px";
+  container.append(reminder, requirements, closing);
+  return { badge, container, greeting, list };
+};
 
-  closing.append(
-    createParagraph("Nous vous souhaitons une excellente préparation."),
-    createParagraph("Cordialement,"),
-    createParagraph("Le proviseur"),
+let bacTemplate: BacConvocationTemplate | null = null;
+let premiereTemplate: PremiereConvocationTemplate | null = null;
+
+const getBacConvocationTemplate = (): BacConvocationTemplate => {
+  if (!bacTemplate) {
+    bacTemplate = createBacConvocationTemplate();
+  }
+
+  return bacTemplate;
+};
+
+const getPremiereConvocationTemplate = (): PremiereConvocationTemplate => {
+  if (!premiereTemplate) {
+    premiereTemplate = createPremiereConvocationTemplate();
+  }
+
+  return premiereTemplate;
+};
+
+const updateBacConvocationContent = (
+  template: BacConvocationTemplate,
+  student: BacBlancStudentEntry,
+): void => {
+  template.badge.textContent = student.className;
+  template.greeting.textContent = `Nous avons le plaisir de convoquer ${student.firstName} ${student.lastName} (${student.className}) pour les examens blancs qui se tiendront selon le calendrier suivant :`;
+  template.list.replaceChildren(
+    ...getExamSessionsForStudent(student).map((session) => createListItem(session)),
   );
+};
 
-  container.append(header, greeting, list, reminder, requirements, integrity, closing);
-
-  return container;
+const updatePremiereConvocationContent = (
+  template: PremiereConvocationTemplate,
+  student: PremiereBacBlancStudentEntry,
+): void => {
+  template.badge.textContent = student.className;
+  template.greeting.textContent = `Nous avons le plaisir de convoquer ${student.firstName} ${student.lastName} (${student.className}) pour l'épreuve anticipée de français qui se tiendra selon le calendrier suivant :`;
+  template.list.replaceChildren(createListItem(getPremiereExamSession(student)));
 };
 
 const appendConvocationPage = async (
@@ -314,12 +314,13 @@ const appendConvocationPage = async (
   student: BacBlancStudentEntry,
   isFirstPage: boolean,
 ): Promise<void> => {
-  const content = buildStudentConvocationContent(student);
-  document.body.appendChild(content);
+  const template = getBacConvocationTemplate();
+  updateBacConvocationContent(template, student);
+  document.body.appendChild(template.container);
 
   try {
-    const canvas = await html2canvas(content, {
-      scale: 2,
+    const canvas = await html2canvas(template.container, {
+      scale: 1,
       backgroundColor: "#ffffff",
     });
     const imgData = canvas.toDataURL("image/png");
@@ -341,7 +342,7 @@ const appendConvocationPage = async (
 
     pdf.addImage(imgData, "PNG", offsetX, offsetY, width, height);
   } finally {
-    content.remove();
+    template.container.remove();
   }
 };
 
@@ -350,15 +351,16 @@ const appendPremiereConvocationPage = async (
   student: PremiereBacBlancStudentEntry,
   isFirstPage: boolean,
 ): Promise<void> => {
-  const content = buildPremiereConvocationContent(student);
-  document.body.appendChild(content);
+  const template = getPremiereConvocationTemplate();
+  updatePremiereConvocationContent(template, student);
+  document.body.appendChild(template.container);
 
   try {
     if (!isFirstPage) {
       pdf.addPage();
     }
 
-    const canvas = await html2canvas(content, { scale: 2 });
+    const canvas = await html2canvas(template.container, { scale: 1 });
     const imgData = canvas.toDataURL("image/png");
     const imgProps = pdf.getImageProperties(imgData);
 
@@ -381,7 +383,33 @@ const appendPremiereConvocationPage = async (
 
     pdf.addImage(imgData, "PNG", offsetX, offsetY, width, height);
   } finally {
-    content.remove();
+    template.container.remove();
+  }
+};
+
+const pauseBetweenChunks = (): Promise<void> =>
+  new Promise((resolve) => {
+    setTimeout(resolve, 0);
+  });
+
+const processStudentsInChunks = async <T>(
+  students: T[],
+  chunkSize: number,
+  callback: (student: T, index: number) => Promise<void>,
+): Promise<void> => {
+  for (let startIndex = 0; startIndex < students.length; startIndex += chunkSize) {
+    const chunk = students.slice(startIndex, startIndex + chunkSize);
+
+    for (const [offset, student] of chunk.entries()) {
+      // eslint-disable-next-line no-await-in-loop
+      await callback(student, startIndex + offset);
+    }
+
+    if (startIndex + chunkSize < students.length) {
+      // Yield to avoid blocking the main thread when generating long batches
+      // eslint-disable-next-line no-await-in-loop
+      await pauseBetweenChunks();
+    }
   }
 };
 
@@ -427,10 +455,13 @@ export async function downloadAllStudentConvocations(
   }
 
   const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-  for (const [index, student] of students.entries()) {
-    // eslint-disable-next-line no-await-in-loop
-    await appendConvocationPage(pdf, student, index === 0);
-  }
+  await processStudentsInChunks(
+    students,
+    CONVOCATION_BATCH_SIZE,
+    async (student, index) => {
+      await appendConvocationPage(pdf, student, index === 0);
+    },
+  );
   pdf.save("convocations-bac-blanc-decembre.pdf");
 }
 
@@ -458,9 +489,12 @@ export async function downloadAllPremiereStudentConvocations(
   }
 
   const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-  for (const [index, student] of students.entries()) {
-    // eslint-disable-next-line no-await-in-loop
-    await appendPremiereConvocationPage(pdf, student, index === 0);
-  }
+  await processStudentsInChunks(
+    students,
+    CONVOCATION_BATCH_SIZE,
+    async (student, index) => {
+      await appendPremiereConvocationPage(pdf, student, index === 0);
+    },
+  );
   pdf.save("convocations-premiere-eaf.pdf");
 }
