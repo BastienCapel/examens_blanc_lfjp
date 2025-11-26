@@ -6,21 +6,35 @@ import { bacBlanc1PremiereStudents, bacBlanc1Students } from "../data";
 import { useDashboardContext } from "../context";
 import {
   downloadAllStudentConvocations,
+  downloadAllPremiereStudentConvocations,
   downloadStudentConvocation,
   downloadStudentConvocationsForClass,
+  downloadPremiereStudentConvocationsForClass,
 } from "../services";
 
 export default function BacBlancStudents() {
   const { activeView, container } = useDashboardContext();
-  const classOptions = useMemo(
+  const terminaleClassOptions = useMemo(
     () => Array.from(new Set(bacBlanc1Students.map((student) => student.className))).sort(),
     [],
   );
-  const [selectedClass, setSelectedClass] = useState(classOptions[0] ?? "");
+  const premiereClassOptions = useMemo(
+    () => Array.from(new Set(bacBlanc1PremiereStudents.map((student) => student.className))).sort(),
+    [],
+  );
+  const [selectedClass, setSelectedClass] = useState(terminaleClassOptions[0] ?? "");
+  const [selectedPremiereClass, setSelectedPremiereClass] = useState(
+    premiereClassOptions[0] ?? "",
+  );
 
   const classStudents = useMemo(
     () => bacBlanc1Students.filter((student) => student.className === selectedClass),
     [selectedClass],
+  );
+
+  const premiereClassStudents = useMemo(
+    () => bacBlanc1PremiereStudents.filter((student) => student.className === selectedPremiereClass),
+    [selectedPremiereClass],
   );
 
   const handleDownloadStudent = async (studentIndex: number) => {
@@ -44,6 +58,27 @@ export default function BacBlancStudents() {
   const handleDownloadAll = async () => {
     try {
       await downloadAllStudentConvocations(bacBlanc1Students);
+    } catch (error) {
+      console.error(error);
+      alert("Impossible de générer les convocations. Veuillez réessayer.");
+    }
+  };
+
+  const handleDownloadPremiereClass = async () => {
+    try {
+      await downloadPremiereStudentConvocationsForClass(
+        premiereClassStudents,
+        selectedPremiereClass,
+      );
+    } catch (error) {
+      console.error(error);
+      alert("Aucune convocation disponible pour cette classe.");
+    }
+  };
+
+  const handleDownloadAllPremiere = async () => {
+    try {
+      await downloadAllPremiereStudentConvocations(bacBlanc1PremiereStudents);
     } catch (error) {
       console.error(error);
       alert("Impossible de générer les convocations. Veuillez réessayer.");
@@ -104,7 +139,7 @@ export default function BacBlancStudents() {
                 onChange={(event) => setSelectedClass(event.target.value)}
                 className="rounded-md border border-slate-300 px-3 py-1 text-sm text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
               >
-                {classOptions.map((className) => (
+                {terminaleClassOptions.map((className) => (
                   <option key={className} value={className}>
                     {className}
                   </option>
@@ -211,15 +246,49 @@ export default function BacBlancStudents() {
       <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
         <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-6 py-4">
           <div>
-            <h4 className="text-base font-semibold text-slate-900">
-              Élèves de Première — épreuve du jeudi après-midi
-            </h4>
-            <p className="text-sm text-slate-500">
-              Liste des élèves convoqués et leur salle d'examen pour l'épreuve de l'après-midi.
-            </p>
-          </div>
-          <div className="rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">
-            {bacBlanc1PremiereStudents.length} élèves
+              <h4 className="text-base font-semibold text-slate-900">
+                Élèves de Première — épreuve du jeudi après-midi
+              </h4>
+              <p className="text-sm text-slate-500">
+                Liste des élèves convoqués et leur salle d'examen pour l'épreuve de l'après-midi.
+              </p>
+            </div>
+          <div className="flex flex-col gap-2 text-sm sm:flex-row sm:items-center sm:gap-3">
+            <div className="flex items-center gap-2">
+              <label htmlFor="premiere-class-selector" className="text-sm font-medium text-slate-600">
+                Classe
+              </label>
+              <select
+                id="premiere-class-selector"
+                value={selectedPremiereClass}
+                onChange={(event) => setSelectedPremiereClass(event.target.value)}
+                className="rounded-md border border-slate-300 px-3 py-1 text-sm text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+              >
+                {premiereClassOptions.map((className) => (
+                  <option key={className} value={className}>
+                    {className}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={handleDownloadPremiereClass}
+                className="inline-flex items-center gap-2 rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm transition hover:border-blue-200 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+              >
+                <FileDown className="h-4 w-4" aria-hidden="true" />
+                Télécharger la classe
+              </button>
+              <button
+                type="button"
+                onClick={handleDownloadAllPremiere}
+                className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              >
+                <FileDown className="h-4 w-4" aria-hidden="true" />
+                Toutes les convocations
+              </button>
+            </div>
           </div>
         </div>
         <div className="overflow-x-auto">
@@ -241,7 +310,7 @@ export default function BacBlancStudents() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200 text-sm text-slate-700">
-              {bacBlanc1PremiereStudents.map((student) => (
+              {premiereClassStudents.map((student) => (
                 <tr key={`${student.lastName}-${student.firstName}`} className="hover:bg-slate-50">
                   <td className="whitespace-nowrap px-6 py-3 font-semibold uppercase text-slate-900">
                     {student.lastName}
