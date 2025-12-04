@@ -791,7 +791,7 @@ export const dnbZaoDashboardData202602: MathExamDashboardData = {
     { student: "GAFFARI Sofia", className: "3EME2", room: "S13" },
     { student: "GALAND Margaux", className: "3EME1", room: "S13" },
     { student: "GILLEN Mathieu", className: "3EME2", room: "S14" },
-    { student: "GLAUDE Manon", className: "3EME1", room: "S14" },
+    { student: "GLAUDE Manon", className: "3EME1", room: "S10" },
     { student: "GRASSAGLIATA Milena", className: "3EME1", room: "S10" },
     { student: "GROS-DUBOIS Daniella Fatoumata", className: "3EME1", room: "S14" },
     { student: "HOUGNON Alexandre", className: "3EME2", room: "S14" },
