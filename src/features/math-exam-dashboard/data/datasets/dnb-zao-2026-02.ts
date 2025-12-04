@@ -400,7 +400,7 @@ const roomSchedule: RoomScheduleDay[] = [
 
 export const dnbZaoDashboardData202602: MathExamDashboardData = {
   header: {
-    title: "DNB blanc – établissements ZAO",
+    title: "DNB blanc",
     date: "Mardi 3 et mercredi 4 février 2026",
     subtitle: "Organisation consolidée : plannings, surveillances et affectations de salles",
   },
@@ -443,6 +443,11 @@ export const dnbZaoDashboardData202602: MathExamDashboardData = {
         {
           name: "Hassimiou DIALLO",
           details: "Tiers temps, dictée aménagée, ne pas pénaliser l'orthographe",
+        },
+        {
+          name: "GLAUDE Manon",
+          details:
+            "tiers temps : épreuves écrites, calculatrice simple non programmable, non prise en charge de la qualité rédactionnelle dont l'orthographe, dictée aménagée",
         },
       ],
       note: "Les surveillants veillent à rappeler les consignes adaptées dès l'installation des élèves.",

@@ -82,9 +82,9 @@ export const HOME_EAF_ORAL_202605_ENTRY: HomeCalloutEntry = {
 
 export const HOME_DNB_ZAO_202602_ENTRY: HomeCalloutEntry = {
   to: "/examens-blancs/dnb-blanc-zao-2026-02-03",
-  iconLabel: "Organisation du DNB blanc établissements ZAO",
+  iconLabel: "Organisation du DNB blanc",
   subtitle: "",
-  title: "DNB blanc de ZAO",
+  title: "DNB blanc",
   dateLabel: "3 et 4 février 2026",
   date: "2026-02-03",
   footerLabel: "Consulter plannings et surveillances",
