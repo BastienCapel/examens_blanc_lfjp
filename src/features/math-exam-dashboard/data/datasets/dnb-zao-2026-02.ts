@@ -509,16 +509,7 @@ export const dnbZaoDashboardData202602: MathExamDashboardData = {
     },
     {
       teacher: "CAPEL E.",
-      datetime: "mardi 03/02 à 07h45",
-      room: "Salles 9 à 15",
-      mission:
-        "Soutien aux surveillants de l'épreuve DNB blanc Salles 9, 10, 11, 12, 13, 14, 15",
-      duration: "3:00:00",
-      type: "support",
-    },
-    {
-      teacher: "CAPEL E.",
-      datetime: "mercredi 04/02 à 07h45",
+      datetime: "mardi 03/02 à 09h00",
       room: "Salles 9 à 15",
       mission:
         "Soutien aux surveillants de l'épreuve DNB blanc Salles 9, 10, 11, 12, 13, 14, 15",
@@ -830,4 +821,3 @@ export const dnbZaoDashboardData202602: MathExamDashboardData = {
     { student: "YEROCHEWSKI Yelen", className: "3EME1", room: "S11 COOP" },
   ],
 };
-
