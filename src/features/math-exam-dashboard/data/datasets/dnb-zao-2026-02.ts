@@ -403,6 +403,9 @@ export const dnbZaoDashboardData202602: MathExamDashboardData = {
     title: "DNB blanc",
     date: "Mardi 3 et mercredi 4 février 2026",
     subtitle: "Organisation consolidée : plannings, surveillances et affectations de salles",
+    reprographyDeadline: {
+      label: "vendredi 23 janvier 2026",
+    },
   },
   keyFigures: [
     { value: "7", label: "Salles mobilisées" },
