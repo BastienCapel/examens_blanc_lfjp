@@ -3,6 +3,7 @@ export { default as ConvocationGenerator } from "./ConvocationGenerator";
 export { default as ExamDashboard } from "./ExamDashboard";
 export { default as Header } from "./Header";
 export { default as Hero } from "./Hero";
+export { default as DnbStudents } from "./DnbStudents";
 export { default as StudentRoomList } from "./StudentRoomList";
 export { default as RoomSetup } from "./RoomSetup";
 export { default as RoomsStatus } from "./RoomsStatus";
