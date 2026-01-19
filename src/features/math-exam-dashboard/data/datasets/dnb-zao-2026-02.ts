@@ -756,7 +756,7 @@ export const dnbZaoDashboardData202602: MathExamDashboardData = {
   typeVariants,
   dashboardTabs: [
     ...defaultDashboardTabs,
-    { id: "students", label: "Listes élèves par salle", Icon: School },
+    { id: "students", label: "Élèves", Icon: School },
   ],
   studentDistribution: [
     { student: "AUBRY Albert Akoi Agamemnon", className: "3EME1", room: "S12" },
