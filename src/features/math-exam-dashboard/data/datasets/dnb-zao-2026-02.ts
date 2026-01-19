@@ -815,7 +815,7 @@ export const dnbZaoDashboardData202602: MathExamDashboardData = {
     { student: "REZGANI Yasmine", className: "3EME2", room: "S11 COOP" },
     { student: "SALL Arona", className: "3EME2", room: "S11 COOP" },
     { student: "SAMB Abdou Aziz", className: "3EME1", room: "S11 COOP" },
-    { student: "SANÉ Sény Aly Ménès", className: "3EME1", room: "S11 COOP" },
+    { student: "D'ALMEIDA Asha", className: "3EME1", room: "S11 COOP" },
     { student: "SCHNEIDER Louna", className: "3EME2", room: "S11 COOP" },
     { student: "TEBER Nehir", className: "3EME1", room: "S11 COOP" },
     { student: "TUNA Melisa", className: "3EME2", room: "S11 COOP" },
