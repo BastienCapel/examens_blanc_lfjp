@@ -218,8 +218,10 @@ const appendConvocationPage = async (
   container.style.left = "-10000px";
   document.body.append(container);
 
-  const canvas = await html2canvas(container, { scale: 2 });
-  const imageData = canvas.toDataURL("image/png");
+  // Use a lighter capture for the "toutes les convocations" batch to keep memory
+  // usage low while preserving readability in the PDF output.
+  const canvas = await html2canvas(container, { scale: 1 });
+  const imageData = canvas.toDataURL("image/jpeg", 0.85);
 
   const pdfWidth = pdf.internal.pageSize.getWidth();
   const pdfHeight = pdf.internal.pageSize.getHeight();
@@ -228,7 +230,7 @@ const appendConvocationPage = async (
     pdf.addPage();
   }
 
-  pdf.addImage(imageData, "PNG", 0, 0, pdfWidth, pdfHeight);
+  pdf.addImage(imageData, "JPEG", 0, 0, pdfWidth, pdfHeight);
   container.remove();
 };
 
