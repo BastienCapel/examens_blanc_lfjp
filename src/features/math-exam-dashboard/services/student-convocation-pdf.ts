@@ -240,15 +240,14 @@ const pauseBetweenChunks = (): Promise<void> =>
 const processStudentsInChunks = async (
   students: StudentDistributionEntry[],
   chunkSize: number,
-  callback: (student: StudentDistributionEntry, index: number) => Promise<void>,
+  callback: (chunk: StudentDistributionEntry[], chunkIndex: number) => Promise<void>,
 ): Promise<void> => {
   for (let startIndex = 0; startIndex < students.length; startIndex += chunkSize) {
     const chunk = students.slice(startIndex, startIndex + chunkSize);
+    const chunkIndex = startIndex / chunkSize + 1;
 
-    for (const [offset, student] of chunk.entries()) {
-      // eslint-disable-next-line no-await-in-loop
-      await callback(student, startIndex + offset);
-    }
+    // eslint-disable-next-line no-await-in-loop
+    await callback(chunk, chunkIndex);
 
     if (startIndex + chunkSize < students.length) {
       // Yield to avoid blocking the main thread when generating long batches
@@ -292,13 +291,16 @@ export async function downloadAllDnbStudentConvocations(
     throw new Error("Aucun élève disponible");
   }
 
-  const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
   await processStudentsInChunks(
     students,
     CONVOCATION_BATCH_SIZE,
-    async (student, index) => {
-      await appendConvocationPage(pdf, student, roomSchedule, index === 0);
+    async (chunk, chunkIndex) => {
+      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+      for (const [index, student] of chunk.entries()) {
+        // eslint-disable-next-line no-await-in-loop
+        await appendConvocationPage(pdf, student, roomSchedule, index === 0);
+      }
+      pdf.save(`convocations-dnb-blanc-fevrier-${chunkIndex}.pdf`);
     },
   );
-  pdf.save("convocations-dnb-blanc-fevrier.pdf");
 }
