@@ -452,6 +452,10 @@ export const dnbZaoDashboardData202602: MathExamDashboardData = {
           details:
             "tiers temps : épreuves écrites, calculatrice simple non programmable, non prise en charge de la qualité rédactionnelle dont l'orthographe, dictée aménagée",
         },
+        {
+          name: "GALAND Margaux",
+          details: "tiers temps : épreuves écrites",
+        },
       ],
       note: "Les surveillants veillent à rappeler les consignes adaptées dès l'installation des élèves.",
       noteClasses: "bg-slate-100 text-slate-700",
@@ -783,7 +787,7 @@ export const dnbZaoDashboardData202602: MathExamDashboardData = {
     { student: "FALL Adji Magatte", className: "3EME2", room: "S13" },
     { student: "FROUART Mia", className: "3EME1", room: "S13" },
     { student: "GAFFARI Sofia", className: "3EME2", room: "S13" },
-    { student: "GALAND Margaux", className: "3EME1", room: "S13" },
+    { student: "GALAND Margaux", className: "3EME1", room: "S10" },
     { student: "GILLEN Mathieu", className: "3EME2", room: "S14" },
     { student: "GLAUDE Manon", className: "3EME1", room: "S10" },
     { student: "GRASSAGLIATA Milena", className: "3EME1", room: "S10" },
