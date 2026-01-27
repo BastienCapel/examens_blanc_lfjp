@@ -454,7 +454,7 @@ export const dnbZaoDashboardData202602: MathExamDashboardData = {
         },
         {
           name: "GALAND Margaux",
-          details: "tiers temps : épreuves écrites",
+          details: "tiers temps : épreuves écrites, dictée aménagée",
         },
       ],
       note: "Les surveillants veillent à rappeler les consignes adaptées dès l'installation des élèves.",
