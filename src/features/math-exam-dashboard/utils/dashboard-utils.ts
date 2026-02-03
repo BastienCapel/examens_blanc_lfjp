@@ -212,7 +212,7 @@ interface SupportMissionEntry {
 const supportRoomNumberMap: Record<string, RoomColumn> = {
   "9": "S9 PRIO / EPS",
   "10": "S10",
-  "11": "S11",
+  "11": "S11 COOP",
   "12": "S12",
   "13": "S13",
   "14": "S14",
