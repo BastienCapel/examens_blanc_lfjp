@@ -10,6 +10,10 @@ export const HOME_PAGE_CONTENT = {
     "Toute l'organisation des examens blancs centralisée pour les enseignants du LFJP",
   description:
     "Cet espace réunit l'ensemble des informations pratiques nécessaires pour préparer, coordonner et faire vivre les épreuves. Vous y trouverez les documents, convocations, affectations de salles et les consignes indispensables pour guider sereinement chaque étape du déroulement des examens blancs.",
+  presidentMessageImage: {
+    src: "https://i.imgur.com/su3En9d.jpeg",
+    alt: "Bannière du mot du président 2025 par Omar Benson",
+  },
 };
 
 export type HomeCalloutCategory = "general" | "math" | "oral";
