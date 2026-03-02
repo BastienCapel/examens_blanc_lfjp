@@ -69,6 +69,17 @@ export const HOME_EAF_EXAM_20260407_ENTRY: HomeCalloutEntry = {
   category: "general",
 };
 
+export const HOME_EAF_ORAL_202604_ENTRY: HomeCalloutEntry = {
+  to: "/examens-blancs/oraux-eaf-2026-04",
+  iconLabel: "Consulter l'organisation des oraux blancs de français",
+  subtitle: "",
+  title: "Oraux blancs EAF 1ère",
+  dateLabel: "13, 14 et 15 avril 2026",
+  date: "2026-04-13",
+  footerLabel: "Accéder au planning détaillé",
+  category: "oral",
+};
+
 export const HOME_EAF_ORAL_202605_ENTRY: HomeCalloutEntry = {
   to: "/examens-blancs/oraux-eaf-2026-05",
   iconLabel: "Consulter l'organisation des oraux blancs de français",
@@ -96,6 +107,7 @@ export const HOME_CALLOUT_ENTRIES: HomeCalloutEntry[] = [
   HOME_DNB_ZAO_202602_ENTRY,
   HOME_MATH_EXAM_20260213_ENTRY,
   HOME_EAF_EXAM_20260407_ENTRY,
+  HOME_EAF_ORAL_202604_ENTRY,
   HOME_EAF_ORAL_202605_ENTRY,
   HOME_MATH_EXAM_20260523_ENTRY,
 ];
