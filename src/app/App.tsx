@@ -23,6 +23,9 @@ const OralEafExam202604Page = lazy(
 const DnbZaoExam202602Page = lazy(
   () => import("../features/math-exam-dashboard/pages/DnbZaoExam202602Page"),
 );
+const GrandOralExam20260417Page = lazy(
+  () => import("../features/grand-oral-exam-202604/pages/GrandOralExam20260417Page"),
+);
 
 export default function App() {
   return (
@@ -53,6 +56,10 @@ export default function App() {
         <Route
           path="/examens-blancs/dnb-blanc-zao-2026-02-03"
           element={<DnbZaoExam202602Page />}
+        />
+        <Route
+          path="/examens-blancs/grand-oral-2026-04-17"
+          element={<GrandOralExam20260417Page />}
         />
       </Routes>
     </Suspense>

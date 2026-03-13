@@ -91,6 +91,17 @@ export const HOME_EAF_ORAL_202605_ENTRY: HomeCalloutEntry = {
   category: "oral",
 };
 
+export const HOME_GRAND_ORAL_20260417_ENTRY: HomeCalloutEntry = {
+  to: "/examens-blancs/grand-oral-2026-04-17",
+  iconLabel: "Consulter l'organisation du Grand Oral Blanc",
+  subtitle: "",
+  title: "Grand Oral Blanc",
+  dateLabel: "Vendredi 17 avril 2026",
+  date: "2026-04-17",
+  footerLabel: "Accéder au planning détaillé",
+  category: "oral",
+};
+
 export const HOME_DNB_ZAO_202602_ENTRY: HomeCalloutEntry = {
   to: "/examens-blancs/dnb-blanc-zao-2026-02-03",
   iconLabel: "Organisation du DNB blanc",
@@ -108,7 +119,7 @@ export const HOME_CALLOUT_ENTRIES: HomeCalloutEntry[] = [
   HOME_MATH_EXAM_20260213_ENTRY,
   HOME_EAF_EXAM_20260407_ENTRY,
   HOME_EAF_ORAL_202604_ENTRY,
+  HOME_GRAND_ORAL_20260417_ENTRY,
   HOME_EAF_ORAL_202605_ENTRY,
   HOME_MATH_EXAM_20260523_ENTRY,
 ];
-
