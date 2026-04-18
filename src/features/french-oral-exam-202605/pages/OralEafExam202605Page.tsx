@@ -90,20 +90,47 @@ function downloadPlanningPdf({ filename, title, subtitle, columns, rows }: Downl
   const usableWidth = doc.internal.pageSize.getWidth() - marginX * 2;
   const pageHeight = doc.internal.pageSize.getHeight();
   const columnWidths = columns.map((column) => column.widthRatio * usableWidth);
+  const ellipsis = "…";
+
+  const truncateWithEllipsis = (value: string, maxWidth: number): string => {
+    if (!value) {
+      return "";
+    }
+
+    if (doc.getTextWidth(value) <= maxWidth) {
+      return value;
+    }
+
+    let truncated = value;
+
+    while (truncated.length > 1 && doc.getTextWidth(`${truncated}${ellipsis}`) > maxWidth) {
+      truncated = truncated.slice(0, -1);
+    }
+
+    return `${truncated}${ellipsis}`;
+  };
 
   const drawHeader = (y: number): number => {
-    const headerHeight = 28;
+    const headerHeight = 30;
+    const accentHeight = 3;
+    const headerTextInset = 10;
     let x = marginX;
 
-    doc.setFillColor(15, 23, 42);
-    doc.setTextColor(255, 255, 255);
+    doc.setDrawColor(203, 213, 225);
     doc.setFont("helvetica", "bold");
     doc.setFontSize(11);
 
     columns.forEach((column, index) => {
       const width = columnWidths[index];
+      doc.setFillColor(241, 245, 249);
       doc.rect(x, y, width, headerHeight, "F");
-      doc.text(column.header, x + 8, y + headerHeight - 10);
+      doc.setFillColor(37, 99, 235);
+      doc.rect(x, y, width, accentHeight, "F");
+      doc.rect(x, y, width, headerHeight);
+
+      doc.setTextColor(30, 41, 59);
+      const headerText = truncateWithEllipsis(column.header, Math.max(width - headerTextInset * 2, 14));
+      doc.text(headerText, x + headerTextInset, y + headerHeight - 9);
       x += width;
     });
 
