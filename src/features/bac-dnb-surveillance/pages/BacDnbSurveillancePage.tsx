@@ -183,6 +183,15 @@ export default function BacDnbSurveillancePage() {
   const [selectedSupervisor, setSelectedSupervisor] = useState("");
 
   const supervisors = useMemo(() => getUniqueSupervisors(), []);
+  const selectedBacShifts = useMemo(
+    () => (selectedSupervisor ? buildSupervisorShifts(selectedSupervisor, "bac") : []),
+    [selectedSupervisor],
+  );
+  const selectedDnbShifts = useMemo(
+    () => (selectedSupervisor ? buildSupervisorShifts(selectedSupervisor, "dnb") : []),
+    [selectedSupervisor],
+  );
+  const totalSelectedShifts = selectedBacShifts.length + selectedDnbShifts.length;
   const normalizedSearch = searchTerm.trim().toLowerCase();
   const allCards = scheduleData[currentExam].rows.flatMap((row) => row.shifts.flatMap((shift) => shift));
   const searchMatches = normalizedSearch
@@ -398,19 +407,24 @@ export default function BacDnbSurveillancePage() {
 
         {isModalOpen ? (
           <div className="fixed inset-0 z-50 flex h-full w-full items-start justify-center overflow-y-auto bg-gray-900/50 pb-10 pt-10 backdrop-blur-sm">
-            <div className="relative mx-4 flex w-full max-w-4xl flex-col rounded-xl bg-white shadow-2xl">
-              <div className="flex flex-col items-center justify-between gap-4 rounded-t-xl border-b border-gray-100 bg-gray-50 p-6 sm:flex-row">
-                <h2 className="flex items-center gap-2 text-xl font-bold text-gray-800">
-                  <FileBadge className="text-indigo-600" />
-                  Édition des convocations
-                </h2>
+            <div className="relative mx-4 flex w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl">
+              <div className="sticky top-0 z-10 flex flex-col items-start justify-between gap-4 border-b border-gray-200 bg-gray-50/95 p-6 backdrop-blur sm:flex-row sm:items-center">
+                <div>
+                  <h2 className="flex items-center gap-2 text-xl font-bold text-gray-800">
+                    <FileBadge className="text-indigo-600" />
+                    Édition des convocations
+                  </h2>
+                  <p className="mt-1 text-sm text-gray-500">
+                    Aperçu avant impression et téléchargement des convocations de surveillance.
+                  </p>
+                </div>
                 <div className="flex w-full flex-wrap items-center gap-3 sm:w-auto">
                   <select
                     value={selectedSupervisor}
                     onChange={(event) => setSelectedSupervisor(event.target.value)}
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500 sm:w-auto"
+                    className="w-full min-w-[240px] rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500 sm:w-auto"
                   >
-                    <option value="">Sélectionner un surveillant(e)...</option>
+                    <option value="">Sélectionner un(e) surveillant(e)...</option>
                     {supervisors.map((supervisor) => (
                       <option key={supervisor} value={supervisor}>
                         {supervisor}
@@ -419,7 +433,8 @@ export default function BacDnbSurveillancePage() {
                   </select>
                   <button
                     onClick={printConvocation}
-                    className="flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700"
+                    disabled={!selectedSupervisor}
+                    className="flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-indigo-300"
                   >
                     <Printer className="h-4 w-4" /> Imprimer
                   </button>
@@ -438,18 +453,34 @@ export default function BacDnbSurveillancePage() {
                 </div>
               </div>
 
-              <div className="min-h-[500px] rounded-b-xl bg-white p-8">
+              <div className="max-h-[75vh] overflow-y-auto bg-gradient-to-b from-white to-gray-50 p-6 sm:p-8">
                 {!selectedSupervisor ? (
                   <div className="mt-20 flex flex-col items-center text-center text-gray-400">
                     <AlertTriangle className="mb-3 h-12 w-12 text-gray-300" />
                     <p>Veuillez sélectionner un(e) surveillant(e) pour afficher sa convocation.</p>
                   </div>
                 ) : (
-                  <div className="prose max-w-none text-sm prose-table:w-full prose-th:border prose-td:border">
-                    <div
-                      className="rounded border-2 border-gray-800 bg-white p-6"
-                      dangerouslySetInnerHTML={{ __html: buildConvocationContent(selectedSupervisor) }}
-                    />
+                  <div className="space-y-4">
+                    <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-indigo-100 bg-indigo-50/70 px-4 py-3 text-sm">
+                      <div className="font-semibold text-indigo-900">{selectedSupervisor}</div>
+                      <div className="flex flex-wrap items-center gap-2 text-xs font-medium">
+                        <span className="rounded-full border border-indigo-200 bg-white px-2.5 py-1 text-indigo-700">
+                          {totalSelectedShifts} mission{totalSelectedShifts > 1 ? "s" : ""}
+                        </span>
+                        <span className="rounded-full border border-blue-200 bg-white px-2.5 py-1 text-blue-700">
+                          Bac : {selectedBacShifts.length}
+                        </span>
+                        <span className="rounded-full border border-emerald-200 bg-white px-2.5 py-1 text-emerald-700">
+                          DNB : {selectedDnbShifts.length}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="prose max-w-none text-sm prose-table:w-full prose-th:border prose-td:border">
+                      <div
+                        className="mx-auto rounded-xl border-2 border-gray-800 bg-white p-6 shadow-sm"
+                        dangerouslySetInnerHTML={{ __html: buildConvocationContent(selectedSupervisor) }}
+                      />
+                    </div>
                   </div>
                 )}
               </div>
