@@ -12,7 +12,7 @@ export const HOME_PAGE_CONTENT = {
     "Cet espace réunit l'ensemble des informations pratiques nécessaires pour préparer, coordonner et faire vivre les épreuves. Vous y trouverez les documents, convocations, affectations de salles et les consignes indispensables pour guider sereinement chaque étape du déroulement des examens blancs.",
 };
 
-export type HomeCalloutCategory = "general" | "math" | "oral";
+export type HomeCalloutCategory = "general" | "math" | "oral" | "surveillance";
 
 export interface HomeCalloutEntry {
   to: string;
@@ -113,6 +113,17 @@ export const HOME_DNB_ZAO_202602_ENTRY: HomeCalloutEntry = {
   category: "general",
 };
 
+
+export const HOME_SURVEILLANCE_BAC_DNB_ENTRY: HomeCalloutEntry = {
+  to: "/surveillances-bac-dnb",
+  iconLabel: "Consulter le planning des surveillances BAC et DNB",
+  subtitle: "",
+  title: "Surveillances BAC et DNB",
+  dateLabel: "Session Juin 2026",
+  date: "2026-06-08",
+  footerLabel: "Accéder au planning détaillé",
+  category: "surveillance",
+};
 export const HOME_CALLOUT_ENTRIES: HomeCalloutEntry[] = [
   HOME_DASHBOARD_ENTRY,
   HOME_DNB_ZAO_202602_ENTRY,
@@ -122,4 +133,5 @@ export const HOME_CALLOUT_ENTRIES: HomeCalloutEntry[] = [
   HOME_GRAND_ORAL_20260417_ENTRY,
   HOME_EAF_ORAL_202605_ENTRY,
   HOME_MATH_EXAM_20260523_ENTRY,
+  HOME_SURVEILLANCE_BAC_DNB_ENTRY,
 ];

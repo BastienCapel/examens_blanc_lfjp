@@ -1,6 +1,7 @@
 import {
   CalendarDays,
   Calculator,
+  FileCheck2,
   GraduationCap,
   Mic,
   type LucideIcon,
@@ -22,6 +23,14 @@ export default function HomePage() {
     general: GraduationCap,
     math: Calculator,
     oral: Mic,
+    surveillance: FileCheck2,
+  };
+
+  const iconBackgroundByCategory: Record<HomeCalloutEntry["category"], string> = {
+    general: "bg-gradient-to-br from-sky-500 to-indigo-500",
+    math: "bg-gradient-to-br from-sky-500 to-indigo-500",
+    oral: "bg-gradient-to-br from-sky-500 to-indigo-500",
+    surveillance: "bg-gradient-to-r from-blue-600 via-white to-red-600 text-slate-900",
   };
 
   return (
@@ -46,6 +55,7 @@ export default function HomePage() {
               title={entry.title}
               footerLabel={entry.footerLabel}
               meta={<HomeEventMeta icon={CalendarDays} label={entry.dateLabel} description="" />}
+              iconBackgroundClassName={iconBackgroundByCategory[entry.category]}
             />
           );
         })}

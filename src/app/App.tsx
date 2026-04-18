@@ -26,6 +26,9 @@ const DnbZaoExam202602Page = lazy(
 const GrandOralExam20260417Page = lazy(
   () => import("../features/grand-oral-exam-202604/pages/GrandOralExam20260417Page"),
 );
+const BacDnbSurveillancePage = lazy(
+  () => import("../features/bac-dnb-surveillance/pages/BacDnbSurveillancePage"),
+);
 
 export default function App() {
   return (
@@ -60,6 +63,10 @@ export default function App() {
         <Route
           path="/examens-blancs/grand-oral-2026-04-17"
           element={<GrandOralExam20260417Page />}
+        />
+        <Route
+          path="/surveillances-bac-dnb"
+          element={<BacDnbSurveillancePage />}
         />
       </Routes>
     </Suspense>

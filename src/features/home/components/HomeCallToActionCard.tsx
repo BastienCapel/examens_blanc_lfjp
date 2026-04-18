@@ -10,6 +10,7 @@ interface HomeCallToActionCardProps {
   subtitle?: string;
   footerLabel: string;
   meta?: ReactNode;
+  iconBackgroundClassName?: string;
 }
 
 export default function HomeCallToActionCard({
@@ -20,6 +21,7 @@ export default function HomeCallToActionCard({
   subtitle,
   footerLabel,
   meta,
+  iconBackgroundClassName = "bg-gradient-to-br from-sky-500 to-indigo-500",
 }: HomeCallToActionCardProps) {
   return (
     <Link
@@ -31,7 +33,7 @@ export default function HomeCallToActionCard({
       <div className="absolute -bottom-16 -right-16 h-56 w-56 rounded-full bg-indigo-200/70 blur-3xl transition-opacity duration-300 group-hover:opacity-60" />
 
       <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-8">
-        <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-500 text-white shadow-lg">
+        <div className={`flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-2xl ${iconBackgroundClassName} text-white shadow-lg`}>
           <Icon className="h-10 w-10 flex-shrink-0" strokeWidth={1.6} aria-hidden="true" />
         </div>
 
