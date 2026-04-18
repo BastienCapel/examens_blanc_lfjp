@@ -233,9 +233,15 @@ interface CandidateTableProps {
   candidates: OralCandidate[];
   showJury?: boolean;
   showRoom?: boolean;
+  showExtendedTime?: boolean;
 }
 
-function CandidateTable({ candidates, showJury = false, showRoom = false }: CandidateTableProps) {
+function CandidateTable({
+  candidates,
+  showJury = false,
+  showRoom = false,
+  showExtendedTime = false,
+}: CandidateTableProps) {
   return (
     <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
       <Table className="min-w-full divide-y divide-slate-200">
@@ -248,6 +254,7 @@ function CandidateTable({ candidates, showJury = false, showRoom = false }: Cand
             <TableHeaderCell>Passage</TableHeaderCell>
             {showJury ? <TableHeaderCell>Jury</TableHeaderCell> : null}
             {showRoom ? <TableHeaderCell>Salle</TableHeaderCell> : null}
+            {showExtendedTime ? <TableHeaderCell>Tiers temps</TableHeaderCell> : null}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -260,6 +267,7 @@ function CandidateTable({ candidates, showJury = false, showRoom = false }: Cand
               <TableCell>{candidate.examTime}</TableCell>
               {showJury ? <TableCell>{candidate.jury}</TableCell> : null}
               {showRoom ? <TableCell>{formatRoomLabel(candidate.room)}</TableCell> : null}
+              {showExtendedTime ? <TableCell>{candidate.hasExtendedTime ? "Oui" : "Non"}</TableCell> : null}
             </TableRow>
           ))}
         </TableBody>
@@ -400,6 +408,32 @@ export default function OralEafExam202605Page() {
     });
   };
 
+  const handleDownloadAttendanceSheetPdf = (jury: string, date: string, candidates: OralCandidate[]) => {
+    const rows = candidates.map((candidate) => [
+      candidate.convocationTime,
+      candidate.examTime,
+      candidate.candidate,
+      candidate.className,
+      candidate.hasExtendedTime ? "Oui" : "Non",
+      "",
+    ]);
+
+    downloadPlanningPdf({
+      filename: `emargement-${toFilenameSlug(jury)}-${date}.pdf`,
+      title: `Feuille d'émargement – ${jury}`,
+      subtitle: `${formatFullDate(date)} • ${formatRoomLabel(candidates[0]?.room ?? "")} • ${candidates.length} candidats`,
+      columns: [
+        { header: "Convocation", widthRatio: 0.12 },
+        { header: "Passage", widthRatio: 0.12 },
+        { header: "Candidat", widthRatio: 0.32 },
+        { header: "Classe", widthRatio: 0.12 },
+        { header: "Tiers temps", widthRatio: 0.12 },
+        { header: "Signature", widthRatio: 0.2 },
+      ],
+      rows,
+    });
+  };
+
   return (
     <ExamDashboardPageLayout action={<BackToHomeButton />}>
       <div className="space-y-10">
@@ -468,7 +502,7 @@ export default function OralEafExam202605Page() {
                 </p>
                 <ul className="list-disc space-y-2 pl-5 text-slate-600">
                   <li>
-                    Trois jurys distincts — Mme&nbsp;FALL, Mme&nbsp;MOURANDIOP et M.&nbsp;BARTOU — chacun dans une salle dédiée.
+                    Trois jurys distincts — Mme&nbsp;FALL, Mme&nbsp;MOURAIN DIOP et M.&nbsp;BARITOU — chacun dans une salle dédiée.
                   </li>
                   <li>
                     La préparation de 30&nbsp;minutes s'effectue dans la salle, devant le jury, pendant que le candidat
@@ -540,7 +574,7 @@ export default function OralEafExam202605Page() {
                 {candidatesByDate.map(({ key, candidates }) => (
                   <div key={key} className="space-y-3">
                     <h3 className="text-lg font-semibold text-slate-900">{formatFullDate(key)}</h3>
-                    <CandidateTable candidates={candidates} showJury showRoom />
+                    <CandidateTable candidates={candidates} showJury showRoom showExtendedTime />
                   </div>
                 ))}
               </div>
@@ -582,8 +616,18 @@ export default function OralEafExam202605Page() {
                 <div className="space-y-6">
                   {getGroupedCandidates(candidates, (candidate) => candidate.date).map(({ key: date, candidates: perDate }) => (
                     <Fragment key={date}>
-                      <h3 className="text-lg font-semibold text-slate-900">{formatFullDate(date)}</h3>
-                      <CandidateTable candidates={perDate} showRoom />
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <h3 className="text-lg font-semibold text-slate-900">{formatFullDate(date)}</h3>
+                        <button
+                          type="button"
+                          onClick={() => handleDownloadAttendanceSheetPdf(key, date, perDate)}
+                          className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+                        >
+                          <FileText aria-hidden="true" className="h-4 w-4" />
+                          Émargement PDF
+                        </button>
+                      </div>
+                      <CandidateTable candidates={perDate} showRoom showExtendedTime />
                     </Fragment>
                   ))}
                 </div>
@@ -627,7 +671,7 @@ export default function OralEafExam202605Page() {
                   {getGroupedCandidates(candidates, (candidate) => candidate.date).map(({ key: date, candidates: perDate }) => (
                     <Fragment key={date}>
                       <h3 className="text-lg font-semibold text-slate-900">{formatFullDate(date)}</h3>
-                      <CandidateTable candidates={perDate} showJury />
+                      <CandidateTable candidates={perDate} showJury showExtendedTime />
                     </Fragment>
                   ))}
                 </div>
