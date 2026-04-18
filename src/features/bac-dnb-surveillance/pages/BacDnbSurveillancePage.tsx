@@ -162,7 +162,7 @@ function buildPrintDocument(title: string, content: string) {
   .presence { background: #fef2f2; color: #dc2626; font-weight: 700; }
   .signatures { margin-top: 22px; padding-top: 12px; display: flex; justify-content: space-between; gap: 20px; }
   .signatures p { font-size: 12px; color: #64748b; text-align: center; }
-  .signatures img { height: 96px; object-fit: contain; }
+  .signatures img { height: 72px; max-width: 160px; object-fit: contain; }
   .line { width: 230px; border-bottom: 1px solid #9ca3af; margin: 50px auto 0; }
   @media print { @page { margin: 1.5cm; } body { padding: 0; } }
 </style>
