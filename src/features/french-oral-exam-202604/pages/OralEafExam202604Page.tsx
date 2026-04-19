@@ -510,7 +510,7 @@ export default function OralEafExam202604Page() {
                   rel="noreferrer"
                   className="inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
                 >
-                  Accéder aux convocations
+                  Accéder aux convocations des élèves
                 </a>
               </aside>
             </div>
