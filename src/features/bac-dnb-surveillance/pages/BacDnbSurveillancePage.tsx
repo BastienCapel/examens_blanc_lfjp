@@ -16,7 +16,7 @@ import { jsPDF } from "jspdf";
 
 const A4_WIDTH_PX = 794;
 const A4_HEIGHT_PX = 1123;
-const STAMP_IMAGE_SRC = "/cachet-proviseur.svg";
+const STAMP_IMAGE_SRC = "https://i.imgur.com/77DP4od.png";
 const HTML2CANVAS_OPTIONS = {
   scale: 1.5,
   backgroundColor: "#ffffff",
