@@ -22,6 +22,11 @@ interface ShiftAssignment {
   room: string;
   col: ExamColumn;
 }
+interface ConvocationSheetProps {
+  supervisor: string;
+  bacShifts: ShiftAssignment[];
+  dnbShifts: ShiftAssignment[];
+}
 
 function getArrivalTime(timeStr: string) {
   const start = timeStr.split("-")[0]?.trim();
@@ -72,73 +77,85 @@ function buildSupervisorShifts(supervisor: string, exam: ExamType): ShiftAssignm
   return shifts;
 }
 
-function getShiftRowsHTML(shifts: ShiftAssignment[]) {
-  return shifts
-    .map(
-      (shift) => `
-      <tr>
-        <td>${shift.col.date}</td>
-        <td>${shift.col.subject}</td>
-        <td>${shift.room}</td>
-        <td>${shift.col.time}</td>
-        <td class="presence">${getArrivalTime(shift.col.time)}</td>
-      </tr>
-    `,
-    )
-    .join("");
+function ConvocationSection({ title, shifts, sectionClass }: { title: string; shifts: ShiftAssignment[]; sectionClass: string }) {
+  if (shifts.length === 0) return null;
+
+  return (
+    <section className="space-y-3">
+      <h4 className={`text-sm font-semibold uppercase tracking-wide ${sectionClass}`}>{title}</h4>
+      <div className="space-y-2">
+        {shifts.map((shift) => (
+          <article
+            key={`${title}-${shift.col.date}-${shift.col.subject}-${shift.room}`}
+            className="rounded-lg border border-slate-200 bg-slate-50/60 px-4 py-3"
+          >
+            <div className="grid grid-cols-1 gap-2 text-sm text-slate-700 md:grid-cols-4">
+              <p>
+                <span className="font-semibold text-slate-900">Date :</span> {shift.col.date}
+              </p>
+              <p>
+                <span className="font-semibold text-slate-900">Épreuve :</span> {shift.col.subject}
+              </p>
+              <p>
+                <span className="font-semibold text-slate-900">Salle :</span> {shift.room}
+              </p>
+              <p>
+                <span className="font-semibold text-slate-900">Horaires :</span> {shift.col.time}
+              </p>
+            </div>
+            <p className="mt-2 text-sm font-semibold text-rose-700">
+              Heure de présence : {getArrivalTime(shift.col.time)}
+            </p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
 }
 
-function buildConvocationContent(supervisor: string) {
-  const bacShifts = buildSupervisorShifts(supervisor, "bac");
-  const dnbShifts = buildSupervisorShifts(supervisor, "dnb");
-
-  const renderTable = (title: string, shifts: ShiftAssignment[]) => {
-    if (shifts.length === 0) return "";
-
-    return `
-      <h3>${title}</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Épreuve</th>
-            <th>Salle</th>
-            <th>Horaires</th>
-            <th>Heure de présence</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${getShiftRowsHTML(shifts)}
-        </tbody>
-      </table>
-    `;
-  };
-
-  return `
-    <div class="sheet">
-      <div class="sheet-header">
-        <h1>Convocation - Surveillance des épreuves</h1>
-        <p>Session de Juin 2026</p>
+function ConvocationSheet({ supervisor, bacShifts, dnbShifts }: ConvocationSheetProps) {
+  return (
+    <div className="convocation-sheet mx-auto space-y-6 rounded-xl border border-gray-200 bg-white p-6 text-slate-700 shadow-sm">
+      <div className="border-b border-gray-200 pb-4">
+        <h3 className="text-xl font-bold text-slate-900">Convocation - Surveillance des épreuves</h3>
+        <p className="mt-1 text-sm text-slate-500">Session de Juin 2026</p>
       </div>
-      <p class="name">Surveillant(e) : <strong>${supervisor}</strong></p>
-      <p class="notice">
-        Vous êtes convoqué(e) pour assurer la surveillance des épreuves selon le(s) calendrier(s) ci-dessous.<br>
-        <strong>RAPPEL IMPORTANT :</strong> Il est impératif de vous présenter au secrétariat des examens <span>30 minutes avant le début de l'épreuve</span>.
-      </p>
-      ${renderTable("Épreuves du Baccalauréat", bacShifts)}
-      ${renderTable("Épreuves du DNB", dnbShifts)}
-      <div class="signatures">
-        <div>
-          <p>Le Chef d'Établissement</p>
-          <img src="https://i.imgur.com/77DP4od.png" alt="Cachet du Proviseur" />
+
+      <div className="space-y-3 text-sm">
+        <p>
+          Surveillant(e) : <span className="font-semibold text-slate-900">{supervisor}</span>
+        </p>
+        <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 leading-relaxed text-amber-950">
+          Vous êtes convoqué(e) pour assurer la surveillance des épreuves selon le calendrier ci-dessous.
+          <br />
+          <span className="font-semibold">RAPPEL IMPORTANT :</span> Présence au secrétariat des examens{" "}
+          <span className="font-semibold underline">30 minutes avant</span> le début de l&apos;épreuve.
+        </p>
+      </div>
+
+      <ConvocationSection title="Épreuves du Baccalauréat" shifts={bacShifts} sectionClass="text-blue-800" />
+      <ConvocationSection title="Épreuves du DNB" shifts={dnbShifts} sectionClass="text-emerald-800" />
+
+      <div className="grid grid-cols-1 gap-6 border-t border-gray-200 pt-4 text-xs text-slate-500 sm:grid-cols-2">
+        <div className="space-y-2 text-center">
+          <p>Le Chef d&apos;Établissement</p>
+          <img
+            src="https://i.imgur.com/77DP4od.png"
+            alt="Cachet du Proviseur"
+            className="mx-auto h-[72px] max-w-[160px] object-contain"
+          />
         </div>
-        <div>
-          <p>Signature du Surveillant(e)<br>(Précédée de la mention \"Lu et approuvé\")</p>
-          <div class="line"></div>
+        <div className="space-y-2 text-center">
+          <p>
+            Signature du Surveillant(e)
+            <br />
+            (Précédée de la mention &quot;Lu et approuvé&quot;)
+          </p>
+          <div className="mx-auto mt-8 w-[230px] border-b border-slate-400" />
         </div>
       </div>
     </div>
-  `;
+  );
 }
 
 function getSafeFilename(name: string) {
@@ -158,23 +175,7 @@ function buildPrintDocument(title: string, content: string) {
 <title>${title}</title>
 <style>
   body { font-family: Inter, Arial, sans-serif; background: white; color: #1f2937; padding: 24px; }
-  .sheet { border: 2px solid #1f2937; padding: 20px; margin: 8px 0 20px; page-break-after: always; }
-  .sheet:last-child { page-break-after: auto; }
-  .sheet-header { border-bottom: 2px solid #1f2937; margin-bottom: 16px; padding-bottom: 12px; text-align: center; }
-  .sheet-header h1 { font-size: 20px; text-transform: uppercase; margin: 0; }
-  .sheet-header p { margin: 8px 0 0; color: #475569; }
-  .name { margin: 10px 0; }
-  .name strong { color: #4338ca; text-transform: uppercase; }
-  .notice { background: #fef9c3; border-left: 4px solid #facc15; padding: 10px; font-size: 14px; line-height: 1.45; }
-  .notice span { color: #dc2626; text-decoration: underline; font-weight: 700; }
-  h3 { margin: 18px 0 10px; border-bottom: 2px solid #e0e7ff; padding-bottom: 6px; font-size: 14px; text-transform: uppercase; color: #1e3a8a; }
-  table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
-  th, td { border: 1px solid #e5e7eb; padding: 8px; font-size: 13px; text-align: left; }
-  .presence { background: #fef2f2; color: #dc2626; font-weight: 700; }
-  .signatures { margin-top: 22px; padding-top: 12px; display: flex; justify-content: space-between; gap: 20px; }
-  .signatures p { font-size: 12px; color: #64748b; text-align: center; }
-  .signatures img { height: 72px; max-width: 160px; object-fit: contain; }
-  .line { width: 230px; border-bottom: 1px solid #9ca3af; margin: 50px auto 0; }
+  .print-image { width: 100%; height: auto; display: block; }
   @media print { @page { margin: 1.5cm; } body { padding: 0; } }
 </style>
 </head>
@@ -195,14 +196,21 @@ export default function BacDnbSurveillancePage() {
   const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
 
   const supervisors = useMemo(() => getUniqueSupervisors(), []);
-  const selectedBacShifts = useMemo(
-    () => (selectedSupervisor ? buildSupervisorShifts(selectedSupervisor, "bac") : []),
-    [selectedSupervisor],
+  const supervisorShiftMap = useMemo(
+    () =>
+      Object.fromEntries(
+        supervisors.map((supervisor) => [
+          supervisor,
+          {
+            bacShifts: buildSupervisorShifts(supervisor, "bac"),
+            dnbShifts: buildSupervisorShifts(supervisor, "dnb"),
+          },
+        ]),
+      ),
+    [supervisors],
   );
-  const selectedDnbShifts = useMemo(
-    () => (selectedSupervisor ? buildSupervisorShifts(selectedSupervisor, "dnb") : []),
-    [selectedSupervisor],
-  );
+  const selectedBacShifts = selectedSupervisor ? supervisorShiftMap[selectedSupervisor]?.bacShifts ?? [] : [];
+  const selectedDnbShifts = selectedSupervisor ? supervisorShiftMap[selectedSupervisor]?.dnbShifts ?? [] : [];
   const totalSelectedShifts = selectedBacShifts.length + selectedDnbShifts.length;
   const normalizedSearch = searchTerm.trim().toLowerCase();
   const allCards = scheduleData[currentExam].rows.flatMap((row) => row.shifts.flatMap((shift) => shift));
@@ -247,57 +255,59 @@ export default function BacDnbSurveillancePage() {
   };
 
   const printConvocation = () => {
-    if (!selectedSupervisor) {
-      window.alert("Veuillez sélectionner un surveillant(e) avant impression.");
-      return;
-    }
+    void (async () => {
+      if (!selectedSupervisor) {
+        window.alert("Veuillez sélectionner un surveillant(e) avant impression.");
+        return;
+      }
 
-    executePrint(`Convocation - ${selectedSupervisor}`, buildConvocationContent(selectedSupervisor));
-  };
+      const captureNode = document.getElementById(`convocation-capture-${getSafeFilename(selectedSupervisor)}`);
+      if (!captureNode) {
+        window.alert("Impossible de préparer la convocation pour impression.");
+        return;
+      }
 
-  const appendConvocationPage = async (
-    pdf: jsPDF,
-    supervisor: string,
-    isFirstPage: boolean,
-  ): Promise<void> => {
-    const wrapper = document.createElement("div");
-    wrapper.style.position = "absolute";
-    wrapper.style.left = "-10000px";
-    wrapper.style.top = "-10000px";
-    wrapper.style.width = "1200px";
-    wrapper.style.background = "#ffffff";
-    wrapper.innerHTML = buildConvocationContent(supervisor);
-    document.body.appendChild(wrapper);
-
-    try {
-      const canvas = await html2canvas(wrapper, {
+      const canvas = await html2canvas(captureNode, {
         scale: 2,
         backgroundColor: "#ffffff",
         useCORS: true,
       });
       const imgData = canvas.toDataURL("image/png");
+      executePrint(`Convocation - ${selectedSupervisor}`, `<img class="print-image" src="${imgData}" alt="Convocation" />`);
+    })();
+  };
 
-      if (!isFirstPage) {
-        pdf.addPage();
-      }
+  const appendConvocationPage = async (pdf: jsPDF, captureNode: HTMLElement, isFirstPage: boolean): Promise<void> => {
+    const canvas = await html2canvas(captureNode, {
+      scale: 2,
+      backgroundColor: "#ffffff",
+      useCORS: true,
+    });
+    const imgData = canvas.toDataURL("image/png");
 
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
-      const width = canvas.width * ratio;
-      const height = canvas.height * ratio;
-      const offsetX = (pageWidth - width) / 2;
-      const offsetY = (pageHeight - height) / 2;
-
-      pdf.addImage(imgData, "PNG", offsetX, offsetY, width, height);
-    } finally {
-      wrapper.remove();
+    if (!isFirstPage) {
+      pdf.addPage();
     }
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
+    const width = canvas.width * ratio;
+    const height = canvas.height * ratio;
+    const offsetX = (pageWidth - width) / 2;
+    const offsetY = (pageHeight - height) / 2;
+
+    pdf.addImage(imgData, "PNG", offsetX, offsetY, width, height);
   };
 
   const downloadConvocationPdf = async () => {
     if (!selectedSupervisor) {
       window.alert("Veuillez sélectionner un surveillant(e) avant téléchargement.");
+      return;
+    }
+    const captureNode = document.getElementById(`convocation-capture-${getSafeFilename(selectedSupervisor)}`);
+    if (!captureNode) {
+      window.alert("Impossible de préparer la convocation pour le PDF.");
       return;
     }
     if (isDownloadingPdf) {
@@ -307,7 +317,7 @@ export default function BacDnbSurveillancePage() {
     try {
       setIsDownloadingPdf(true);
       const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-      await appendConvocationPage(pdf, selectedSupervisor, true);
+      await appendConvocationPage(pdf, captureNode, true);
       pdf.save(`convocation-${getSafeFilename(selectedSupervisor)}-juin-2026.pdf`);
     } catch (error) {
       console.error("Failed to generate convocation PDF", error);
@@ -330,8 +340,12 @@ export default function BacDnbSurveillancePage() {
       setIsDownloadingPdf(true);
       const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
       for (const [index, supervisor] of supervisors.entries()) {
+        const captureNode = document.getElementById(`convocation-capture-${getSafeFilename(supervisor)}`);
+        if (!captureNode) {
+          throw new Error(`Missing capture node for supervisor: ${supervisor}`);
+        }
         // eslint-disable-next-line no-await-in-loop
-        await appendConvocationPage(pdf, supervisor, index === 0);
+        await appendConvocationPage(pdf, captureNode, index === 0);
       }
       pdf.save("convocations-surveillance-juin-2026.pdf");
     } catch (error) {
@@ -568,103 +582,34 @@ export default function BacDnbSurveillancePage() {
                       </div>
                     </div>
 
-                    <div className="mx-auto space-y-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-                      <div className="border-b border-gray-200 pb-4">
-                        <h3 className="text-xl font-bold text-slate-900">Convocation - Surveillance des épreuves</h3>
-                        <p className="mt-1 text-sm text-slate-500">Session de Juin 2026</p>
-                      </div>
-
-                      <div className="space-y-3 text-sm text-slate-700">
-                        <p>
-                          Surveillant(e) : <span className="font-semibold text-slate-900">{selectedSupervisor}</span>
-                        </p>
-                        <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 leading-relaxed text-amber-950">
-                          Vous êtes convoqué(e) pour assurer la surveillance des épreuves selon le calendrier
-                          ci-dessous.
-                          <br />
-                          <span className="font-semibold">RAPPEL IMPORTANT :</span> Présence au secrétariat des examens{" "}
-                          <span className="font-semibold underline">30 minutes avant</span> le début de l&apos;épreuve.
-                        </p>
-                      </div>
-
-                      {selectedBacShifts.length > 0 ? (
-                        <section className="space-y-3">
-                          <h4 className="text-sm font-semibold uppercase tracking-wide text-blue-800">
-                            Épreuves du Baccalauréat
-                          </h4>
-                          <div className="space-y-2">
-                            {selectedBacShifts.map((shift) => (
-                              <article
-                                key={`bac-${shift.col.date}-${shift.col.subject}-${shift.room}`}
-                                className="rounded-lg border border-blue-100 bg-blue-50/50 px-4 py-3"
-                              >
-                                <div className="grid grid-cols-1 gap-2 text-sm text-slate-700 md:grid-cols-4">
-                                  <p>
-                                    <span className="font-semibold text-slate-900">Date :</span> {shift.col.date}
-                                  </p>
-                                  <p>
-                                    <span className="font-semibold text-slate-900">Épreuve :</span> {shift.col.subject}
-                                  </p>
-                                  <p>
-                                    <span className="font-semibold text-slate-900">Salle :</span> {shift.room}
-                                  </p>
-                                  <p>
-                                    <span className="font-semibold text-slate-900">Horaires :</span> {shift.col.time}
-                                  </p>
-                                </div>
-                                <p className="mt-2 text-sm font-semibold text-rose-700">
-                                  Heure de présence : {getArrivalTime(shift.col.time)}
-                                </p>
-                              </article>
-                            ))}
-                          </div>
-                        </section>
-                      ) : null}
-
-                      {selectedDnbShifts.length > 0 ? (
-                        <section className="space-y-3">
-                          <h4 className="text-sm font-semibold uppercase tracking-wide text-emerald-800">
-                            Épreuves du DNB
-                          </h4>
-                          <div className="space-y-2">
-                            {selectedDnbShifts.map((shift) => (
-                              <article
-                                key={`dnb-${shift.col.date}-${shift.col.subject}-${shift.room}`}
-                                className="rounded-lg border border-emerald-100 bg-emerald-50/50 px-4 py-3"
-                              >
-                                <div className="grid grid-cols-1 gap-2 text-sm text-slate-700 md:grid-cols-4">
-                                  <p>
-                                    <span className="font-semibold text-slate-900">Date :</span> {shift.col.date}
-                                  </p>
-                                  <p>
-                                    <span className="font-semibold text-slate-900">Épreuve :</span> {shift.col.subject}
-                                  </p>
-                                  <p>
-                                    <span className="font-semibold text-slate-900">Salle :</span> {shift.room}
-                                  </p>
-                                  <p>
-                                    <span className="font-semibold text-slate-900">Horaires :</span> {shift.col.time}
-                                  </p>
-                                </div>
-                                <p className="mt-2 text-sm font-semibold text-rose-700">
-                                  Heure de présence : {getArrivalTime(shift.col.time)}
-                                </p>
-                              </article>
-                            ))}
-                          </div>
-                        </section>
-                      ) : null}
-
-                      <div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 px-4 py-3 text-xs text-slate-500">
-                        La signature et le cachet de direction apparaissent uniquement sur la version impression/PDF.
-                      </div>
-                    </div>
+                    <ConvocationSheet
+                      supervisor={selectedSupervisor}
+                      bacShifts={selectedBacShifts}
+                      dnbShifts={selectedDnbShifts}
+                    />
                   </div>
                 )}
               </div>
             </div>
           </div>
         ) : null}
+
+        <div aria-hidden className="pointer-events-none fixed -left-[10000px] top-0 w-[1200px] bg-white p-6 opacity-0">
+          {supervisors.map((supervisor) => {
+            const shifts = supervisorShiftMap[supervisor];
+            if (!shifts) return null;
+
+            return (
+              <div key={supervisor} id={`convocation-capture-${getSafeFilename(supervisor)}`} className="mb-8">
+                <ConvocationSheet
+                  supervisor={supervisor}
+                  bacShifts={shifts.bacShifts}
+                  dnbShifts={shifts.dnbShifts}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
