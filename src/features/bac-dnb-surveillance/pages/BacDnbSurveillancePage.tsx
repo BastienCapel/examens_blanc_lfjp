@@ -14,6 +14,14 @@ import {
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 
+const A4_WIDTH_PX = 794;
+const A4_HEIGHT_PX = 1123;
+const HTML2CANVAS_OPTIONS = {
+  scale: 1.5,
+  backgroundColor: "#ffffff",
+  useCORS: true,
+} as const;
+
 import type { ExamColumn } from "../data/scheduleData";
 import { scheduleData } from "../data/scheduleData";
 
@@ -267,22 +275,14 @@ export default function BacDnbSurveillancePage() {
         return;
       }
 
-      const canvas = await html2canvas(captureNode, {
-        scale: 2,
-        backgroundColor: "#ffffff",
-        useCORS: true,
-      });
+      const canvas = await html2canvas(captureNode, HTML2CANVAS_OPTIONS);
       const imgData = canvas.toDataURL("image/png");
       executePrint(`Convocation - ${selectedSupervisor}`, `<img class="print-image" src="${imgData}" alt="Convocation" />`);
     })();
   };
 
   const appendConvocationPage = async (pdf: jsPDF, captureNode: HTMLElement, isFirstPage: boolean): Promise<void> => {
-    const canvas = await html2canvas(captureNode, {
-      scale: 2,
-      backgroundColor: "#ffffff",
-      useCORS: true,
-    });
+    const canvas = await html2canvas(captureNode, HTML2CANVAS_OPTIONS);
     const imgData = canvas.toDataURL("image/png");
 
     if (!isFirstPage) {
@@ -291,13 +291,8 @@ export default function BacDnbSurveillancePage() {
 
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
-    const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
-    const width = canvas.width * ratio;
-    const height = canvas.height * ratio;
-    const offsetX = (pageWidth - width) / 2;
-    const offsetY = (pageHeight - height) / 2;
 
-    pdf.addImage(imgData, "PNG", offsetX, offsetY, width, height);
+    pdf.addImage(imgData, "PNG", 0, 0, pageWidth, pageHeight);
   };
 
   const downloadConvocationPdf = async () => {
@@ -594,13 +589,21 @@ export default function BacDnbSurveillancePage() {
           </div>
         ) : null}
 
-        <div aria-hidden className="pointer-events-none fixed -left-[10000px] top-0 w-[1200px] bg-white p-6 opacity-0">
+        <div
+          aria-hidden
+          className="pointer-events-none fixed -left-[10000px] top-0 flex flex-col gap-4 bg-white opacity-0"
+          style={{ width: `${A4_WIDTH_PX}px`, minHeight: `${A4_HEIGHT_PX}px` }}
+        >
           {supervisors.map((supervisor) => {
             const shifts = supervisorShiftMap[supervisor];
             if (!shifts) return null;
 
             return (
-              <div key={supervisor} id={`convocation-capture-${getSafeFilename(supervisor)}`} className="mb-8">
+              <div
+                key={supervisor}
+                id={`convocation-capture-${getSafeFilename(supervisor)}`}
+                style={{ width: `${A4_WIDTH_PX}px`, minHeight: `${A4_HEIGHT_PX}px` }}
+              >
                 <ConvocationSheet
                   supervisor={supervisor}
                   bacShifts={shifts.bacShifts}
