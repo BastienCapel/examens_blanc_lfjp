@@ -11,6 +11,8 @@ import {
   User,
   UserX,
 } from "lucide-react";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 
 import type { ExamColumn } from "../data/scheduleData";
 import { scheduleData } from "../data/scheduleData";
@@ -190,6 +192,7 @@ export default function BacDnbSurveillancePage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSupervisor, setSelectedSupervisor] = useState("");
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
 
   const supervisors = useMemo(() => getUniqueSupervisors(), []);
   const selectedBacShifts = useMemo(
@@ -252,23 +255,91 @@ export default function BacDnbSurveillancePage() {
     executePrint(`Convocation - ${selectedSupervisor}`, buildConvocationContent(selectedSupervisor));
   };
 
-  const downloadConvocationPdf = () => {
+  const appendConvocationPage = async (
+    pdf: jsPDF,
+    supervisor: string,
+    isFirstPage: boolean,
+  ): Promise<void> => {
+    const wrapper = document.createElement("div");
+    wrapper.style.position = "absolute";
+    wrapper.style.left = "-10000px";
+    wrapper.style.top = "-10000px";
+    wrapper.style.width = "1200px";
+    wrapper.style.background = "#ffffff";
+    wrapper.innerHTML = buildConvocationContent(supervisor);
+    document.body.appendChild(wrapper);
+
+    try {
+      const canvas = await html2canvas(wrapper, {
+        scale: 2,
+        backgroundColor: "#ffffff",
+        useCORS: true,
+      });
+      const imgData = canvas.toDataURL("image/png");
+
+      if (!isFirstPage) {
+        pdf.addPage();
+      }
+
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
+      const width = canvas.width * ratio;
+      const height = canvas.height * ratio;
+      const offsetX = (pageWidth - width) / 2;
+      const offsetY = (pageHeight - height) / 2;
+
+      pdf.addImage(imgData, "PNG", offsetX, offsetY, width, height);
+    } finally {
+      wrapper.remove();
+    }
+  };
+
+  const downloadConvocationPdf = async () => {
     if (!selectedSupervisor) {
       window.alert("Veuillez sélectionner un surveillant(e) avant téléchargement.");
       return;
     }
+    if (isDownloadingPdf) {
+      return;
+    }
 
-    const html = buildPrintDocument(
-      `Convocation - ${selectedSupervisor}`,
-      buildConvocationContent(selectedSupervisor),
-    ).replace(/<script>[\s\S]*<\/script>/, "");
-    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `convocation-${getSafeFilename(selectedSupervisor)}-juin-2026.html`;
-    link.click();
-    URL.revokeObjectURL(url);
+    try {
+      setIsDownloadingPdf(true);
+      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+      await appendConvocationPage(pdf, selectedSupervisor, true);
+      pdf.save(`convocation-${getSafeFilename(selectedSupervisor)}-juin-2026.pdf`);
+    } catch (error) {
+      console.error("Failed to generate convocation PDF", error);
+      window.alert("Impossible de générer le PDF. Veuillez réessayer.");
+    } finally {
+      setIsDownloadingPdf(false);
+    }
+  };
+
+  const downloadAllConvocationsPdf = async () => {
+    if (!supervisors.length) {
+      window.alert("Aucun(e) surveillant(e) disponible.");
+      return;
+    }
+    if (isDownloadingPdf) {
+      return;
+    }
+
+    try {
+      setIsDownloadingPdf(true);
+      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+      for (const [index, supervisor] of supervisors.entries()) {
+        // eslint-disable-next-line no-await-in-loop
+        await appendConvocationPage(pdf, supervisor, index === 0);
+      }
+      pdf.save("convocations-surveillance-juin-2026.pdf");
+    } catch (error) {
+      console.error("Failed to generate all convocations PDF", error);
+      window.alert("Impossible de générer les convocations. Veuillez réessayer.");
+    } finally {
+      setIsDownloadingPdf(false);
+    }
   };
 
   return (
@@ -453,10 +524,17 @@ export default function BacDnbSurveillancePage() {
                   </button>
                   <button
                     onClick={downloadConvocationPdf}
-                    disabled={!selectedSupervisor}
+                    disabled={!selectedSupervisor || isDownloadingPdf}
                     className="flex items-center gap-2 rounded-lg border border-indigo-300 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-700 transition hover:bg-indigo-100 disabled:cursor-not-allowed disabled:border-indigo-200 disabled:bg-indigo-50/40 disabled:text-indigo-400"
                   >
-                    <FileText className="h-4 w-4" /> Télécharger PDF
+                    <FileText className="h-4 w-4" /> {isDownloadingPdf ? "Génération..." : "Télécharger PDF"}
+                  </button>
+                  <button
+                    onClick={downloadAllConvocationsPdf}
+                    disabled={isDownloadingPdf}
+                    className="flex items-center gap-2 rounded-lg border border-indigo-300 bg-white px-4 py-2 text-sm font-medium text-indigo-700 transition hover:bg-indigo-50 disabled:cursor-not-allowed disabled:border-indigo-200 disabled:bg-indigo-50/40 disabled:text-indigo-400"
+                  >
+                    <FileBadge className="h-4 w-4" /> Tout télécharger
                   </button>
                   <button
                     onClick={closeConvocationMenu}
