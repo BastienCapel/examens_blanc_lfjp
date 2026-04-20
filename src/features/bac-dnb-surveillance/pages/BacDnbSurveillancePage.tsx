@@ -16,6 +16,7 @@ import { jsPDF } from "jspdf";
 
 const A4_WIDTH_PX = 794;
 const A4_HEIGHT_PX = 1123;
+const STAMP_IMAGE_SRC = "/cachet-proviseur.svg";
 const HTML2CANVAS_OPTIONS = {
   scale: 1.5,
   backgroundColor: "#ffffff",
@@ -34,6 +35,7 @@ interface ConvocationSheetProps {
   supervisor: string;
   bacShifts: ShiftAssignment[];
   dnbShifts: ShiftAssignment[];
+  showSignatureBlock?: boolean;
 }
 
 function getArrivalTime(timeStr: string) {
@@ -121,7 +123,7 @@ function ConvocationSection({ title, shifts, sectionClass }: { title: string; sh
   );
 }
 
-function ConvocationSheet({ supervisor, bacShifts, dnbShifts }: ConvocationSheetProps) {
+function ConvocationSheet({ supervisor, bacShifts, dnbShifts, showSignatureBlock = true }: ConvocationSheetProps) {
   return (
     <div className="convocation-sheet mx-auto space-y-6 rounded-xl border border-gray-200 bg-white p-6 text-slate-700 shadow-sm">
       <div className="border-b border-gray-200 pb-4">
@@ -144,24 +146,26 @@ function ConvocationSheet({ supervisor, bacShifts, dnbShifts }: ConvocationSheet
       <ConvocationSection title="Épreuves du Baccalauréat" shifts={bacShifts} sectionClass="text-blue-800" />
       <ConvocationSection title="Épreuves du DNB" shifts={dnbShifts} sectionClass="text-emerald-800" />
 
-      <div className="grid grid-cols-1 gap-6 border-t border-gray-200 pt-4 text-xs text-slate-500 sm:grid-cols-2">
-        <div className="space-y-2 text-center">
-          <p>Le Chef d&apos;Établissement</p>
-          <img
-            src="https://i.imgur.com/77DP4od.png"
-            alt="Cachet du Proviseur"
-            className="mx-auto h-[72px] max-w-[160px] object-contain"
-          />
+      {showSignatureBlock ? (
+        <div className="grid grid-cols-1 gap-6 border-t border-gray-200 pt-4 text-xs text-slate-500 sm:grid-cols-2">
+          <div className="space-y-2 text-center">
+            <p>Le Chef d&apos;Établissement</p>
+            <img
+              src={STAMP_IMAGE_SRC}
+              alt="Cachet du Proviseur"
+              className="mx-auto h-[72px] max-w-[160px] object-contain"
+            />
+          </div>
+          <div className="space-y-2 text-center">
+            <p>
+              Signature du Surveillant(e)
+              <br />
+              (Précédée de la mention &quot;Lu et approuvé&quot;)
+            </p>
+            <div className="mx-auto mt-8 w-[230px] border-b border-slate-400" />
+          </div>
         </div>
-        <div className="space-y-2 text-center">
-          <p>
-            Signature du Surveillant(e)
-            <br />
-            (Précédée de la mention &quot;Lu et approuvé&quot;)
-          </p>
-          <div className="mx-auto mt-8 w-[230px] border-b border-slate-400" />
-        </div>
-      </div>
+      ) : null}
     </div>
   );
 }
@@ -508,7 +512,7 @@ export default function BacDnbSurveillancePage() {
                     Édition des convocations
                   </h2>
                   <p className="mt-1 text-sm text-gray-500">
-                    Aperçu avant impression et téléchargement des convocations de surveillance.
+                    Aperçu complet (avec signature/cachet), impression et téléchargement des convocations de surveillance.
                   </p>
                 </div>
                 <div className="flex w-full flex-wrap items-center gap-3 sm:w-auto">
