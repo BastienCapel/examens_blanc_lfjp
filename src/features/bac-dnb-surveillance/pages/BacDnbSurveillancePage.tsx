@@ -153,7 +153,7 @@ function ConvocationSheet({ supervisor, bacShifts, dnbShifts, showSignatureBlock
             <img
               src={STAMP_IMAGE_SRC}
               alt="Cachet du Proviseur"
-              className="mx-auto h-[72px] max-w-[160px] object-contain"
+              className="mx-auto h-[88px] max-w-[200px] object-contain"
             />
           </div>
           <div className="space-y-2 text-center">
