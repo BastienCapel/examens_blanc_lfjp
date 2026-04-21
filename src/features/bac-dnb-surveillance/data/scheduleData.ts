@@ -83,7 +83,7 @@ export const scheduleData: ScheduleData = {
           ["Mme PORTER", "M. FALL B."],
           ["M. GOMIS", "M. FRAYON"],
           ["Mme MICHON GUI...", "Mme DUFAY"],
-          ["Mme GIBUS", "Mme MOURAIN DIOP"],
+          ["Mme GIBUS", "Mme PORTER"],
         ],
       },
       {
@@ -102,8 +102,8 @@ export const scheduleData: ScheduleData = {
           ["Mme GIBUS", "M. DIANDY"],
           ["Mme D'AQUINO", "M. FAYE"],
           ["Mme D'AQUINO", "Mme DRAME"],
-          ["M. BARITOU", "Mme MOURAIN DIOP"],
-          ["M. BARITOU", "Mme PEREZ"],
+          ["M. PIAGGIO", "Mme PORTER"],
+          ["M. PIAGGIO", "Mme PEREZ"],
         ],
       },
       {
@@ -162,11 +162,11 @@ export const scheduleData: ScheduleData = {
       { room: "SALLE 7", note: "(1/3 temps)", shifts: [["Mme JAÏT"], ["M. DIANDY"], ["M. NDIAYE"]] },
       {
         room: "SALLE 6",
-        shifts: [["M. FRAYON", "M. GOMIS"], ["M. FRAYON", "Mme DUFAY"], ["M. FRAYON"]],
+        shifts: [["M. FRAYON", "M. GOMIS"], ["M. FRAYON", "Mme DUFAY"], ["M. FRAYON", "Mme CHABERT"]],
       },
       {
         room: "SALLE 5",
-        shifts: [["Mme PORTER", "Mme CAPEL"], ["Mme PORTER"], ["Mme PORTER", "Mme FALL"]],
+        shifts: [["Mme PORTER", "Mme CAPEL"], ["Mme PORTER", "Mme BOSSU"], ["Mme PORTER", "Mme BOSSU"]],
       },
       {
         room: "SALLE 4",
@@ -174,11 +174,11 @@ export const scheduleData: ScheduleData = {
       },
       {
         room: "SALLE 3",
-        shifts: [["Mme BOSSU", "M. BARITOU"], ["M. FAYE", "M. SERVATE"], ["Mme MICHON GUI...", "Mme MOURAIN DIOP"]],
+        shifts: [["Mme BOSSU", "M. NDIAYE"], ["M. FAYE", "M. SERVATE"], ["Mme MICHON GUI...", "M. PIAGGIO"]],
       },
       {
         room: "SALLE 2",
-        shifts: [["Mme DRAME"], ["Mme DRAME", "M. NDOYE"], ["Mme DRAME", "Mme PEREZ"]],
+        shifts: [["Mme DRAME", "Mme CHABERT"], ["Mme DRAME", "M. NDOYE"], ["Mme DRAME", "Mme PEREZ"]],
       },
       { room: "SALLE 1", shifts: [["Mme DIADIO"], ["M. PIAGGIO"], ["M. DAVID"]] },
       { room: "Couloir et soutien", shifts: [["M. FALL B."], ["M. THOMAS"], []] },
