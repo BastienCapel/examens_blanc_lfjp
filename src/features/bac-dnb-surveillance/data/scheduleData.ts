@@ -128,7 +128,7 @@ export const scheduleData: ScheduleData = {
       },
       {
         room: "SALLE 2 Charlie Rispale",
-        shifts: [["Vie scolaire"], ["Vie scolaire"], ["Vie scolaire"], ["Vie scolaire"], ["Vie scolaire"]],
+        shifts: [[], [], ["Vie scolaire"], ["Vie scolaire"], ["Vie scolaire"]],
       },
     ],
   },
