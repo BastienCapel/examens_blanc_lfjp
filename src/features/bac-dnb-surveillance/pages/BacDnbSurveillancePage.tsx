@@ -538,7 +538,15 @@ export default function BacDnbSurveillancePage() {
                       <td className="sticky left-0 z-10 border-r border-gray-200 bg-white p-4 align-middle transition-colors group-hover:bg-gray-50/80">
                         <div className="flex flex-col">
                           <span className="font-bold text-gray-900">{row.room}</span>
-                          {row.note ? <span className="text-xs font-medium text-gray-500">{row.note}</span> : null}
+                          {row.note ? (
+                            <span
+                              className={`text-xs text-gray-500 ${
+                                row.note === "Charlie Rispal" ? "font-normal italic" : "font-medium"
+                              }`}
+                            >
+                              {row.note}
+                            </span>
+                          ) : null}
                         </div>
                       </td>
                       {row.shifts.map((shift, shiftIndex) => (
