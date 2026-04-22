@@ -126,6 +126,10 @@ export const scheduleData: ScheduleData = {
           ["Mme MICHON GUI...", "Mme JAÏT"],
         ],
       },
+      {
+        room: "SALLE 2 Charlie Rispale",
+        shifts: [["Vie scolaire"], ["Vie scolaire"], ["Vie scolaire"], ["Vie scolaire"], ["Vie scolaire"]],
+      },
     ],
   },
   dnb: {
