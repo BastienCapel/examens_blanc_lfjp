@@ -127,7 +127,8 @@ export const scheduleData: ScheduleData = {
         ],
       },
       {
-        room: "SALLE 2 Charlie Rispale",
+        room: "SALLE 2",
+        note: "Charlie Rispal",
         shifts: [[], [], ["Vie scolaire"], ["Vie scolaire"], ["Vie scolaire"]],
       },
     ],
