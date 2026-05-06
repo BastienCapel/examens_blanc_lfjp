@@ -10,15 +10,6 @@ export interface OralCandidate {
 }
 
 export const oralCandidates202605: OralCandidate[] = [
-  { candidate: "ELABIB Fatiha", className: "1ERE2", date: "2026-05-11", convocationTime: "08:30", examTime: "09:00", jury: "M. BARITOU", room: "10", hasExtendedTime: false },
-  { candidate: "ENNADIFI Mohamed", className: "1ERE2", date: "2026-05-11", convocationTime: "09:00", examTime: "09:30", jury: "M. BARITOU", room: "10", hasExtendedTime: false },
-  { candidate: "DIALLO Marvin Noah Diouldé", className: "1ERE2", date: "2026-05-11", convocationTime: "09:30", examTime: "10:00", jury: "M. BARITOU", room: "10", hasExtendedTime: false },
-  { candidate: "FALL Souleymane", className: "1ERE1", date: "2026-05-11", convocationTime: "10:00", examTime: "10:30", jury: "M. BARITOU", room: "10", hasExtendedTime: false },
-  { candidate: "FAYE Imane", className: "1ERE2", date: "2026-05-11", convocationTime: "10:30", examTime: "11:00", jury: "M. BARITOU", room: "10", hasExtendedTime: false },
-  { candidate: "GAFFARI Mattéo", className: "1ERE1", date: "2026-05-11", convocationTime: "11:00", examTime: "11:30", jury: "M. BARITOU", room: "10", hasExtendedTime: false },
-  { candidate: "GAYE Ababacar", className: "1ERE1", date: "2026-05-11", convocationTime: "11:30", examTime: "12:00", jury: "M. BARITOU", room: "10", hasExtendedTime: false },
-  { candidate: "NIANG Fatoumata Helene Semou", className: "1ERE2", date: "2026-05-11", convocationTime: "12:00", examTime: "12:30", jury: "M. BARITOU", room: "10", hasExtendedTime: false },
-
   { candidate: "JENOUDET Thiméo Owen Thibault", className: "1ERE1", date: "2026-05-11", convocationTime: "07:50", examTime: "08:30", jury: "Mme FALL", room: "6", hasExtendedTime: true },
   { candidate: "ALLIER Faustine", className: "1ERE1", date: "2026-05-11", convocationTime: "08:30", examTime: "09:00", jury: "Mme FALL", room: "6", hasExtendedTime: false },
   { candidate: "BENSON Marilyse Lucia Fanta", className: "1ERE1", date: "2026-05-11", convocationTime: "09:00", examTime: "09:30", jury: "Mme FALL", room: "6", hasExtendedTime: false },
@@ -36,15 +27,9 @@ export const oralCandidates202605: OralCandidate[] = [
   { candidate: "DIAGNE Seydina Alioune", className: "1ERE1", date: "2026-05-11", convocationTime: "10:30", examTime: "11:00", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
   { candidate: "DIAKHABY Safia", className: "1ERE2", date: "2026-05-11", convocationTime: "11:00", examTime: "11:30", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
   { candidate: "DIAKITE Assietou Dite Assy", className: "1ERE2", date: "2026-05-11", convocationTime: "11:30", examTime: "12:00", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
-
-  { candidate: "NDIAYE Felwine Alicia", className: "1ERE2", date: "2026-05-12", convocationTime: "08:00", examTime: "08:30", jury: "M. BARITOU", room: "10", hasExtendedTime: false },
-  { candidate: "NDIAYE Maty", className: "1ERE2", date: "2026-05-12", convocationTime: "08:30", examTime: "09:00", jury: "M. BARITOU", room: "10", hasExtendedTime: false },
-  { candidate: "NGOM Aicha Khoyane", className: "1ERE2", date: "2026-05-12", convocationTime: "09:00", examTime: "09:30", jury: "M. BARITOU", room: "10", hasExtendedTime: false },
-  { candidate: "FALL Cheikh Saliou Mbacké", className: "1ERE1", date: "2026-05-12", convocationTime: "09:30", examTime: "10:00", jury: "M. BARITOU", room: "10", hasExtendedTime: false },
-  { candidate: "NOUHANDO ROD Orient", className: "1ERE2", date: "2026-05-12", convocationTime: "10:00", examTime: "10:30", jury: "M. BARITOU", room: "10", hasExtendedTime: false },
-  { candidate: "RUNG Agathe", className: "1ERE2", date: "2026-05-12", convocationTime: "10:30", examTime: "11:00", jury: "M. BARITOU", room: "10", hasExtendedTime: false },
-  { candidate: "SALL Tamsir", className: "1ERE1", date: "2026-05-12", convocationTime: "11:00", examTime: "11:30", jury: "M. BARITOU", room: "10", hasExtendedTime: false },
-  { candidate: "SAMBA Babacar", className: "1ERE2", date: "2026-05-12", convocationTime: "11:30", examTime: "12:00", jury: "M. BARITOU", room: "10", hasExtendedTime: false },
+  { candidate: "NDIAYE Felwine Alicia", className: "1ERE2", date: "2026-05-11", convocationTime: "14:00", examTime: "14:30", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
+  { candidate: "NDIAYE Maty", className: "1ERE2", date: "2026-05-11", convocationTime: "14:30", examTime: "15:00", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
+  { candidate: "NGOM Aicha Khoyane", className: "1ERE2", date: "2026-05-11", convocationTime: "15:00", examTime: "15:30", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
 
   { candidate: "KERDUDO Zeina", className: "1ERE2", date: "2026-05-12", convocationTime: "07:50", examTime: "08:30", jury: "Mme FALL", room: "6", hasExtendedTime: true },
   { candidate: "HACHIM Rayan", className: "1ERE2", date: "2026-05-12", convocationTime: "08:30", examTime: "09:00", jury: "Mme FALL", room: "6", hasExtendedTime: false },
@@ -61,6 +46,18 @@ export const oralCandidates202605: OralCandidate[] = [
   { candidate: "MBOUP Amy", className: "1ERE2", date: "2026-05-12", convocationTime: "09:30", examTime: "10:00", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
   { candidate: "METZ Celia", className: "1ERE2", date: "2026-05-12", convocationTime: "10:00", examTime: "10:30", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
   { candidate: "MOUAQIT Achraf", className: "1ERE1", date: "2026-05-12", convocationTime: "10:30", examTime: "11:00", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
+  { candidate: "NOUHANDO ROD Orient", className: "1ERE2", date: "2026-05-12", convocationTime: "11:00", examTime: "11:30", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
+  { candidate: "RUNG Agathe", className: "1ERE2", date: "2026-05-12", convocationTime: "11:30", examTime: "12:00", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
+  { candidate: "SALL Tamsir", className: "1ERE1", date: "2026-05-12", convocationTime: "12:00", examTime: "12:30", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
+
+  { candidate: "ELABIB Fatiha", className: "1ERE2", date: "2026-05-13", convocationTime: "08:30", examTime: "09:00", jury: "Mme FALL", room: "Bureau du proviseur", hasExtendedTime: false },
+  { candidate: "ENNADIFI Mohamed", className: "1ERE2", date: "2026-05-13", convocationTime: "09:00", examTime: "09:30", jury: "Mme FALL", room: "Bureau du proviseur", hasExtendedTime: false },
+  { candidate: "DIALLO Marvin Noah Diouldé", className: "1ERE2", date: "2026-05-13", convocationTime: "09:30", examTime: "10:00", jury: "Mme FALL", room: "Bureau du proviseur", hasExtendedTime: false },
+  { candidate: "FALL Souleymane", className: "1ERE1", date: "2026-05-13", convocationTime: "10:00", examTime: "10:30", jury: "Mme FALL", room: "Bureau du proviseur", hasExtendedTime: false },
+  { candidate: "FAYE Imane", className: "1ERE2", date: "2026-05-13", convocationTime: "10:30", examTime: "11:00", jury: "Mme FALL", room: "Bureau du proviseur", hasExtendedTime: false },
+  { candidate: "GAFFARI Mattéo", className: "1ERE1", date: "2026-05-13", convocationTime: "11:00", examTime: "11:30", jury: "Mme FALL", room: "Bureau du proviseur", hasExtendedTime: false },
+  { candidate: "GAYE Ababacar", className: "1ERE1", date: "2026-05-13", convocationTime: "11:30", examTime: "12:00", jury: "Mme FALL", room: "Bureau du proviseur", hasExtendedTime: false },
+  { candidate: "NIANG Fatoumata Helene Semou", className: "1ERE2", date: "2026-05-13", convocationTime: "12:00", examTime: "12:30", jury: "Mme FALL", room: "Bureau du proviseur", hasExtendedTime: false },
 
   { candidate: "SARR Sokhna Faty", className: "1ERE1", date: "2026-05-13", convocationTime: "07:50", examTime: "08:30", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: true },
   { candidate: "LAURIENTE Alexandra", className: "1ERE1", date: "2026-05-13", convocationTime: "08:30", examTime: "09:00", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
@@ -69,4 +66,6 @@ export const oralCandidates202605: OralCandidate[] = [
   { candidate: "SECK Ousseynatou", className: "1ERE1", date: "2026-05-13", convocationTime: "10:00", examTime: "10:30", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
   { candidate: "TSHIBANDA Raymond", className: "1ERE1", date: "2026-05-13", convocationTime: "10:30", examTime: "11:00", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
   { candidate: "WONE Oumar", className: "1ERE2", date: "2026-05-13", convocationTime: "11:00", examTime: "11:30", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
+  { candidate: "FALL Cheikh Saliou Mbacké", className: "1ERE1", date: "2026-05-13", convocationTime: "11:30", examTime: "12:00", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
+  { candidate: "SAMBA Babacar", className: "1ERE2", date: "2026-05-13", convocationTime: "12:00", examTime: "12:30", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
 ];
