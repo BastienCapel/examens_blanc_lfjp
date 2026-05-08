@@ -1,6 +1,16 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
+type TabKey = "candidats" | "jures" | "grille";
+type SortDirection = "asc" | "desc";
+
+const EXAM_DATE = "2026-05-20";
+const DEFAULT_ROOM = "Salle à confirmer";
+const OFFICIAL_GRID_URL =
+  "https://drive.google.com/file/d/1EvPaUjTP5f8rT0Rbb5wbYU-pK0JPLgLc/view?usp=drive_link";
+const LOGO_URL = "https://i.imgur.com/0YmGlXO.png";
+const SIGNATURE_URL = "https://i.imgur.com/77DP4od.png";
+
 const CANDIDATE_COLUMNS = [
   "Élève",
   "Classe",
@@ -15,260 +25,471 @@ const CANDIDATE_COLUMNS = [
   "Heure de convocation",
 ] as const;
 
-const ROWS: string[][] = [
-  ["AUBRY Albert Akoi Agamemnon", "3EME1", "Parcours santé", "En quoi les jeux vidéos influencent-ils le développement scolaire des adolescents ?", "SVT", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Vincent David", "François Faye", "11:00"] ,
-  ["BA Abygaëlle Bilel", "3EME2", "Parcours citoyen", "Comment les auteurs africains ont-ils utilisé l'écriture pour afirmeer leur identité?", "Français", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Olivier Baritou", "Layla Jaït", "11:00"] ,
-  ["BERGOT Mathieu Yohan", "3EME2", "Parcours citoyen", "Comment le basket est-il devenu bien plus qu'un sport et s'est-il imposé comme une culture à part entière ?", "EPS", "Aucune", "TRUE", "FALSE", "FALSE", "FALSE", "Alassane Ndiaye", "Claire Drame", "11:00"] ,
-  ["BODELOT Julien Achille", "3EME2", "Parcours santé", "Quels sont les bienfaits de l'activité physique sur la santé ?", "SVT", "EPS", "TRUE", "FALSE", "FALSE", "FALSE", "Nathalie Mboup", "Claire Drame", "11:30"] ,
-  ["BOUYER Louis Marie", "3EME1", "Parcours santé", "En quoi une mauvaise alimentation  influence négativement l'organisme et que faire pour y remédier ?", "SVT", "EPS", "TRUE", "FALSE", "FALSE", "FALSE", "Vincent David", "Alassane Ndiaye", "11:30"] ,
-  ["CHARAT Joséphine Awa Michele", "3EME2", "Parcours santé", "Qu'est-ce que  la maladie de l'Alzheimer et en quoi mon expérience personnelle m'a-t-elle donné envie de devenir médecin?", "SVT", "HGEMC", "TRUE", "FALSE", "FALSE", "FALSE", "Nathalie Mboup", "Mathilde Michon Guillaume", "11:00"] ,
-  ["D'ALMEIDA Asha", "3EME2", "Parcours citoyen", "En quoi Petit Pays de Gaël FAYE montre que la guerre vole bien plus que des vies mais qu'elle vole aussi l'enfance ?", "Français", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Nafissatou Fall", "Elizabeth Porter", "11:00"] ,
-  ["DE GAIGNERON JOLLIMON DEMAROLLES Pétronille Agnès Louis Marie", "3EME1", "Parcours santé", "En quoi le stress influence-t-il nos résultats scolaires et notre santé ? ", "SVT", "Aucune", "TRUE", "FALSE", "FALSE", "FALSE", "Vincent David", "Roselyne D’Aquino", "12:00"] ,
-  ["DEMANGE Laura Sokhna", "3EME2", "Parcours citoyen", "Nelson Mandela est-il devenu un symbole mondial de la lutte contre l'injustice et le racisme ?", "HGEMC", "Français", "TRUE", "FALSE", "FALSE", "FALSE", "Claire Bossu", "Fanelly Mourain Diop", "11:30"] ,
-  ["DIAGNE Ndeye Awa", "3EME2", "Parcours citoyen", "En quoi la traite négrière à durablement marquée l'histoire des populations noires et le monde actuel ?", "HGEMC", "Aucune", "TRUE", "FALSE", "FALSE", "FALSE", "Yvon Thomas", "Alain Gomis", "11:30"] ,
-  ["DIALLO Djibril", "3EME2", "Parcours avenir", "Comment bien comprendre à quoi sert la gestion du patrimoine?", "HGEMC", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Mathilde Michon Guillaume", "François Faye", "11:30"] ,
-  ["DIALLO Ibrahima Sory", "3EME2", "Parcours citoyen", "Comment le sport peut-il favoriser l'intégration sociale et lutter contre les inégalités ?", "EPS", "HGEMC", "TRUE", "FALSE", "FALSE", "FALSE", "Claire Drame", "Claire Bossu", "12:00"] ,
-  ["DIENG Aïssatou", "3EME1", "Parcours citoyen", "En quoi le témoignage d'Anne Frank permet-il de comprendre l'horreur de la Shoah et de la seconde guerre mondiale ?", "HGEMC", "Espagnol", "TRUE", "FALSE", "FALSE", "TRUE", "Yvon Thomas", "Fernando Piaggio", "12:00"] ,
-  ["DIEYE Awa Cheikh", "3EME1", "Histoire des arts", "Comment l'oeuvre d'Otto Dix montre -t-elle les horreurs de la première guerre mondiale?", "HGEMC", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Claire Bossu", "Layla Jaït", "12:30"] ,
-  ["DIOP Oumou", "3EME1", "Histoire des arts", "Pourquoi les artistes font-ils le choix de se représenter eux-mêmes dans leurs propres oeuvres? ", "Arts Plastiques", "HGEMC", "TRUE", "FALSE", "FALSE", "FALSE", "Eve Capel", "Yvon Thomas", "12:30"] ,
-  ["DIOUF Moussa", "3EME1", "Parcours avenir", "En quoi mon stage d'immersion chez BAAMTU TECHNOLOGIES m'a-t-il ouvert les yeux sur les nouvelles manières de concevoir l'informatique ?", "Technologie", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Antoine Frayon", "Elizabeth Porter", "12:00"] ,
-  ["FALL Adji Magatte", "3EME2", "Parcours citoyen", "L'IA peut-elle améliorer l'apprentissage sans remplacer les efforts des élèves ?", "Technologie", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Antoine Frayon", "François Faye", "12:30"] ,
-  ["FROUART Mia Tiara", "3EME1", "Parcours citoyen", "Comment le musée MAHICAO participe-t-il à la conservation, à la transmission et à la valorisation des cultures africaines ?", "Arts Plastiques", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Eve Capel", "Layla Jaït", "12:00"] ,
-  ["GAFFARI Sofia", "3EME2", "Parcours avenir", "Pourquoi mon stage chez un vétérinaire m'a-t-il amené à reconsidérer mon choix de métier ?", "Orientation", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Roselyne D’Aquino", "Elizabeth Porter", "12:30"] ,
-  ["GALAND Margaux Suzette T", "3EME1", "Parcours santé", "En quoi la reprise de la pratique sportive peut-elle améliroer la récupération physique et mentale après une leucémie ?", "SVT", "EPS", "TRUE", "FALSE", "FALSE", "FALSE", "Vincent David", "Alassane Ndiaye", "12:30"] ,
-  ["GILLEN Mathieu Louis Pierre", "3EME2", "Parcours avenir", "En quoi le tourisme pourrait-il être un levier pour une carrière internationale afin de découvrir lee monde et les gens?", "HGEMC", "Aucune", "TRUE", "FALSE", "FALSE", "FALSE", "Mathilde Michon Guillaume", "Alain Gomis", "13:00"] ,
-  ["GLAUDE Manon", "3EME1", "Parcours santé", "En quoi le sommeil est-il important dans la vie des adolescents ?", "SVT", "HGEMC", "TRUE", "FALSE", "FALSE", "FALSE", "Nathalie Mboup", "Yvon Thomas", "13:00"] ,
-  ["GRASSAGLIATA Milena", "3EME1", "Parcours santé", "En quoi une mauvaise nutrition impacte-t-elle la santé physique et mentale chez les jeunes ?", "SVT", "Français", "TRUE", "FALSE", "FALSE", "FALSE", "Vincent David", "Fanelly Mourain Diop", "13:00"] ,
-  ["GROS-DUBOIS Daniella Fatoumata", "3EME1", "Parcours santé", "En quoi la compréhension du cancer du sein et les différentes stratégies mises en oeuvre pour lutter contre cette maladie améliorent-elles l'espérance de vie ?", "SVT", "Espagnol", "TRUE", "FALSE", "FALSE", "TRUE", "Nathalie Mboup", "Amandine Gibus", "13:30"] ,
-  ["HOUGNON Alexandre Georges", "3EME2", "Parcours avenir", "Comment vais-je faire pour réussir mon rêve d'architecte ?", "Arts Plastiques", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Eve Capel", "François Faye", "13:00"] ,
-  ["JABER Ali", "3EME1", "Parcours avenir", "Comment mon stage à l'hôtel Royam m'a-t-il aider à mieux comprendre le monde du travail et mon futur métier ?", "Français", "Aucune", "TRUE", "FALSE", "FALSE", "FALSE", "Olivier Baritou", "Alain Gomis", "13:30"] ,
-  ["KANE Souleymane", "3EME2", "Parcours santé", "En quoi le canal carpien peut-il affecter la vie scolaire d'un élève ?", "SVT", "Aucune", "TRUE", "FALSE", "FALSE", "FALSE", "Nathalie Mboup", "Roselyne D’Aquino", "14:00"] ,
-  ["KOUROUMA Marguerite", "3EME2", "Parcours santé", "Quels sont les risques d'une grossesse précoce pour un élève ?", "SVT", "Aucune", "TRUE", "FALSE", "FALSE", "FALSE", "Vincent David", "Claire Drame", "13:30"] ,
-  ["LE COM Solen", "3EME2", "Parcours santé", "Comment des cigarettes éléctronqiues jetables peuvent-elles impacter le quotidien scolaire et habituel des adolescents ?", "SVT", "Aucune", "TRUE", "FALSE", "FALSE", "FALSE", "Nathalie Mboup", "Alain Gomis", "14:30"] ,
-  ["LESAINT Samy Amet", "3EME2", "Parcours santé", "Quelles sont les conséquences de la drépanocitose et comment affecte-t-elle la vie des patients?", "SVT", "Aucune", "TRUE", "FALSE", "FALSE", "FALSE", "Vincent David", "Roselyne D’Aquino", "14:30"] ,
-  ["LOZES Raphaël André Dominique", "3EME2", "Parcours avenir", "Comment devenir agriculteur aujourd'hui et pourquoi choisir ce métier?", "SVT", "Aucune", "TRUE", "FALSE", "FALSE", "FALSE", "Nathalie Mboup", "Claire Drame", "15:00"] ,
-  ["MARCHESE Howard Giovanni Sédar", "3EME1", "Parcours avenir", "Pourquoi le métier de pilote fait-il encore réver aujourd'hui?", "Orientation", "Mathématiques", "TRUE", "FALSE", "FALSE", "FALSE", "Roselyne D’Aquino", "Karine Chabert", "13:00"] ,
-  ["MARTINEZ Gabriel-Omar Régis", "3EME1", "Parcours santé", "Selon vous, pourquoi les drogues ont-elles un effet néfaste sur la santé et le comportement des adolescents?", "SVT", "Français", "TRUE", "FALSE", "FALSE", "FALSE", "Vincent David", "Nafissatou Fall", "14:00"] ,
-  ["MBOUP Adam Fallou", "3EME1", "Parcours santé", "En quoi les progrès scientifiques et technologiques aident-ils les sportifs ?", "Technologie", "EPS", "TRUE", "FALSE", "FALSE", "FALSE", "Antoine Frayon", "Alassane Ndiaye", "13:30"] ,
-  ["MBOW Aïssatou", "3EME2", "Parcours avenir", "En quoi l'environnement des jeunes d'aujourd'hui influence-t-il leur orientation pour la médecine ?", "Français", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Fanelly Mourain Diop", "Elizabeth Porter", "13:30"] ,
-  ["MENCIERE Théophane Sedar", "3EME2", "Parcours avenir", "Comment le parcours avenir peut-il nous aider à réfléchir à notre orientation ?", "Français", "Aucune", "TRUE", "FALSE", "FALSE", "FALSE", "Olivier Baritou", "Alain Gomis", "14:00"] ,
-  ["MENDY BOSSU Mia Caroline Michele", "3EME1", "Parcours citoyen", "En quoi le journal d'Anne Frank  est-il un acte de résistance et un symbole du devoir de mémoire?", "HGEMC", "Français", "TRUE", "FALSE", "FALSE", "FALSE", "Mathilde Michon Guillaume", "Nafissatou Fall", "14:30"] ,
-  ["MLIK Omar", "3EME1", "Parcours avenir", "En quoi le parcours scolaire influence-t-il notre futur et quelle est son importance ?", "Français", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Fanelly Mourain Diop", "François Faye", "14:00"] ,
-  ["MOCNIK Léa Absa", "3EME2", "Parcours citoyen", "Et si le harcèlemeent scolaire n'était pas seulement l'histoire d'un bourreau et d'une victime mais le symptôme d'une société qui ferme les yeux?", "HGEMC", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Claire Bossu", "Elizabeth Porter", "14:00"] ,
-  ["MONTALBANO Nathalie Marie Olga", "3EME1", "Parcours avenir", "Comment mon stage m'a t-il orienté pour mon projet futur ?", "Orientation", "Espagnol", "TRUE", "FALSE", "FALSE", "TRUE", "Roselyne D’Aquino", "Amandine Gibus", "15:00"] ,
-  ["NDIAYE Anna Florence", "3EME1", "Parcours citoyen", "En quoi l'esclavage a-t-il marqué l'histoire ?", "HGEMC", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Yvon Thomas", "Layla Jaït", "14:30"] ,
-  ["NDIAYE Soukaïna  Dibor", "3EME2", "Parcours avenir", "En quoi la médecine de permet de prévenir les risques et d'améliorer les performances des sportifs ?", "SVT", "EPS", "TRUE", "FALSE", "FALSE", "FALSE", "Nathalie Mboup", "Claire Drame", "15:30"] ,
-  ["NGOM Khady Meissa", "3EME1", "Parcours citoyen", "En quoi les réseaux sociaux influencent-ils le quotidien des adolescents? ", "HGEMC", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Mathilde Michon Guillaume", "François Faye", "15:00"] ,
-  ["NOUHANDO ROD Ezechiel Gildas", "3EME1", "Parcours avenir", "Comment le montage vidéo peut-il devenir un moyen de gagner de l'argent grâce aux réseaux sociaux et à internet ? ", "Technologie", "Français", "TRUE", "FALSE", "FALSE", "FALSE", "Antoine Frayon", "Olivier Baritou", "14:30"] ,
-  ["NUSS Paulette Thiaba", "3EME1", "Parcours citoyen", "Pourquoi les femmes continuent-elles de subir les inégalités malgré l'existence de lois qui protègent leurs droits ?", "HGEMC", "Français", "TRUE", "FALSE", "FALSE", "FALSE", "Claire Bossu", "Fanelly Mourain Diop", "15:00"] ,
-  ["PEREZ NGOLI Micah Bruno Jean-Jacques", "3EME1", "Parcours avenir", "Comment le stage m'a aidé à trouver mon futur métier et comment pourrais-je répondre aux besoins des consommateurs ?", "Français", "Orientation", "TRUE", "FALSE", "FALSE", "FALSE", "Nafissatou Fall", "Roselyne D’Aquino", "15:30"] ,
-  ["PHILIPPE Paloma Clémence", "3EME2", "Histoire des arts / Citoyen", "Avoir un style vestimentaire particulier, affecte-t-il la vision que la société porte envers nous ?", "Arts Plastiques", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Eve Capel", "Elizabeth Porter", "15:00"] ,
-  ["PORQUET Yaniss", "3EME1", "Parcours avenir", "En quoi mon stage m'a-t-il permis de mieux comprendre les métiers de l'énergie ?", "Orientation", "Physique-Chimie", "TRUE", "FALSE", "FALSE", "FALSE", "Roselyne D’Aquino", "Adama Ndaw", "15:30"] ,
-  ["REZGANI Yasmine", "3EME2", "Parcours santé", "Comment le manque de sommeil influence-t-il sur nos capacités d'apprentissage et notre santé mentale ?", "SVT", "Aucune", "TRUE", "FALSE", "FALSE", "FALSE", "Vincent David", "Alain Gomis", "15:30"] ,
-  ["SALL Arona Ababacar Alpha", "3EME2", "Parcours santé", "En quoi la pratique régulière d'une activité physique régulière est-elle essentielle à la santé globale du collégien ?", "EPS", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Alassane Ndiaye", "François Faye", "15:30"] ,
-  ["SAMB Abdou Aziz", "3EME1", "Parcours avenir", "Comment mon stage de 3ème et le parcours avenir m'ont permis d'amorcer une réflexion autour du métier de psychologue? ", "Français", "Orientation", "TRUE", "FALSE", "FALSE", "FALSE", "Olivier Baritou", "Roselyne D’Aquino", "16:00"] ,
-  ["SARR Fatou Bintou", "3EME2", "Histoire des arts", "Comment la chanson stand up rend-elle hommage à la lutee de Harriet Tubman et comment nous incite-t-elle à nous défendre contre les injustices d'aujourd'hui?", "Éducation musicale", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Antoine Diandy", "Layla Jaït", "16:00"] ,
-  ["TEBER Nehir", "3EME1", "Parcours citoyen", "En quoi les réseaux sociaux ont-ils un impact sur le quotidien des jeunes aujourd'hui ? ", "Technologie", "HGEMC", "TRUE", "FALSE", "FALSE", "FALSE", "Antoine Frayon", "Yvon Thomas", "16:00"] ,
-  ["TUNA Melisa", "3EME2", "PEAC", "En quoi la mythologie grecque reste-t-elle influente sur le monde moderne ?", "Français", "HGEMC", "TRUE", "FALSE", "FALSE", "FALSE", "Fanelly Mourain Diop", "Claire Bossu", "16:00"] ,
-  ["VILLAIN Candice Noa", "3EME2", "Parcours santé", "Quels sont les troubles DYS, quelles sont leurs difficultés et quelles sont les aides mises en place à  l'école afin dee palier à ces difficultés?", "SVT", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Nathalie Mboup", "Elizabeth Porter", "16:00"] ,
-  ["WONE Aissatou Rahmatoulahi", "3EME2", "Parcours santé", "En quoi mon stage au district sanitaire de Mbour m'a-t-il permis de comprendre le système de santé Sénégalais et de confirmer mon projet professionnel dans le domaine médical ?", "Orientation", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Roselyne D’Aquino", "François Faye", "16:30"] ,
-  ["YEROCHEWSKI Yelen Sophie Marie", "3EME1", "Parcours citoyen", "Comment la propagande de Adolf Hitler a-t-elle influencé la population Allemande ?", "HGEMC", "Espagnol", "TRUE", "FALSE", "FALSE", "TRUE", "Yvon Thomas", "Fernando Piaggio", "16:30"] ,
+const JURY_COLUMNS = [
+  "Juré",
+  "Heure",
+  "Candidat",
+  "Classe",
+  "Problématique",
+  "Discipline_1",
+  "Discipline_2",
+  "Langue",
+] as const;
+
+type CandidateColumn = (typeof CANDIDATE_COLUMNS)[number];
+type JuryColumn = (typeof JURY_COLUMNS)[number];
+
+type Candidate = {
+  id: string;
+  student: string;
+  className: string;
+  pathway: string;
+  problematic: string;
+  discipline1: string;
+  discipline2: string;
+  english: boolean;
+  spanish: boolean;
+  juror1: string;
+  juror2: string;
+  time: string;
+  date: string;
+  room: string;
+};
+
+type JuryViewRow = {
+  id: string;
+  juror: string;
+  time: string;
+  student: string;
+  className: string;
+  problematic: string;
+  discipline1: string;
+  discipline2: string;
+  language: string;
+  date: string;
+  room: string;
+};
+
+type SortRule<T extends string> = {
+  column: T;
+  direction: SortDirection;
+};
+
+type FilterState = {
+  search: string;
+  date: string;
+  room: string;
+  jury: string;
+  className: string;
+  discipline1: string;
+  discipline2: string;
+  timeFrom: string;
+  timeTo: string;
+};
+
+const RAW_ROWS: string[][] = [
+  ["AUBRY Albert Akoi Agamemnon", "3EME1", "Parcours santé", "En quoi les jeux vidéos influencent-ils le développement scolaire des adolescents ?", "SVT", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Vincent David", "François Faye", "11:00"],
+  ["BA Abygaëlle Bilel", "3EME2", "Parcours citoyen", "Comment les auteurs africains ont-ils utilisé l'écriture pour affirmer leur identité ?", "Français", "Anglais", "TRUE", "FALSE", "TRUE", "FALSE", "Olivier Baritou", "Layla Jaït", "11:00"],
+  ["BERGOT Mathieu Yohan", "3EME2", "Parcours citoyen", "Comment le basket est-il devenu une culture à part entière ?", "EPS", "Aucune", "TRUE", "FALSE", "FALSE", "FALSE", "Alassane Ndiaye", "Claire Drame", "11:00"],
+  ["BODELOT Julien Achille", "3EME2", "Parcours santé", "Quels sont les bienfaits de l'activité physique sur la santé ?", "SVT", "EPS", "TRUE", "FALSE", "FALSE", "FALSE", "Nathalie Mboup", "Claire Drame", "11:30"],
+  ["BOUYER Louis Marie", "3EME1", "Parcours santé", "En quoi une mauvaise alimentation influence l'organisme ?", "SVT", "EPS", "TRUE", "FALSE", "FALSE", "FALSE", "Vincent David", "Alassane Ndiaye", "11:30"],
 ];
 
+const normalize = (value: string): string =>
+  value
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLowerCase()
+    .trim();
 
+const timeToMinutes = (time: string): number => {
+  const [hours, minutes] = time.split(":").map(Number);
+  if (Number.isNaN(hours) || Number.isNaN(minutes)) return -1;
+  return hours * 60 + minutes;
+};
 
-const JURY_COLUMNS = ["Juré", "Heure", "Candidat", "Problématique", "Discipline_1", "Discipline_2", "Langue"] as const;
+const asBool = (value: string): boolean => value === "TRUE";
 
-type TabKey = "candidats" | "jures" | "grille";
+const candidateRowMap = (candidate: Candidate): Record<CandidateColumn, string> => ({
+  Élève: candidate.student,
+  Classe: candidate.className,
+  Parcours: candidate.pathway,
+  Problématique: candidate.problematic,
+  Discipline_1: candidate.discipline1,
+  Discipline_2: candidate.discipline2,
+  Anglais: candidate.english ? "☑" : "",
+  Espagnol: candidate.spanish ? "☑" : "",
+  Juré_1: candidate.juror1,
+  Juré_2: candidate.juror2,
+  "Heure de convocation": candidate.time,
+});
+
+const juryRowMap = (juryRow: JuryViewRow): Record<JuryColumn, string> => ({
+  Juré: juryRow.juror,
+  Heure: juryRow.time,
+  Candidat: juryRow.student,
+  Classe: juryRow.className,
+  Problématique: juryRow.problematic,
+  Discipline_1: juryRow.discipline1,
+  Discipline_2: juryRow.discipline2,
+  Langue: juryRow.language,
+});
+
+const compareValues = (left: string, right: string, direction: SortDirection): number => {
+  const leftTime = timeToMinutes(left);
+  const rightTime = timeToMinutes(right);
+  const base = leftTime >= 0 && rightTime >= 0 ? leftTime - rightTime : left.localeCompare(right, "fr");
+  return direction === "asc" ? base : -base;
+};
+
+function applyMultiSort<T>(
+  rows: T[],
+  rules: SortRule<string>[],
+  getComparable: (row: T, column: string) => string,
+): T[] {
+  if (!rules.length) return rows;
+  return [...rows].sort((a, b) => {
+    for (const rule of rules) {
+      const cmp = compareValues(getComparable(a, rule.column), getComparable(b, rule.column), rule.direction);
+      if (cmp !== 0) return cmp;
+    }
+    return 0;
+  });
+}
+
+const toSpreadsheet = (filename: string, headers: string[], rows: string[][]): void => {
+  const content = [headers, ...rows]
+    .map((row) => row.map((value) => `"${String(value).replaceAll('"', '""')}"`).join(";"))
+    .join("\n");
+  const blob = new Blob([content], { type: "application/vnd.ms-excel;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+const renderConvocationsHtml = (candidates: Candidate[], juryRows: JuryViewRow[]): string => {
+  const jurors = Array.from(new Set(juryRows.map((j) => j.juror))).sort((a, b) => a.localeCompare(b, "fr"));
+  const candidatePages = candidates
+    .map(
+      (c) => `
+      <section class="page">
+        <img src="${LOGO_URL}" class="logo" />
+        <h2>Convocation candidat</h2>
+        <p><strong>Nom :</strong> ${c.student}</p>
+        <p><strong>Classe :</strong> ${c.className}</p>
+        <p><strong>Date :</strong> ${c.date}</p>
+        <p><strong>Heure :</strong> ${c.time}</p>
+        <p><strong>Salle :</strong> ${c.room}</p>
+        <p><strong>Problématique :</strong> ${c.problematic}</p>
+        <p><strong>Consignes :</strong> Présence 15 minutes avant, pièce d'identité et support préparé.</p>
+        <img src="${SIGNATURE_URL}" class="signature" />
+      </section>`,
+    )
+    .join("");
+
+  const juryPages = jurors
+    .map((juror) => {
+      const planning = juryRows
+        .filter((row) => row.juror === juror)
+        .sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time))
+        .map(
+          (row) => `<tr><td>${row.time}</td><td>${row.student}</td><td>${row.room}</td><td>${row.discipline1} / ${row.discipline2}</td></tr>`,
+        )
+        .join("");
+      return `
+      <section class="page">
+        <img src="${LOGO_URL}" class="logo" />
+        <h2>Convocation juré</h2>
+        <p><strong>Juré :</strong> ${juror}</p>
+        <p><strong>Date :</strong> ${EXAM_DATE}</p>
+        <p><strong>Consignes :</strong> Merci de respecter les horaires. Grille officielle : <a href="${OFFICIAL_GRID_URL}">${OFFICIAL_GRID_URL}</a></p>
+        <table><thead><tr><th>Heure</th><th>Candidat</th><th>Salle</th><th>Disciplines</th></tr></thead><tbody>${planning}</tbody></table>
+        <img src="${SIGNATURE_URL}" class="signature" />
+      </section>`;
+    })
+    .join("");
+
+  return `<!doctype html><html><head><meta charset="utf-8" /><style>
+    body{font-family:Arial,sans-serif;margin:0}
+    .page{page-break-after:always;padding:24px}
+    .logo{height:56px}
+    .signature{height:48px;margin-top:12px}
+    table{width:100%;border-collapse:collapse}td,th{border:1px solid #ccc;padding:6px}
+  </style></head><body>${candidatePages}${juryPages}</body></html>`;
+};
 
 export default function DnbOralExam20260520Page() {
   const [activeTab, setActiveTab] = useState<TabKey>("candidats");
+  const [candidateSortRules, setCandidateSortRules] = useState<SortRule<CandidateColumn>[]>([]);
+  const [jurySortRules, setJurySortRules] = useState<SortRule<JuryColumn>[]>([]);
+  const [filters, setFilters] = useState<FilterState>({
+    search: "",
+    date: EXAM_DATE,
+    room: "",
+    jury: "",
+    className: "",
+    discipline1: "",
+    discipline2: "",
+    timeFrom: "",
+    timeTo: "",
+  });
 
+  const candidates = useMemo<Candidate[]>(
+    () =>
+      RAW_ROWS.map((row, index) => ({
+        id: `candidate-${index + 1}`,
+        student: row[0],
+        className: row[1],
+        pathway: row[2],
+        problematic: row[3],
+        discipline1: row[4],
+        discipline2: row[5],
+        english: asBool(row[6]),
+        spanish: asBool(row[7]),
+        juror1: row[10],
+        juror2: row[11],
+        time: row[12],
+        date: EXAM_DATE,
+        room: DEFAULT_ROOM,
+      })),
+    [],
+  );
 
-  const candidateRows = useMemo(() =>
-    ROWS.map((row) => {
-      const displayRow = row.filter((_, index) => index !== 6 && index !== 7);
-      return displayRow.map((cell, index) => {
-        const isLanguageColumn = index === 6 || index === 7;
-        if (!isLanguageColumn) {
-          return cell;
-        }
+  const juryRows = useMemo<JuryViewRow[]>(
+    () =>
+      candidates.flatMap((candidate) =>
+        [candidate.juror1, candidate.juror2].map((juror, idx) => ({
+          id: `${candidate.id}-jury-${idx}`,
+          juror,
+          time: candidate.time,
+          student: candidate.student,
+          className: candidate.className,
+          problematic: candidate.problematic,
+          discipline1: candidate.discipline1,
+          discipline2: candidate.discipline2,
+          language: candidate.english ? "Anglais" : candidate.spanish ? "Espagnol" : "",
+          date: candidate.date,
+          room: candidate.room,
+        })),
+      ),
+    [candidates],
+  );
 
-        return cell === "TRUE" ? "☑" : "";
-      });
-    }),
-  []);
-  const juryRows = useMemo(() =>
-    ROWS.flatMap((row) => {
-      const jurors = [row[10], row[11]].filter(Boolean);
-      const language = row[8] === "TRUE" ? "Anglais" : row[9] === "TRUE" ? "Espagnol" : "";
+  const filterCandidate = (candidate: Candidate): boolean => {
+    const searchPool = Object.values(candidateRowMap(candidate));
+    const query = normalize(filters.search);
+    const searchOk = !query || searchPool.some((value) => normalize(value).includes(query));
+    const dateOk = !filters.date || candidate.date === filters.date;
+    const roomOk = !filters.room || normalize(candidate.room).includes(normalize(filters.room));
+    const juryOk =
+      !filters.jury ||
+      normalize(candidate.juror1).includes(normalize(filters.jury)) ||
+      normalize(candidate.juror2).includes(normalize(filters.jury));
+    const classOk = !filters.className || normalize(candidate.className).includes(normalize(filters.className));
+    const d1Ok = !filters.discipline1 || normalize(candidate.discipline1).includes(normalize(filters.discipline1));
+    const d2Ok = !filters.discipline2 || normalize(candidate.discipline2).includes(normalize(filters.discipline2));
+    const timeValue = timeToMinutes(candidate.time);
+    const timeFromOk = !filters.timeFrom || timeValue >= timeToMinutes(filters.timeFrom);
+    const timeToOk = !filters.timeTo || timeValue <= timeToMinutes(filters.timeTo);
+    return searchOk && dateOk && roomOk && juryOk && classOk && d1Ok && d2Ok && timeFromOk && timeToOk;
+  };
 
-      return jurors.map((juror) => [juror, row[12], row[0], row[3], row[4], row[5], language]);
-    }).sort((a, b) => {
-      if (a[0] !== b[0]) {
-        return a[0].localeCompare(b[0], "fr");
-      }
+  const filterJury = (jury: JuryViewRow): boolean => {
+    const searchPool = Object.values(juryRowMap(jury));
+    const query = normalize(filters.search);
+    const searchOk = !query || searchPool.some((value) => normalize(value).includes(query));
+    const dateOk = !filters.date || jury.date === filters.date;
+    const roomOk = !filters.room || normalize(jury.room).includes(normalize(filters.room));
+    const juryOk = !filters.jury || normalize(jury.juror).includes(normalize(filters.jury));
+    const classOk = !filters.className || normalize(jury.className).includes(normalize(filters.className));
+    const d1Ok = !filters.discipline1 || normalize(jury.discipline1).includes(normalize(filters.discipline1));
+    const d2Ok = !filters.discipline2 || normalize(jury.discipline2).includes(normalize(filters.discipline2));
+    const timeValue = timeToMinutes(jury.time);
+    const timeFromOk = !filters.timeFrom || timeValue >= timeToMinutes(filters.timeFrom);
+    const timeToOk = !filters.timeTo || timeValue <= timeToMinutes(filters.timeTo);
+    return searchOk && dateOk && roomOk && juryOk && classOk && d1Ok && d2Ok && timeFromOk && timeToOk;
+  };
 
-      return a[1].localeCompare(b[1], "fr");
-    }),
-  []);
+  const filteredCandidates = useMemo(() => candidates.filter(filterCandidate), [candidates, filters]);
+  const filteredJuryRows = useMemo(() => juryRows.filter(filterJury), [juryRows, filters]);
+
+  const sortedCandidates = useMemo(
+    () =>
+      applyMultiSort(filteredCandidates, candidateSortRules, (row, column) => candidateRowMap(row)[column as CandidateColumn]),
+    [filteredCandidates, candidateSortRules],
+  );
+
+  const sortedJuryRows = useMemo(
+    () => applyMultiSort(filteredJuryRows, jurySortRules, (row, column) => juryRowMap(row)[column as JuryColumn]),
+    [filteredJuryRows, jurySortRules],
+  );
+
+  const resetFilters = (): void => {
+    setFilters({
+      search: "",
+      date: EXAM_DATE,
+      room: "",
+      jury: "",
+      className: "",
+      discipline1: "",
+      discipline2: "",
+      timeFrom: "",
+      timeTo: "",
+    });
+  };
+
+  const toggleSortRule = <T extends string,>(
+    column: T,
+    rules: SortRule<T>[],
+    setRules: (rules: SortRule<T>[]) => void,
+  ): void => {
+    const existing = rules.find((rule) => rule.column === column);
+    if (!existing) {
+      setRules([...rules, { column, direction: "asc" }]);
+      return;
+    }
+    if (existing.direction === "asc") {
+      setRules(rules.map((rule) => (rule.column === column ? { ...rule, direction: "desc" } : rule)));
+      return;
+    }
+    setRules(rules.filter((rule) => rule.column !== column));
+  };
+
+  const currentCandidateRows = sortedCandidates.map((candidate) =>
+    CANDIDATE_COLUMNS.map((col) => candidateRowMap(candidate)[col]),
+  );
+  const currentJuryRows = sortedJuryRows.map((jury) => JURY_COLUMNS.map((col) => juryRowMap(jury)[col]));
+
+  const printConvocations = (): void => {
+    const popup = window.open("", "_blank");
+    if (!popup) return;
+    popup.document.write(renderConvocationsHtml(sortedCandidates, sortedJuryRows));
+    popup.document.close();
+    popup.focus();
+    popup.print();
+  };
 
   return (
     <main className="min-h-screen bg-slate-50 p-6">
       <div className="mx-auto max-w-7xl space-y-4">
-        <Link to="/" className="text-sm text-blue-700 hover:underline">← Retour à l'accueil</Link>
+        <Link to="/" className="text-sm text-blue-700 hover:underline">
+          ← Retour à l'accueil
+        </Link>
         <h1 className="text-2xl font-bold text-slate-900">Oraux du DNB — 20 mai 2026</h1>
+
         <section className="rounded-lg border bg-white p-4 text-sm text-slate-700 shadow-sm">
           <h2 className="mb-2 text-base font-semibold text-slate-900">Présentation de l'épreuve</h2>
           <p>
-            Conformément aux textes officiels du Diplôme national du brevet, l'épreuve orale évalue la maîtrise de l'expression orale,
-            la qualité de l'argumentation et la capacité de l'élève à présenter un projet mené dans le cadre des parcours éducatifs
-            (avenir, citoyen, santé, artistique et culturel).
+            Conformément aux textes officiels du DNB, l'épreuve orale évalue l'expression orale, la qualité de
+            l'argumentation et la capacité à présenter un projet.
           </p>
         </section>
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={() => setActiveTab("candidats")}
-            className={`rounded-md px-4 py-2 text-sm font-semibold ${activeTab === "candidats" ? "bg-blue-600 text-white" : "bg-white text-slate-700 border"}`}
-          >
-            Candidats
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab("jures")}
-            className={`rounded-md px-4 py-2 text-sm font-semibold ${activeTab === "jures" ? "bg-blue-600 text-white" : "bg-white text-slate-700 border"}`}
-          >
-            Jurés
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab("grille")}
-            className={`rounded-md px-4 py-2 text-sm font-semibold ${activeTab === "grille" ? "bg-blue-600 text-white" : "bg-white text-slate-700 border"}`}
-          >
-            Grille d'évaluation
-          </button>
+
+        <div className="flex flex-wrap gap-2">
+          {([
+            ["candidats", "Candidats"],
+            ["jures", "Jurés"],
+            ["grille", "Grille d'évaluation"],
+          ] as const).map(([key, label]) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setActiveTab(key)}
+              className={`rounded-md border px-4 py-2 text-sm font-semibold ${
+                activeTab === key ? "bg-blue-600 text-white" : "bg-white text-slate-700"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
         </div>
 
         {activeTab === "grille" ? (
-          <section className="space-y-3 rounded-lg border bg-white p-4 shadow-sm">
+          <section className="rounded-lg border bg-white p-4 shadow-sm">
             <p className="text-sm text-slate-700">
-              Version source de la grille :{" "}
-              <a
-                href="https://drive.google.com/file/d/1EvPaUjTP5f8rT0Rbb5wbYU-pK0JPLgLc/view?usp=drive_link"
-                target="_blank"
-                rel="noreferrer"
-                className="text-blue-700 underline"
-              >
-                consulter le document officiel
+              Version officielle :{" "}
+              <a href={OFFICIAL_GRID_URL} target="_blank" rel="noreferrer" className="text-blue-700 underline">
+                consulter la grille d'évaluation
               </a>
               .
             </p>
-            <div className="overflow-x-auto">
-              <table className="min-w-full border text-left text-sm">
-                <thead className="bg-slate-100">
+          </section>
+        ) : (
+          <>
+            <section className="rounded-lg border bg-white p-4 shadow-sm">
+              <div className="grid gap-2 md:grid-cols-4">
+                <input className="rounded border px-2 py-1" placeholder="Recherche globale" value={filters.search} onChange={(e) => setFilters((s) => ({ ...s, search: e.target.value }))} />
+                <input className="rounded border px-2 py-1" type="date" value={filters.date} onChange={(e) => setFilters((s) => ({ ...s, date: e.target.value }))} />
+                <input className="rounded border px-2 py-1" placeholder="Salle" value={filters.room} onChange={(e) => setFilters((s) => ({ ...s, room: e.target.value }))} />
+                <input className="rounded border px-2 py-1" placeholder="Jury" value={filters.jury} onChange={(e) => setFilters((s) => ({ ...s, jury: e.target.value }))} />
+                <input className="rounded border px-2 py-1" placeholder="Classe" value={filters.className} onChange={(e) => setFilters((s) => ({ ...s, className: e.target.value }))} />
+                <input className="rounded border px-2 py-1" placeholder="Discipline_1" value={filters.discipline1} onChange={(e) => setFilters((s) => ({ ...s, discipline1: e.target.value }))} />
+                <input className="rounded border px-2 py-1" placeholder="Discipline_2" value={filters.discipline2} onChange={(e) => setFilters((s) => ({ ...s, discipline2: e.target.value }))} />
+                <div className="flex gap-2">
+                  <input className="w-full rounded border px-2 py-1" type="time" value={filters.timeFrom} onChange={(e) => setFilters((s) => ({ ...s, timeFrom: e.target.value }))} />
+                  <input className="w-full rounded border px-2 py-1" type="time" value={filters.timeTo} onChange={(e) => setFilters((s) => ({ ...s, timeTo: e.target.value }))} />
+                </div>
+              </div>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <button type="button" onClick={resetFilters} className="rounded border px-3 py-1">Réinitialiser filtres</button>
+                <span className="text-sm text-slate-600">Résultats : {activeTab === "candidats" ? sortedCandidates.length : sortedJuryRows.length}</span>
+                <button type="button" onClick={printConvocations} className="rounded bg-indigo-600 px-3 py-1 text-white">Imprimer convocations (lot)</button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    toSpreadsheet(
+                      `dnb-oral-${activeTab}-${EXAM_DATE}.xls`,
+                      activeTab === "candidats" ? [...CANDIDATE_COLUMNS] : [...JURY_COLUMNS],
+                      activeTab === "candidats" ? currentCandidateRows : currentJuryRows,
+                    )
+                  }
+                  className="rounded bg-emerald-600 px-3 py-1 text-white"
+                >
+                  Exporter (.xls)
+                </button>
+              </div>
+            </section>
+
+            <section className="overflow-x-auto rounded-lg border bg-white shadow-sm">
+              <table className="min-w-full text-left text-sm">
+                <thead className="bg-slate-100 text-slate-700">
                   <tr>
-                    <th className="border px-3 py-2">Partie</th>
-                    <th className="border px-3 py-2">Exigences</th>
-                    <th className="border px-3 py-2">Insuffisant</th>
-                    <th className="border px-3 py-2">Fragile</th>
-                    <th className="border px-3 py-2">Satisfaisant</th>
-                    <th className="border px-3 py-2">Très bon</th>
+                    {(activeTab === "candidats" ? CANDIDATE_COLUMNS : JURY_COLUMNS).map((column) => (
+                      <th key={column} className="whitespace-nowrap border-b px-3 py-2">
+                        <button
+                          type="button"
+                          className="inline-flex items-center gap-1"
+                          onClick={() =>
+                            activeTab === "candidats"
+                              ? toggleSortRule(column as CandidateColumn, candidateSortRules, setCandidateSortRules)
+                              : toggleSortRule(column as JuryColumn, jurySortRules, setJurySortRules)
+                          }
+                        >
+                          {column}
+                        </button>
+                      </th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td className="border px-3 py-2 font-semibold" rowSpan={4}>Maîtrise de l'expression orale</td>
-                    <td className="border px-3 py-2">Adopter une posture adéquate (politesse, regard, tenue, ponctualité).</td>
-                    <td className="border px-3 py-2 text-center">0,5</td>
-                    <td className="border px-3 py-2 text-center">1</td>
-                    <td className="border px-3 py-2 text-center">1,5</td>
-                    <td className="border px-3 py-2 text-center">2</td>
-                  </tr>
-                  <tr>
-                    <td className="border px-3 py-2">S'exprimer correctement : rythme, articulation, intonation.</td>
-                    <td className="border px-3 py-2" />
-                    <td className="border px-3 py-2" />
-                    <td className="border px-3 py-2" />
-                    <td className="border px-3 py-2" />
-                  </tr>
-                  <tr>
-                    <td className="border px-3 py-2">Se détacher des notes et interagir avec le jury par des réponses construites.</td>
-                    <td className="border px-3 py-2" />
-                    <td className="border px-3 py-2" />
-                    <td className="border px-3 py-2" />
-                    <td className="border px-3 py-2" />
-                  </tr>
-                  <tr>
-                    <td className="border px-3 py-2">Utiliser un vocabulaire adapté, y compris spécialisé.</td>
-                    <td className="border px-3 py-2" />
-                    <td className="border px-3 py-2" />
-                    <td className="border px-3 py-2" />
-                    <td className="border px-3 py-2" />
-                  </tr>
-                  <tr className="bg-slate-50 font-semibold">
-                    <td className="border px-3 py-2" colSpan={6}>Partie 1 : total des points sur 8</td>
-                  </tr>
-                  <tr>
-                    <td className="border px-3 py-2 font-semibold" rowSpan={4}>Maîtrise du sujet présenté</td>
-                    <td className="border px-3 py-2">Organiser un exposé structuré (introduction, développement, conclusion).</td>
-                    <td className="border px-3 py-2 text-center">0,5</td>
-                    <td className="border px-3 py-2 text-center">1</td>
-                    <td className="border px-3 py-2 text-center">2</td>
-                    <td className="border px-3 py-2 text-center">3</td>
-                  </tr>
-                  <tr>
-                    <td className="border px-3 py-2">Expliquer la démarche et mener une réflexion personnelle.</td>
-                    <td className="border px-3 py-2" />
-                    <td className="border px-3 py-2" />
-                    <td className="border px-3 py-2" />
-                    <td className="border px-3 py-2" />
-                  </tr>
-                  <tr>
-                    <td className="border px-3 py-2">Mobiliser ses connaissances pour un exposé riche et clair.</td>
-                    <td className="border px-3 py-2" />
-                    <td className="border px-3 py-2" />
-                    <td className="border px-3 py-2" />
-                    <td className="border px-3 py-2" />
-                  </tr>
-                  <tr>
-                    <td className="border px-3 py-2">Justifier le choix du sujet et le lien avec la scolarité.</td>
-                    <td className="border px-3 py-2" />
-                    <td className="border px-3 py-2" />
-                    <td className="border px-3 py-2" />
-                    <td className="border px-3 py-2" />
-                  </tr>
-                  <tr className="bg-slate-50 font-semibold">
-                    <td className="border px-3 py-2" colSpan={6}>Partie 2 : total des points sur 12</td>
-                  </tr>
-                  <tr className="font-semibold">
-                    <td className="border px-3 py-2" colSpan={6}>Bonus : s'exprimer correctement dans une langue vivante étrangère (+2 points).</td>
-                  </tr>
+                  {(activeTab === "candidats" ? currentCandidateRows : currentJuryRows).map((row, index) => (
+                    <tr key={`${row[0]}-${index}`} className="odd:bg-white even:bg-slate-50">
+                      {row.map((cell, cellIndex) => (
+                        <td key={`${index}-${cellIndex}`} className="align-top border-b px-3 py-2">
+                          {cell}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
                 </tbody>
               </table>
-            </div>
-          </section>
-        ) : (
-          <div className="overflow-x-auto rounded-lg border bg-white shadow-sm">
-            <table className="min-w-full text-left text-sm">
-              <thead className="bg-slate-100 text-slate-700">
-                <tr>
-                  {(activeTab === "candidats" ? CANDIDATE_COLUMNS : JURY_COLUMNS).map((column) => (
-                    <th key={column} className="whitespace-nowrap border-b px-3 py-2 font-semibold">{column}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {(activeTab === "candidats" ? candidateRows : juryRows).map((row, index) => (
-                  <tr key={`${row[0]}-${index}`} className="odd:bg-white even:bg-slate-50">
-                    {row.map((cell, cellIndex) => (
-                      <td key={`${index}-${cellIndex}`} className="align-top border-b px-3 py-2">{cell}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+            </section>
+          </>
         )}
       </div>
     </main>
