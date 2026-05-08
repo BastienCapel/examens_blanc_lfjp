@@ -79,7 +79,7 @@ const ROWS: string[][] = [
 
 
 
-const JURY_COLUMNS = ["Heure", "Candidat", "Problématique", "Discipline_1", "Discipline_2", "Langue"] as const;
+const JURY_COLUMNS = ["Juré", "Heure", "Candidat", "Problématique", "Discipline_1", "Discipline_2", "Langue"] as const;
 
 type TabKey = "candidats" | "jures";
 
@@ -87,7 +87,18 @@ export default function DnbOralExam20260520Page() {
   const [activeTab, setActiveTab] = useState<TabKey>("candidats");
 
   const juryRows = useMemo(() =>
-    ROWS.filter((row) => row[10] || row[11]).map((row) => [row[12], row[0], row[3], row[4], row[5], row[8] === "TRUE" ? "Anglais" : row[9] === "TRUE" ? "Espagnol" : ""]),
+    ROWS.flatMap((row) => {
+      const jurors = [row[10], row[11]].filter(Boolean);
+      const language = row[8] === "TRUE" ? "Anglais" : row[9] === "TRUE" ? "Espagnol" : "";
+
+      return jurors.map((juror) => [juror, row[12], row[0], row[3], row[4], row[5], language]);
+    }).sort((a, b) => {
+      if (a[0] !== b[0]) {
+        return a[0].localeCompare(b[0], "fr");
+      }
+
+      return a[1].localeCompare(b[1], "fr");
+    }),
   []);
 
   return (
