@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 const COLUMNS = [
@@ -17,9 +18,6 @@ const COLUMNS = [
 ] as const;
 
 const ROWS: string[][] = [
-  ["DIALLO Hassimiou Djélani Gérard","3EME2","Histoire des arts","Comment l'architecture a-t-elle évoluée et que nous apprend t-elle sur les sociétés ?","Arts Plastiques","HGEMC","FALSE","FALSE","FALSE","FALSE","","",""] ,
-  ["DIOUF Yanis","3EME1","Parcours santé","","","","FALSE","FALSE","FALSE","FALSE","","",""] ,
-  ["SCHNEIDER Louna","3EME2","Parcours citoyen","Les résaux sociaux sont-ils utiles ou dangereux pour les jeunes ?","HGEMC","Aucune","FALSE","FALSE","FALSE","FALSE","","",""] ,
   ["AUBRY Albert Akoi Agamemnon","3EME1","Parcours santé","En quoi les jeux vidéos influencent-ils le développement scolaire des adolescents ?","SVT","Anglais","TRUE","FALSE","TRUE","FALSE","Vincent David","François Faye","11:00"] ,
   ["BA Abygaëlle Bilel","3EME2","Parcours citoyen","Comment les auteurs africains ont-ils utilisé l'écriture pour afirmeer leur identité?","Français","Anglais","TRUE","FALSE","TRUE","FALSE","Olivier Baritou","Layla Jaït","11:00"] ,
   ["BERGOT Mathieu Yohan","3EME2","Parcours citoyen","Comment le basket est-il devenu bien plus qu'un sport et s'est-il imposé comme une culture à part entière ?","EPS","Aucune","TRUE","FALSE","FALSE","FALSE","Alassane Ndiaye","Claire Drame","11:00"] ,
@@ -79,23 +77,52 @@ const ROWS: string[][] = [
   ["YEROCHEWSKI Yelen Sophie Marie","3EME1","Parcours citoyen","Comment la propagande de Adolf Hitler a-t-elle influencé la population Allemande ?","HGEMC","Espagnol","TRUE","FALSE","FALSE","TRUE","Yvon Thomas","Fernando Piaggio","16:30"] ,
 ];
 
+
+
+const JURY_COLUMNS = ["Heure", "Candidat", "Problématique", "Discipline_1", "Discipline_2", "Langue"] as const;
+
+type TabKey = "candidats" | "jures";
+
 export default function DnbOralExam20260520Page() {
+  const [activeTab, setActiveTab] = useState<TabKey>("candidats");
+
+  const juryRows = useMemo(() =>
+    ROWS.filter((row) => row[10] || row[11]).map((row) => [row[12], row[0], row[3], row[4], row[5], row[8] === "TRUE" ? "Anglais" : row[9] === "TRUE" ? "Espagnol" : ""]),
+  []);
+
   return (
     <main className="min-h-screen bg-slate-50 p-6">
       <div className="mx-auto max-w-7xl space-y-4">
         <Link to="/" className="text-sm text-blue-700 hover:underline">← Retour à l'accueil</Link>
         <h1 className="text-2xl font-bold text-slate-900">Oraux du DNB — 20 mai 2026</h1>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => setActiveTab("candidats")}
+            className={`rounded-md px-4 py-2 text-sm font-semibold ${activeTab === "candidats" ? "bg-blue-600 text-white" : "bg-white text-slate-700 border"}`}
+          >
+            Candidats
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("jures")}
+            className={`rounded-md px-4 py-2 text-sm font-semibold ${activeTab === "jures" ? "bg-blue-600 text-white" : "bg-white text-slate-700 border"}`}
+          >
+            Jurés
+          </button>
+        </div>
+
         <div className="overflow-x-auto rounded-lg border bg-white shadow-sm">
           <table className="min-w-full text-left text-sm">
             <thead className="bg-slate-100 text-slate-700">
               <tr>
-                {COLUMNS.map((column) => (
+                {(activeTab === "candidats" ? COLUMNS : JURY_COLUMNS).map((column) => (
                   <th key={column} className="whitespace-nowrap border-b px-3 py-2 font-semibold">{column}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {ROWS.map((row, index) => (
+              {(activeTab === "candidats" ? ROWS : juryRows).map((row, index) => (
                 <tr key={`${row[0]}-${index}`} className="odd:bg-white even:bg-slate-50">
                   {row.map((cell, cellIndex) => (
                     <td key={`${index}-${cellIndex}`} className="align-top border-b px-3 py-2">{cell}</td>

@@ -29,7 +29,7 @@ export default function HomePage() {
   const iconBackgroundByCategory: Record<HomeCalloutEntry["category"], string> = {
     general: "bg-gradient-to-br from-sky-500 to-indigo-500",
     math: "bg-gradient-to-br from-sky-500 to-indigo-500",
-    oral: "bg-gradient-to-br from-sky-500 to-indigo-500",
+    oral: "bg-gradient-to-r from-blue-600 via-white to-red-600 text-slate-900",
     surveillance: "bg-gradient-to-r from-blue-600 via-white to-red-600 text-slate-900",
   };
 
