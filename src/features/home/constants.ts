@@ -113,6 +113,16 @@ export const HOME_DNB_ZAO_202602_ENTRY: HomeCalloutEntry = {
   category: "general",
 };
 
+export const HOME_DNB_ORAL_20260520_ENTRY: HomeCalloutEntry = {
+  to: "/examens-blancs/oraux-dnb-2026-05-20",
+  iconLabel: "Consulter l'organisation des oraux du DNB",
+  subtitle: "",
+  title: "Oraux du DNB",
+  dateLabel: "20 mai 2026",
+  date: "2026-05-20",
+  footerLabel: "Accéder au planning détaillé",
+  category: "oral",
+};
 
 export const HOME_SURVEILLANCE_BAC_DNB_ENTRY: HomeCalloutEntry = {
   to: "/surveillances-bac-dnb",
@@ -132,6 +142,7 @@ export const HOME_CALLOUT_ENTRIES: HomeCalloutEntry[] = [
   HOME_EAF_ORAL_202604_ENTRY,
   HOME_GRAND_ORAL_20260417_ENTRY,
   HOME_EAF_ORAL_202605_ENTRY,
+  HOME_DNB_ORAL_20260520_ENTRY,
   HOME_MATH_EXAM_20260523_ENTRY,
   HOME_SURVEILLANCE_BAC_DNB_ENTRY,
 ];
