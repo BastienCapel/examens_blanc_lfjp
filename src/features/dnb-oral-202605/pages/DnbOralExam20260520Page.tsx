@@ -79,7 +79,7 @@ const ROWS: string[][] = [
 
 const JURY_COLUMNS = ["Juré", "Heure", "Candidat", "Problématique", "Discipline_1", "Discipline_2", "Langue"] as const;
 
-type TabKey = "candidats" | "jures";
+type TabKey = "candidats" | "jures" | "grille";
 
 export default function DnbOralExam20260520Page() {
   const [activeTab, setActiveTab] = useState<TabKey>("candidats");
@@ -118,6 +118,14 @@ export default function DnbOralExam20260520Page() {
       <div className="mx-auto max-w-7xl space-y-4">
         <Link to="/" className="text-sm text-blue-700 hover:underline">← Retour à l'accueil</Link>
         <h1 className="text-2xl font-bold text-slate-900">Oraux du DNB — 20 mai 2026</h1>
+        <section className="rounded-lg border bg-white p-4 text-sm text-slate-700 shadow-sm">
+          <h2 className="mb-2 text-base font-semibold text-slate-900">Présentation de l'épreuve</h2>
+          <p>
+            Conformément aux textes officiels du Diplôme national du brevet, l'épreuve orale évalue la maîtrise de l'expression orale,
+            la qualité de l'argumentation et la capacité de l'élève à présenter un projet mené dans le cadre des parcours éducatifs
+            (avenir, citoyen, santé, artistique et culturel).
+          </p>
+        </section>
         <div className="flex gap-2">
           <button
             type="button"
@@ -133,28 +141,135 @@ export default function DnbOralExam20260520Page() {
           >
             Jurés
           </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("grille")}
+            className={`rounded-md px-4 py-2 text-sm font-semibold ${activeTab === "grille" ? "bg-blue-600 text-white" : "bg-white text-slate-700 border"}`}
+          >
+            Grille d'évaluation
+          </button>
         </div>
 
-        <div className="overflow-x-auto rounded-lg border bg-white shadow-sm">
-          <table className="min-w-full text-left text-sm">
-            <thead className="bg-slate-100 text-slate-700">
-              <tr>
-                {(activeTab === "candidats" ? CANDIDATE_COLUMNS : JURY_COLUMNS).map((column) => (
-                  <th key={column} className="whitespace-nowrap border-b px-3 py-2 font-semibold">{column}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {(activeTab === "candidats" ? candidateRows : juryRows).map((row, index) => (
-                <tr key={`${row[0]}-${index}`} className="odd:bg-white even:bg-slate-50">
-                  {row.map((cell, cellIndex) => (
-                    <td key={`${index}-${cellIndex}`} className="align-top border-b px-3 py-2">{cell}</td>
+        {activeTab === "grille" ? (
+          <section className="space-y-3 rounded-lg border bg-white p-4 shadow-sm">
+            <p className="text-sm text-slate-700">
+              Version source de la grille :{" "}
+              <a
+                href="https://drive.google.com/file/d/1EvPaUjTP5f8rT0Rbb5wbYU-pK0JPLgLc/view?usp=drive_link"
+                target="_blank"
+                rel="noreferrer"
+                className="text-blue-700 underline"
+              >
+                consulter le document officiel
+              </a>
+              .
+            </p>
+            <div className="overflow-x-auto">
+              <table className="min-w-full border text-left text-sm">
+                <thead className="bg-slate-100">
+                  <tr>
+                    <th className="border px-3 py-2">Partie</th>
+                    <th className="border px-3 py-2">Exigences</th>
+                    <th className="border px-3 py-2">Insuffisant</th>
+                    <th className="border px-3 py-2">Fragile</th>
+                    <th className="border px-3 py-2">Satisfaisant</th>
+                    <th className="border px-3 py-2">Très bon</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="border px-3 py-2 font-semibold" rowSpan={4}>Maîtrise de l'expression orale</td>
+                    <td className="border px-3 py-2">Adopter une posture adéquate (politesse, regard, tenue, ponctualité).</td>
+                    <td className="border px-3 py-2 text-center">0,5</td>
+                    <td className="border px-3 py-2 text-center">1</td>
+                    <td className="border px-3 py-2 text-center">1,5</td>
+                    <td className="border px-3 py-2 text-center">2</td>
+                  </tr>
+                  <tr>
+                    <td className="border px-3 py-2">S'exprimer correctement : rythme, articulation, intonation.</td>
+                    <td className="border px-3 py-2" />
+                    <td className="border px-3 py-2" />
+                    <td className="border px-3 py-2" />
+                    <td className="border px-3 py-2" />
+                  </tr>
+                  <tr>
+                    <td className="border px-3 py-2">Se détacher des notes et interagir avec le jury par des réponses construites.</td>
+                    <td className="border px-3 py-2" />
+                    <td className="border px-3 py-2" />
+                    <td className="border px-3 py-2" />
+                    <td className="border px-3 py-2" />
+                  </tr>
+                  <tr>
+                    <td className="border px-3 py-2">Utiliser un vocabulaire adapté, y compris spécialisé.</td>
+                    <td className="border px-3 py-2" />
+                    <td className="border px-3 py-2" />
+                    <td className="border px-3 py-2" />
+                    <td className="border px-3 py-2" />
+                  </tr>
+                  <tr className="bg-slate-50 font-semibold">
+                    <td className="border px-3 py-2" colSpan={6}>Partie 1 : total des points sur 8</td>
+                  </tr>
+                  <tr>
+                    <td className="border px-3 py-2 font-semibold" rowSpan={4}>Maîtrise du sujet présenté</td>
+                    <td className="border px-3 py-2">Organiser un exposé structuré (introduction, développement, conclusion).</td>
+                    <td className="border px-3 py-2 text-center">0,5</td>
+                    <td className="border px-3 py-2 text-center">1</td>
+                    <td className="border px-3 py-2 text-center">2</td>
+                    <td className="border px-3 py-2 text-center">3</td>
+                  </tr>
+                  <tr>
+                    <td className="border px-3 py-2">Expliquer la démarche et mener une réflexion personnelle.</td>
+                    <td className="border px-3 py-2" />
+                    <td className="border px-3 py-2" />
+                    <td className="border px-3 py-2" />
+                    <td className="border px-3 py-2" />
+                  </tr>
+                  <tr>
+                    <td className="border px-3 py-2">Mobiliser ses connaissances pour un exposé riche et clair.</td>
+                    <td className="border px-3 py-2" />
+                    <td className="border px-3 py-2" />
+                    <td className="border px-3 py-2" />
+                    <td className="border px-3 py-2" />
+                  </tr>
+                  <tr>
+                    <td className="border px-3 py-2">Justifier le choix du sujet et le lien avec la scolarité.</td>
+                    <td className="border px-3 py-2" />
+                    <td className="border px-3 py-2" />
+                    <td className="border px-3 py-2" />
+                    <td className="border px-3 py-2" />
+                  </tr>
+                  <tr className="bg-slate-50 font-semibold">
+                    <td className="border px-3 py-2" colSpan={6}>Partie 2 : total des points sur 12</td>
+                  </tr>
+                  <tr className="font-semibold">
+                    <td className="border px-3 py-2" colSpan={6}>Bonus : s'exprimer correctement dans une langue vivante étrangère (+2 points).</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        ) : (
+          <div className="overflow-x-auto rounded-lg border bg-white shadow-sm">
+            <table className="min-w-full text-left text-sm">
+              <thead className="bg-slate-100 text-slate-700">
+                <tr>
+                  {(activeTab === "candidats" ? CANDIDATE_COLUMNS : JURY_COLUMNS).map((column) => (
+                    <th key={column} className="whitespace-nowrap border-b px-3 py-2 font-semibold">{column}</th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {(activeTab === "candidats" ? candidateRows : juryRows).map((row, index) => (
+                  <tr key={`${row[0]}-${index}`} className="odd:bg-white even:bg-slate-50">
+                    {row.map((cell, cellIndex) => (
+                      <td key={`${index}-${cellIndex}`} className="align-top border-b px-3 py-2">{cell}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </main>
   );
