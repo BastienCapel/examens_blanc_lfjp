@@ -1,15 +1,13 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
-const COLUMNS = [
+const CANDIDATE_COLUMNS = [
   "Élève",
   "Classe",
   "Parcours",
   "Problématique",
   "Discipline_1",
   "Discipline_2",
-  "Confirmé PP",
-  "Groupe",
   "Anglais",
   "Espagnol",
   "Juré_1",
@@ -86,6 +84,20 @@ type TabKey = "candidats" | "jures";
 export default function DnbOralExam20260520Page() {
   const [activeTab, setActiveTab] = useState<TabKey>("candidats");
 
+
+  const candidateRows = useMemo(() =>
+    ROWS.map((row) => {
+      const displayRow = row.filter((_, index) => index !== 6 && index !== 7);
+      return displayRow.map((cell, index) => {
+        const isLanguageColumn = index === 6 || index === 7;
+        if (!isLanguageColumn) {
+          return cell;
+        }
+
+        return cell === "TRUE" ? "☑" : "";
+      });
+    }),
+  []);
   const juryRows = useMemo(() =>
     ROWS.flatMap((row) => {
       const jurors = [row[10], row[11]].filter(Boolean);
@@ -127,13 +139,13 @@ export default function DnbOralExam20260520Page() {
           <table className="min-w-full text-left text-sm">
             <thead className="bg-slate-100 text-slate-700">
               <tr>
-                {(activeTab === "candidats" ? COLUMNS : JURY_COLUMNS).map((column) => (
+                {(activeTab === "candidats" ? CANDIDATE_COLUMNS : JURY_COLUMNS).map((column) => (
                   <th key={column} className="whitespace-nowrap border-b px-3 py-2 font-semibold">{column}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {(activeTab === "candidats" ? ROWS : juryRows).map((row, index) => (
+              {(activeTab === "candidats" ? candidateRows : juryRows).map((row, index) => (
                 <tr key={`${row[0]}-${index}`} className="odd:bg-white even:bg-slate-50">
                   {row.map((cell, cellIndex) => (
                     <td key={`${index}-${cellIndex}`} className="align-top border-b px-3 py-2">{cell}</td>
