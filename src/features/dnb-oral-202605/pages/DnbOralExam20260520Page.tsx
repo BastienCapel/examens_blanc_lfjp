@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
+import { jsPDF } from "jspdf";
 import { Link } from "react-router-dom";
 
-type TabKey = "candidats" | "jures" | "grille";
+type TabKey = "candidats" | "jures" | "convocationsJures" | "grille";
 type SortDirection = "asc" | "desc";
 
 const EXAM_DATE = "2026-05-20";
@@ -81,6 +82,18 @@ type FilterState = {
 };
 
 type SortRule = { column: string; direction: SortDirection };
+
+
+
+type JuryConvocationLine = {
+  id: string;
+  time: string;
+  room: string;
+  student: string;
+  problematic: string;
+  coJuror: string;
+  language: string;
+};
 
 type RawRow = {
   student: string;
@@ -172,6 +185,58 @@ const candidateToRow = (c: Candidate): Record<CandidateColumn, string> => ({
 const juryToRow = (j: JuryViewRow): Record<JuryColumn, string> => ({ Juré: j.juror, Heure: j.time, Candidat: j.student, Classe: j.className, Problématique: j.problematic, Discipline_1: j.discipline1, Discipline_2: j.discipline2, Langue: j.language });
 
 const matches = (v: string, q: string) => !q || normalize(v).includes(normalize(q));
+const formatExamDate = (isoDate: string) => {
+  const [year, month, day] = isoDate.split("-");
+  return `${day}/${month}/${year}`;
+};
+
+const generateJuryConvocationPdf = (juror: string, lines: JuryConvocationLine[]) => {
+  const doc = new jsPDF({ unit: "pt", format: "a4" });
+  const pageWidth = doc.internal.pageSize.getWidth();
+
+  doc.setFillColor(15, 23, 42);
+  doc.rect(0, 0, pageWidth, 110, "F");
+  doc.setTextColor(255, 255, 255);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(20);
+  doc.text("Convocation jury - DNB oral", 40, 52);
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "normal");
+  doc.text(`Session du ${formatExamDate(EXAM_DATE)}`, 40, 74);
+  doc.text(`Juré: ${juror}`, 40, 92);
+
+  let y = 140;
+  lines.forEach((line, index) => {
+    if (y > 700) {
+      doc.addPage();
+      y = 60;
+    }
+
+    doc.setFillColor(index % 2 === 0 ? 241 : 248, 245, 249);
+    doc.roundedRect(36, y, pageWidth - 72, 86, 10, 10, "F");
+
+    doc.setTextColor(15, 23, 42);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    doc.text(`${line.time}  •  ${line.room}`, 52, y + 24);
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.text(`Candidat: ${line.student}`, 52, y + 42);
+    doc.text(`Problématique: ${line.problematic || "Non renseignée"}`, 52, y + 58);
+    doc.text(`Co-juré: ${line.coJuror}`, 52, y + 74);
+    if (line.language) doc.text(`Langue: ${line.language}`, pageWidth - 190, y + 74);
+
+    y += 96;
+  });
+
+  doc.setFontSize(10);
+  doc.setTextColor(71, 85, 105);
+  doc.text("Merci de vous présenter 15 minutes avant la première convocation.", 40, 760);
+  doc.text("Signature de la direction", 40, 778);
+  doc.save(`convocation-jure-${juror.replace(/\s+/g, "-").toLowerCase()}.pdf`);
+};
+
 const csvExport = (filename: string, headers: string[], rows: string[][]) => {
   const content = [headers, ...rows].map((r) => r.map((c) => `"${String(c).replaceAll('"', '""')}"`).join(";")).join("\n");
   const blob = new Blob([content], { type: "application/vnd.ms-excel;charset=utf-8;" });
@@ -219,6 +284,28 @@ export default function DnbOralExam20260520Page() {
   const filteredJuryRows = useMemo(() => applyFilters(juryRows, (j) => Object.values(juryToRow(j)), (j) => [j.juror], (j) => j.className, (j) => j.discipline1, (j) => j.discipline2), [juryRows, filters]);
   const sortedCandidates = useMemo(() => sortByRules(filteredCandidates, candidateSortRules, candidateToRow), [filteredCandidates, candidateSortRules]);
   const sortedJuryRows = useMemo(() => sortByRules(filteredJuryRows, jurySortRules, juryToRow), [filteredJuryRows, jurySortRules]);
+  const juryConvocations = useMemo(() => {
+    const jurors = Array.from(new Set(sortedJuryRows.map((j) => j.juror)));
+    return jurors.map((juror) => ({
+      juror,
+      lines: sortedJuryRows
+        .filter((j) => j.juror === juror)
+        .map((j) => {
+          const candidate = candidates.find((c) => c.student === j.student && c.time === j.time && c.room === j.room);
+          const coJuror = candidate ? [candidate.juror1, candidate.juror2].find((name) => name && name !== juror) ?? "" : "";
+          return {
+            id: j.id,
+            time: j.time,
+            room: j.room,
+            student: j.student,
+            problematic: j.problematic,
+            coJuror,
+            language: j.language,
+          };
+        }),
+    }));
+  }, [sortedJuryRows, candidates]);
+
 
   const resetFilters = () => setFilters({ search: "", date: EXAM_DATE, room: "", jury: "", className: "", discipline1: "", discipline2: "", timeFrom: "", timeTo: "" });
   const addSortRule = (column: string) => activeTab === "candidats"
@@ -241,14 +328,14 @@ export default function DnbOralExam20260520Page() {
         <h1 className="text-2xl font-bold">Oraux du DNB — 20 mai 2026</h1>
         <section className="rounded-lg border bg-white p-4 text-sm"><h2 className="mb-2 text-base font-semibold">Présentation de l'épreuve</h2><p>Conformément aux textes officiels du Diplôme national du brevet, l'épreuve orale évalue la maîtrise de l'expression orale.</p></section>
 
-        <div className="flex flex-wrap gap-2">{(["candidats", "jures", "grille"] as const).map((tab) => <button key={tab} onClick={() => setActiveTab(tab)} className={`rounded-md px-4 py-2 text-sm font-semibold ${activeTab === tab ? "bg-blue-600 text-white" : "border bg-white"}`}>{tab === "jures" ? "Jurés" : tab === "grille" ? "Grille d'évaluation" : "Candidats"}</button>)}</div>
+        <div className="flex flex-wrap gap-2">{(["candidats", "jures", "convocationsJures", "grille"] as const).map((tab) => <button key={tab} onClick={() => setActiveTab(tab)} className={`rounded-md px-4 py-2 text-sm font-semibold ${activeTab === tab ? "bg-blue-600 text-white" : "border bg-white"}`}>{tab === "jures" ? "Jurés" : tab === "convocationsJures" ? "Convocations jurés" : tab === "grille" ? "Grille d'évaluation" : "Candidats"}</button>)}</div>
 
-        {activeTab !== "grille" && <section className="rounded-lg border bg-white p-4 space-y-3"><div className="grid gap-2 md:grid-cols-4"> <input value={filters.search} onChange={(e) => setFilters((p) => ({ ...p, search: e.target.value }))} placeholder="Recherche globale" className="rounded border px-2 py-1" /> <input type="date" value={filters.date} onChange={(e) => setFilters((p) => ({ ...p, date: e.target.value }))} className="rounded border px-2 py-1" /> <input value={filters.room} onChange={(e) => setFilters((p) => ({ ...p, room: e.target.value }))} placeholder="Salle" className="rounded border px-2 py-1" /> <input value={filters.jury} onChange={(e) => setFilters((p) => ({ ...p, jury: e.target.value }))} placeholder="Jury" className="rounded border px-2 py-1" /> <input value={filters.className} onChange={(e) => setFilters((p) => ({ ...p, className: e.target.value }))} placeholder="Classe" className="rounded border px-2 py-1" /> <input value={filters.discipline1} onChange={(e) => setFilters((p) => ({ ...p, discipline1: e.target.value }))} placeholder="Discipline 1" className="rounded border px-2 py-1" /> <input value={filters.discipline2} onChange={(e) => setFilters((p) => ({ ...p, discipline2: e.target.value }))} placeholder="Discipline 2" className="rounded border px-2 py-1" /> <div className="flex gap-2"><input type="time" value={filters.timeFrom} onChange={(e) => setFilters((p) => ({ ...p, timeFrom: e.target.value }))} className="rounded border px-2 py-1" /><input type="time" value={filters.timeTo} onChange={(e) => setFilters((p) => ({ ...p, timeTo: e.target.value }))} className="rounded border px-2 py-1" /></div></div>
+        {activeTab !== "grille" && activeTab !== "convocationsJures" && <section className="rounded-lg border bg-white p-4 space-y-3"><div className="grid gap-2 md:grid-cols-4"> <input value={filters.search} onChange={(e) => setFilters((p) => ({ ...p, search: e.target.value }))} placeholder="Recherche globale" className="rounded border px-2 py-1" /> <input type="date" value={filters.date} onChange={(e) => setFilters((p) => ({ ...p, date: e.target.value }))} className="rounded border px-2 py-1" /> <input value={filters.room} onChange={(e) => setFilters((p) => ({ ...p, room: e.target.value }))} placeholder="Salle" className="rounded border px-2 py-1" /> <input value={filters.jury} onChange={(e) => setFilters((p) => ({ ...p, jury: e.target.value }))} placeholder="Jury" className="rounded border px-2 py-1" /> <input value={filters.className} onChange={(e) => setFilters((p) => ({ ...p, className: e.target.value }))} placeholder="Classe" className="rounded border px-2 py-1" /> <input value={filters.discipline1} onChange={(e) => setFilters((p) => ({ ...p, discipline1: e.target.value }))} placeholder="Discipline 1" className="rounded border px-2 py-1" /> <input value={filters.discipline2} onChange={(e) => setFilters((p) => ({ ...p, discipline2: e.target.value }))} placeholder="Discipline 2" className="rounded border px-2 py-1" /> <div className="flex gap-2"><input type="time" value={filters.timeFrom} onChange={(e) => setFilters((p) => ({ ...p, timeFrom: e.target.value }))} className="rounded border px-2 py-1" /><input type="time" value={filters.timeTo} onChange={(e) => setFilters((p) => ({ ...p, timeTo: e.target.value }))} className="rounded border px-2 py-1" /></div></div>
           <div className="flex flex-wrap gap-2 items-center"><button onClick={resetFilters} className="rounded border px-3 py-1">Réinitialiser filtres</button><span className="text-sm text-slate-600">Résultats: {activeTab === "candidats" ? sortedCandidates.length : sortedJuryRows.length}</span></div>
           <div className="flex flex-wrap gap-2 items-center"><select className="rounded border px-2 py-1" onChange={(e) => e.target.value && addSortRule(e.target.value)} defaultValue=""><option value="">Ajouter règle de tri</option>{(activeTab === "candidats" ? CANDIDATE_COLUMNS : JURY_COLUMNS).map((c) => <option key={c} value={c}>{c}</option>)}</select>{(activeTab === "candidats" ? candidateSortRules : jurySortRules).map((rule, idx) => <div key={`${rule.column}-${idx}`} className="rounded border px-2 py-1 text-sm flex items-center gap-1"><span>{rule.column}</span><button onClick={() => (activeTab === "candidats" ? setCandidateSortRules((r) => r.map((it, i) => i === idx ? { ...it, direction: it.direction === "asc" ? "desc" : "asc" } : it)) : setJurySortRules((r) => r.map((it, i) => i === idx ? { ...it, direction: it.direction === "asc" ? "desc" : "asc" } : it)))}>{rule.direction === "asc" ? "↑" : "↓"}</button><button onClick={() => (activeTab === "candidats" ? setCandidateSortRules((r) => r.filter((_, i) => i !== idx)) : setJurySortRules((r) => r.filter((_, i) => i !== idx)))}>✕</button></div>)}</div>
         </section>}
 
-        {activeTab === "grille" ? (<section className="rounded-lg border bg-white p-4"><a href={OFFICIAL_GRID_URL} target="_blank" rel="noreferrer" className="text-blue-700 underline">Consulter la grille officielle</a></section>) : (<section className="space-y-2"><div className="flex flex-wrap gap-2"><button onClick={() => csvExport(`dnb-${activeTab}-${EXAM_DATE}.xls`, activeTab === "candidats" ? [...CANDIDATE_COLUMNS] : [...JURY_COLUMNS], tableRows)} className="rounded bg-emerald-600 px-3 py-1 text-white">Exporter (.xls)</button><button onClick={() => window.print()} className="rounded bg-indigo-600 px-3 py-1 text-white">Imprimer convocations (lot)</button></div><div className="overflow-x-auto rounded-lg border bg-white"><table className="min-w-full text-left text-sm"><thead className="bg-slate-100"><tr>{(activeTab === "candidats" ? CANDIDATE_COLUMNS : JURY_COLUMNS).map((column) => <th key={column} className="border-b px-3 py-2">{column}</th>)}</tr></thead><tbody>{tableRows.map((row, idx) => <tr key={idx} className="odd:bg-white even:bg-slate-50">{row.map((cell, cidx) => <td key={cidx} className="border-b px-3 py-2 align-top">{cell}</td>)}</tr>)}</tbody></table></div>
+        {activeTab === "grille" ? (<section className="rounded-lg border bg-white p-4"><a href={OFFICIAL_GRID_URL} target="_blank" rel="noreferrer" className="text-blue-700 underline">Consulter la grille officielle</a></section>) : activeTab === "convocationsJures" ? (<section className="space-y-3 rounded-lg border bg-white p-4"><h3 className="text-lg font-semibold">Téléchargement PDF des convocations jurés</h3><p className="text-sm text-slate-600">Un PDF est généré par juré avec heure, salle, candidat, problématique, co-juré et langue si renseignée.</p><div className="grid gap-3 md:grid-cols-2">{juryConvocations.map((convocation) => <article key={convocation.juror} className="rounded-xl border border-indigo-100 bg-gradient-to-br from-white via-indigo-50 to-sky-50 p-4 shadow-sm"><h4 className="text-base font-semibold text-slate-900">{convocation.juror}</h4><p className="text-sm text-slate-600">{convocation.lines.length} passage(s)</p><button onClick={() => generateJuryConvocationPdf(convocation.juror, convocation.lines)} className="mt-3 rounded bg-indigo-600 px-3 py-1 text-sm font-medium text-white">Télécharger PDF</button></article>)}</div></section>) : (<section className="space-y-2"><div className="flex flex-wrap gap-2"><button onClick={() => csvExport(`dnb-${activeTab}-${EXAM_DATE}.xls`, activeTab === "candidats" ? [...CANDIDATE_COLUMNS] : [...JURY_COLUMNS], tableRows)} className="rounded bg-emerald-600 px-3 py-1 text-white">Exporter (.xls)</button><button onClick={() => window.print()} className="rounded bg-indigo-600 px-3 py-1 text-white">Imprimer convocations (lot)</button></div><div className="overflow-x-auto rounded-lg border bg-white"><table className="min-w-full text-left text-sm"><thead className="bg-slate-100"><tr>{(activeTab === "candidats" ? CANDIDATE_COLUMNS : JURY_COLUMNS).map((column) => <th key={column} className="border-b px-3 py-2">{column}</th>)}</tr></thead><tbody>{tableRows.map((row, idx) => <tr key={idx} className="odd:bg-white even:bg-slate-50">{row.map((cell, cidx) => <td key={cidx} className="border-b px-3 py-2 align-top">{cell}</td>)}</tr>)}</tbody></table></div>
           <div className="hidden print:block">
             {sortedCandidates.map((c) => <article key={`conv-c-${c.id}`} className="break-after-page p-8"><img src={LOGO_URL} alt="LFJP" className="h-12" /><h2 className="mt-2 text-xl font-bold">Convocation candidat</h2><p>{c.student} — {c.className}</p><p>Date: {c.date} | Heure: {c.time} | Salle: {c.room}</p><p>Problématique: {c.problematic}</p><p className="mt-4">Consignes: présence 15 min avant l'horaire. Pièce d'identité obligatoire.</p><img src={SIGNATURE_URL} alt="Signature" className="mt-6 h-12" /></article>)}
             {Array.from(new Set(sortedJuryRows.map((j) => j.juror))).map((juror) => <article key={`conv-j-${juror}`} className="break-after-page p-8"><img src={LOGO_URL} alt="LFJP" className="h-12" /><h2 className="mt-2 text-xl font-bold">Convocation juré</h2><p>{juror}</p><p>Date: {EXAM_DATE}</p><table className="mt-3 w-full text-sm"><thead><tr><th>Heure</th><th>Candidat</th><th>Salle</th><th>Disciplines</th></tr></thead><tbody>{sortedJuryRows.filter((r) => r.juror === juror).map((r) => <tr key={r.id}><td>{r.time}</td><td>{r.student}</td><td>{r.room}</td><td>{r.discipline1} / {r.discipline2}</td></tr>)}</tbody></table><p className="mt-4">Consignes: merci de vous référer à la grille officielle: {OFFICIAL_GRID_URL}</p><img src={SIGNATURE_URL} alt="Signature" className="mt-6 h-12" /></article>)}
