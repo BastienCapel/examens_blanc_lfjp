@@ -89,6 +89,8 @@ type RawRow = {
   problematic: string;
   discipline1: string;
   discipline2: string;
+  english: boolean;
+  spanish: boolean;
   juror1: string;
   juror2: string;
   time: string;
@@ -96,16 +98,16 @@ type RawRow = {
 };
 
 const RAW_ROWS: RawRow[] = [
-  { student: "AUBRY Albert Akoi Agamemnon", className: "3EME1", pathway: "Parcours santé", problematic: "En quoi les jeux vidéos influencent-ils le développement scolaire des adolescents ?", discipline1: "SVT", discipline2: "Anglais", juror1: "Vincent David", juror2: "François Faye", time: "11:00", room: "Salle 1" },
-  { student: "BA Abygaëlle Bilel", className: "3EME2", pathway: "Parcours citoyen", problematic: "Comment les auteurs africains ont-ils utilisé l'écriture pour affirmer leur identité ?", discipline1: "Français", discipline2: "Anglais", juror1: "Olivier Baritou", juror2: "Layla Jaït", time: "11:00", room: "Salle 2" },
-  { student: "BERGOT Mathieu Yohan", className: "3EME2", pathway: "Parcours citoyen", problematic: "Comment le basket est-il devenu bien plus qu'un sport ?", discipline1: "EPS", discipline2: "Aucune", juror1: "Alassane Ndiaye", juror2: "Claire Drame", time: "11:00", room: "Salle 3" },
-  { student: "BODELOT Julien Achille", className: "3EME2", pathway: "Parcours santé", problematic: "Quels sont les bienfaits de l'activité physique sur la santé ?", discipline1: "SVT", discipline2: "EPS", juror1: "Nathalie Mboup", juror2: "Claire Drame", time: "11:30", room: "Salle 4" },
-  { student: "BOUYER Louis Marie", className: "3EME1", pathway: "Parcours santé", problematic: "En quoi une mauvaise alimentation influence négativement l'organisme ?", discipline1: "SVT", discipline2: "EPS", juror1: "Vincent David", juror2: "Alassane Ndiaye", time: "11:30", room: "Salle 1" },
-  { student: "DIALLO Djibril", className: "3EME3", pathway: "Parcours citoyen", problematic: "Quel est l'impact de la langue anglaise dans la mondialisation ?", discipline1: "HGEMC", discipline2: "Anglais", juror1: "Mathilde Michon Guillaume", juror2: "François Faye", time: "11:30", room: "Salle 5" },
-  { student: "DIOUF Moussa", className: "3EME4", pathway: "Parcours avenir", problematic: "Comment la technologie aide-t-elle les personnes handicapées ?", discipline1: "Technologie", discipline2: "Anglais", juror1: "Antoine Frayon", juror2: "Elizabeth Porter", time: "12:00", room: "Salle 4" },
-  { student: "MARCHESE Howard Giovanni Sédar", className: "3EME4", pathway: "Parcours avenir", problematic: "Les mathématiques sont-elles utiles dans les métiers créatifs ?", discipline1: "Orientation", discipline2: "Mathématiques", juror1: "Roselyne D’Aquino", juror2: "Karine Chabert", time: "13:00", room: "Salle 5" },
-  { student: "SARR Fatou Bintou", className: "3EME3", pathway: "Parcours artistique", problematic: "La musique peut-elle être un outil d'engagement ?", discipline1: "Éducation musicale", discipline2: "Anglais", juror1: "Antoine Diandy", juror2: "Layla Jaït", time: "16:00", room: "Salle 5" },
-  { student: "YEROCHEWSKI Yelen Sophie Marie", className: "3EME1", pathway: "Parcours citoyen", problematic: "Pourquoi l'espagnol est-il stratégique aujourd'hui ?", discipline1: "HGEMC", discipline2: "Espagnol", juror1: "Yvon Thomas", juror2: "Fernando Piaggio", time: "16:30", room: "Salle 5" },
+  { student: "AUBRY Albert Akoi Agamemnon", className: "3EME1", pathway: "Parcours santé", problematic: "En quoi les jeux vidéos influencent-ils le développement scolaire des adolescents ?", discipline1: "SVT", discipline2: "Anglais", english: true, spanish: false, juror1: "Vincent David", juror2: "François Faye", time: "11:00", room: "Salle 1" },
+  { student: "BA Abygaëlle Bilel", className: "3EME2", pathway: "Parcours citoyen", problematic: "Comment les auteurs africains ont-ils utilisé l'écriture pour affirmer leur identité ?", discipline1: "Français", discipline2: "Anglais", english: true, spanish: false, juror1: "Olivier Baritou", juror2: "Layla Jaït", time: "11:00", room: "Salle 2" },
+  { student: "BERGOT Mathieu Yohan", className: "3EME2", pathway: "Parcours citoyen", problematic: "Comment le basket est-il devenu bien plus qu'un sport ?", discipline1: "EPS", discipline2: "Aucune", english: false, spanish: false, juror1: "Alassane Ndiaye", juror2: "Claire Drame", time: "11:00", room: "Salle 3" },
+  { student: "BODELOT Julien Achille", className: "3EME2", pathway: "Parcours santé", problematic: "Quels sont les bienfaits de l'activité physique sur la santé ?", discipline1: "SVT", discipline2: "EPS", english: false, spanish: false, juror1: "Nathalie Mboup", juror2: "Claire Drame", time: "11:30", room: "Salle 4" },
+  { student: "BOUYER Louis Marie", className: "3EME1", pathway: "Parcours santé", problematic: "En quoi une mauvaise alimentation influence négativement l'organisme ?", discipline1: "SVT", discipline2: "EPS", english: false, spanish: false, juror1: "Vincent David", juror2: "Alassane Ndiaye", time: "11:30", room: "Salle 1" },
+  { student: "DIALLO Djibril", className: "3EME3", pathway: "Parcours citoyen", problematic: "Quel est l'impact de la langue anglaise dans la mondialisation ?", discipline1: "HGEMC", discipline2: "Anglais", english: true, spanish: false, juror1: "Mathilde Michon Guillaume", juror2: "François Faye", time: "11:30", room: "Salle 5" },
+  { student: "DIOUF Moussa", className: "3EME4", pathway: "Parcours avenir", problematic: "Comment la technologie aide-t-elle les personnes handicapées ?", discipline1: "Technologie", discipline2: "Anglais", english: true, spanish: false, juror1: "Antoine Frayon", juror2: "Elizabeth Porter", time: "12:00", room: "Salle 4" },
+  { student: "MARCHESE Howard Giovanni Sédar", className: "3EME4", pathway: "Parcours avenir", problematic: "Les mathématiques sont-elles utiles dans les métiers créatifs ?", discipline1: "Orientation", discipline2: "Mathématiques", english: false, spanish: false, juror1: "Roselyne D’Aquino", juror2: "Karine Chabert", time: "13:00", room: "Salle 5" },
+  { student: "SARR Fatou Bintou", className: "3EME3", pathway: "Parcours artistique", problematic: "La musique peut-elle être un outil d'engagement ?", discipline1: "Éducation musicale", discipline2: "Anglais", english: true, spanish: false, juror1: "Antoine Diandy", juror2: "Layla Jaït", time: "16:00", room: "Salle 5" },
+  { student: "YEROCHEWSKI Yelen Sophie Marie", className: "3EME1", pathway: "Parcours citoyen", problematic: "Pourquoi l'espagnol est-il stratégique aujourd'hui ?", discipline1: "HGEMC", discipline2: "Espagnol", english: false, spanish: true, juror1: "Yvon Thomas", juror2: "Fernando Piaggio", time: "16:30", room: "Salle 5" },
 ];
 
 const normalize = (v: string) => v.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().trim();
@@ -113,7 +115,7 @@ const timeToMinutes = (time: string) => {
   const [h, m] = time.split(":").map(Number);
   return Number.isNaN(h) || Number.isNaN(m) ? -1 : h * 60 + m;
 };
-const asLanguageFlags = (discipline2: string) => ({ english: normalize(discipline2) === "anglais", spanish: normalize(discipline2) === "espagnol" });
+const isPresentValue = (value: unknown): value is string => typeof value === "string" && value.trim().length > 0;
 const languageFromCandidate = (c: Candidate) => (c.english ? "Anglais" : c.spanish ? "Espagnol" : "");
 
 const candidateToRow = (c: Candidate): Record<CandidateColumn, string> => ({
@@ -136,12 +138,11 @@ export default function DnbOralExam20260520Page() {
   const [candidateSortRules, setCandidateSortRules] = useState<SortRule[]>([{ column: "Heure de convocation", direction: "asc" }]);
   const [jurySortRules, setJurySortRules] = useState<SortRule[]>([{ column: "Heure", direction: "asc" }]);
 
-  const candidates = useMemo<Candidate[]>(() => RAW_ROWS.map((row, i) => {
-    const flags = asLanguageFlags(row.discipline2);
-    return { id: `candidate-${i + 1}`, ...row, ...flags, date: EXAM_DATE };
-  }), []);
+  const candidates = useMemo<Candidate[]>(() => RAW_ROWS.map((row, i) => ({ id: `candidate-${i + 1}`, ...row, date: EXAM_DATE })), []);
 
-  const juryRows = useMemo<JuryViewRow[]>(() => candidates.flatMap((c) => [c.juror1, c.juror2].map((juror, i) => ({ id: `${c.id}-${i}`, juror, time: c.time, student: c.student, className: c.className, problematic: c.problematic, discipline1: c.discipline1, discipline2: c.discipline2, language: languageFromCandidate(c), date: c.date, room: c.room }))), [candidates]);
+  const juryRows = useMemo<JuryViewRow[]>(() => candidates.flatMap((c) => [c.juror1, c.juror2]
+    .filter(isPresentValue)
+    .map((juror, i) => ({ id: `${c.id}-${i}`, juror, time: c.time, student: c.student, className: c.className, problematic: c.problematic, discipline1: c.discipline1, discipline2: c.discipline2, language: languageFromCandidate(c), date: c.date, room: c.room }))), [candidates]);
 
   const applyFilters = <T extends { time: string; date: string; room: string }>(items: T[], values: (item: T) => string[], jurors: (item: T) => string[], cls: (item: T) => string, d1: (item: T) => string, d2: (item: T) => string) =>
     items.filter((item) => {
