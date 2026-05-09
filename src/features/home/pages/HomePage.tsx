@@ -52,7 +52,8 @@ export default function HomePage() {
               footerLabel={entry.footerLabel}
               meta={<HomeEventMeta icon={CalendarDays} label={entry.dateLabel} description="" />}
               iconBackgroundClassName={
-                entry.to === "/examens-blancs/oraux-dnb-2026-05-20"
+                entry.to === "/examens-blancs/oraux-dnb-2026-05-20" ||
+                entry.to === "/surveillances-bac-dnb"
                   ? oralDnbIconBackground
                   : defaultIconBackground
               }
