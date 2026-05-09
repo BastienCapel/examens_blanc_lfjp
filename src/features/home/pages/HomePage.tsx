@@ -26,12 +26,8 @@ export default function HomePage() {
     surveillance: FileCheck2,
   };
 
-  const iconBackgroundByCategory: Record<HomeCalloutEntry["category"], string> = {
-    general: "bg-gradient-to-br from-sky-500 to-indigo-500",
-    math: "bg-gradient-to-br from-sky-500 to-indigo-500",
-    oral: "bg-gradient-to-r from-blue-600 via-white to-red-600 text-slate-900",
-    surveillance: "bg-gradient-to-r from-blue-600 via-white to-red-600 text-slate-900",
-  };
+  const defaultIconBackground = "bg-gradient-to-br from-sky-500 to-indigo-500";
+  const oralDnbIconBackground = "bg-gradient-to-r from-blue-600 via-white to-red-600 text-slate-900";
 
   return (
     <HomeLayout>
@@ -55,7 +51,11 @@ export default function HomePage() {
               title={entry.title}
               footerLabel={entry.footerLabel}
               meta={<HomeEventMeta icon={CalendarDays} label={entry.dateLabel} description="" />}
-              iconBackgroundClassName={iconBackgroundByCategory[entry.category]}
+              iconBackgroundClassName={
+                entry.to === "/examens-blancs/oraux-dnb-2026-05-20"
+                  ? oralDnbIconBackground
+                  : defaultIconBackground
+              }
             />
           );
         })}
