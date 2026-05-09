@@ -114,7 +114,7 @@ export const HOME_DNB_ZAO_202602_ENTRY: HomeCalloutEntry = {
 };
 
 export const HOME_DNB_ORAL_20260520_ENTRY: HomeCalloutEntry = {
-  to: "/examens-blancs/oraux-dnb-2026-05-20",
+  to: "https://bastiencapel.github.io/OralDNB2026/",
   iconLabel: "Consulter l'organisation des oraux du DNB",
   subtitle: "",
   title: "Oraux du DNB",

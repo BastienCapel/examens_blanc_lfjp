@@ -23,12 +23,10 @@ export default function HomeCallToActionCard({
   meta,
   iconBackgroundClassName = "bg-gradient-to-br from-sky-500 to-indigo-500",
 }: HomeCallToActionCardProps) {
-  return (
-    <Link
-      to={to}
-      className="group relative w-full overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 text-left shadow-lg transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl sm:p-10"
-      aria-label={iconLabel}
-    >
+  const isExternal = to.startsWith("http://") || to.startsWith("https://");
+
+  const cardContent = (
+    <>
       <div className="absolute -left-24 -top-24 h-48 w-48 rounded-full bg-sky-200/60 blur-3xl transition-opacity duration-300 group-hover:opacity-60" />
       <div className="absolute -bottom-16 -right-16 h-56 w-56 rounded-full bg-indigo-200/70 blur-3xl transition-opacity duration-300 group-hover:opacity-60" />
 
@@ -54,6 +52,23 @@ export default function HomeCallToActionCard({
           →
         </span>
       </div>
+    </>
+  );
+
+  const className =
+    "group relative w-full overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 text-left shadow-lg transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl sm:p-10";
+
+  if (isExternal) {
+    return (
+      <a href={to} className={className} aria-label={iconLabel}>
+        {cardContent}
+      </a>
+    );
+  }
+
+  return (
+    <Link to={to} className={className} aria-label={iconLabel}>
+      {cardContent}
     </Link>
   );
 }
