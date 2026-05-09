@@ -177,7 +177,14 @@ export default function DnbOralExam20260520Page() {
     ? setCandidateSortRules((r) => [...r, { column, direction: "asc" }])
     : setJurySortRules((r) => [...r, { column, direction: "asc" }]);
 
-  const tableRows = activeTab === "candidats" ? sortedCandidates.map((c) => CANDIDATE_COLUMNS.map((col) => candidateToRow(c)[col])) : sortedJuryRows.map((j) => JURY_COLUMNS.map((col) => juryToRow(j)[col]);
+  const tableRows =
+    activeTab === "candidats"
+      ? sortedCandidates.map((c) =>
+          CANDIDATE_COLUMNS.map((col) => candidateToRow(c)[col]),
+        )
+      : sortedJuryRows.map((j) =>
+          JURY_COLUMNS.map((col) => juryToRow(j)[col]),
+        );
 
   return (
     <main className="min-h-screen bg-slate-50 p-6">
