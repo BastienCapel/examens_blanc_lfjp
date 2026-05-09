@@ -207,6 +207,110 @@ function downloadPlanningPdf({ filename, title, subtitle, columns, rows }: Downl
   doc.save(filename);
 }
 
+
+
+async function toPngDataUrl(imagePath: string, sizePx = 512): Promise<string | null> {
+  try {
+    const response = await fetch(imagePath);
+    if (!response.ok) {
+      return null;
+    }
+
+    const blob = await response.blob();
+    const objectUrl = URL.createObjectURL(blob);
+
+    const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = objectUrl;
+    });
+
+    const canvas = document.createElement("canvas");
+    canvas.width = sizePx;
+    canvas.height = sizePx;
+    const context = canvas.getContext("2d");
+
+    if (!context) {
+      URL.revokeObjectURL(objectUrl);
+      return null;
+    }
+
+    context.clearRect(0, 0, sizePx, sizePx);
+    context.drawImage(image, 0, 0, sizePx, sizePx);
+    const dataUrl = canvas.toDataURL("image/png");
+
+    URL.revokeObjectURL(objectUrl);
+
+    return dataUrl;
+  } catch {
+    return null;
+  }
+}
+
+async function downloadCandidateConvocationPdf(candidate: OralCandidate): Promise<void> {
+  const doc = new jsPDF({ unit: "mm", format: "a4" });
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const margin = 15;
+  const contentWidth = pageWidth - margin * 2;
+
+  const [logoDataUrl, signatureDataUrl] = await Promise.all([
+    toPngDataUrl("/favicon.svg"),
+    toPngDataUrl("/cachet-proviseur.svg"),
+  ]);
+
+  doc.setDrawColor(15, 23, 42);
+  doc.setLineWidth(0.4);
+  doc.rect(margin, margin, contentWidth, pageHeight - margin * 2);
+
+  if (logoDataUrl) {
+    doc.addImage(logoDataUrl, "PNG", margin + 5, margin + 5, 30, 30);
+  }
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(20);
+  doc.text("Convocation orale EAF", pageWidth / 2, margin + 16, { align: "center" });
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(11);
+  doc.text("Lycée Français Jacques Prévert", pageWidth / 2, margin + 24, { align: "center" });
+
+  let y = margin + 46;
+  doc.setFontSize(12);
+  const lines = [
+    `Candidat(e) : ${candidate.candidate}`,
+    `Classe : ${candidate.className}`,
+    `Date : ${formatFullDate(candidate.date)}`,
+    `Heure de convocation : ${candidate.convocationTime}`,
+    `Heure de passage : ${candidate.examTime}`,
+    `Jury : ${candidate.jury}`,
+    `Salle : ${formatRoomLabel(candidate.room)}`,
+    `Tiers temps : ${candidate.hasExtendedTime ? "Oui" : "Non"}`,
+  ];
+
+  lines.forEach((line) => {
+    doc.text(line, margin + 10, y);
+    y += 10;
+  });
+
+  doc.setFontSize(10);
+  const notes = doc.splitTextToSize(
+    "Le candidat doit se présenter 30 minutes avant l'horaire de convocation avec une pièce d'identité. Cette convocation fait foi pour justifier l'absence en cours.",
+    contentWidth - 20,
+  );
+  doc.text(notes, margin + 10, y + 8);
+
+  if (signatureDataUrl) {
+    doc.addImage(signatureDataUrl, "PNG", pageWidth - margin - 35, pageHeight - margin - 35, 30, 30);
+  }
+
+  doc.setFont("helvetica", "italic");
+  doc.text("Visa de la direction", pageWidth - margin - 20, pageHeight - margin - 2, { align: "center" });
+
+  doc.save(`convocation-${toFilenameSlug(candidate.candidate)}-${candidate.date}.pdf`);
+}
+
 function toFilenameSlug(value: string): string {
   return value
     .normalize("NFD")
@@ -282,6 +386,7 @@ function CandidateTable({
             {showJury ? <TableHeaderCell>Jury</TableHeaderCell> : null}
             {showRoom ? <TableHeaderCell>Salle</TableHeaderCell> : null}
             {showExtendedTime ? <TableHeaderCell>Tiers temps</TableHeaderCell> : null}
+            <TableHeaderCell className="text-right">Convocation PDF</TableHeaderCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -295,6 +400,18 @@ function CandidateTable({
               {showJury ? <TableCell>{candidate.jury}</TableCell> : null}
               {showRoom ? <TableCell>{formatRoomLabel(candidate.room)}</TableCell> : null}
               {showExtendedTime ? <TableCell>{candidate.hasExtendedTime ? "Oui" : "Non"}</TableCell> : null}
+              <TableCell className="text-right">
+                <button
+                  type="button"
+                  onClick={() => {
+                    void downloadCandidateConvocationPdf(candidate);
+                  }}
+                  className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 transition hover:bg-slate-100"
+                >
+                  <Download aria-hidden="true" className="h-3.5 w-3.5" />
+                  Télécharger
+                </button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
