@@ -61,11 +61,11 @@ export const oralCandidates202605: OralCandidate[] = [
 
   { candidate: "SARR Sokhna Faty", className: "1ERE1", date: "2026-05-13", convocationTime: "07:50", examTime: "08:30", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: true },
   { candidate: "LAURIENTE Alexandra", className: "1ERE1", date: "2026-05-13", convocationTime: "08:30", examTime: "09:00", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
-  { candidate: "SARR Mame Diarra Bousso", className: "1ERE2", date: "2026-05-13", convocationTime: "09:00", examTime: "09:30", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
+  { candidate: "SARR Mame Diarra Bousso", className: "1ERE2", date: "2026-05-13", convocationTime: "11:00", examTime: "11:30", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
   { candidate: "D'ALMEIDA Kyran", className: "1ERE2", date: "2026-05-13", convocationTime: "09:30", examTime: "10:00", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
   { candidate: "SECK Ousseynatou", className: "1ERE1", date: "2026-05-13", convocationTime: "10:00", examTime: "10:30", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
   { candidate: "TSHIBANDA Raymond", className: "1ERE1", date: "2026-05-13", convocationTime: "10:30", examTime: "11:00", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
-  { candidate: "WONE Oumar", className: "1ERE2", date: "2026-05-13", convocationTime: "11:00", examTime: "11:30", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
+  { candidate: "WONE Oumar", className: "1ERE2", date: "2026-05-13", convocationTime: "09:00", examTime: "09:30", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
   { candidate: "FALL Cheikh Saliou Mbacké", className: "1ERE1", date: "2026-05-13", convocationTime: "11:30", examTime: "12:00", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
   { candidate: "SAMBA Babacar", className: "1ERE2", date: "2026-05-13", convocationTime: "12:00", examTime: "12:30", jury: "Mme MOURAIN DIOP", room: "14", hasExtendedTime: false },
 ];
