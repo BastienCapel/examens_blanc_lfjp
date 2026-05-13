@@ -32,6 +32,9 @@ const BacDnbSurveillancePage = lazy(
 const DnbOralExam20260520Page = lazy(
   () => import("../features/dnb-oral-202605/pages/DnbOralExam20260520Page"),
 );
+const OralEafExam202606Page = lazy(
+  () => import("../features/french-oral-exam-202606/pages/OralEafExam202606Page"),
+);
 
 export default function App() {
   return (
@@ -70,6 +73,10 @@ export default function App() {
         <Route
           path="/examens-blancs/oraux-dnb-2026-05-20"
           element={<DnbOralExam20260520Page />}
+        />
+        <Route
+          path="/examens-blancs/oraux-eaf-2026-06"
+          element={<OralEafExam202606Page />}
         />
         <Route
           path="/surveillances-bac-dnb"

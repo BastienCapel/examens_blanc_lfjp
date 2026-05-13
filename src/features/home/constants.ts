@@ -124,6 +124,18 @@ export const HOME_DNB_ORAL_20260520_ENTRY: HomeCalloutEntry = {
   category: "oral",
 };
 
+
+export const HOME_EAF_ORAL_202606_ENTRY: HomeCalloutEntry = {
+  to: "/examens-blancs/oraux-eaf-2026-06",
+  iconLabel: "Consulter l'organisation des oraux de français",
+  subtitle: "",
+  title: "Oral de français",
+  dateLabel: "1er au 5 juin 2026",
+  date: "2026-06-01",
+  footerLabel: "Accéder à la liste des élèves",
+  category: "oral",
+};
+
 export const HOME_SURVEILLANCE_BAC_DNB_ENTRY: HomeCalloutEntry = {
   to: "/surveillances-bac-dnb",
   iconLabel: "Consulter le planning des surveillances BAC et DNB",
@@ -144,5 +156,6 @@ export const HOME_CALLOUT_ENTRIES: HomeCalloutEntry[] = [
   HOME_EAF_ORAL_202605_ENTRY,
   HOME_DNB_ORAL_20260520_ENTRY,
   HOME_MATH_EXAM_20260523_ENTRY,
+  HOME_EAF_ORAL_202606_ENTRY,
   HOME_SURVEILLANCE_BAC_DNB_ENTRY,
 ];
