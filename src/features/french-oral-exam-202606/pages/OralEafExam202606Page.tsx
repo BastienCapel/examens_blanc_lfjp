@@ -6,7 +6,6 @@ import { frenchOralCandidates202606 } from "../data/candidates";
 
 const tabs = [
   { id: "alpha", label: "Ordre alphabétique" },
-  { id: "day", label: "Par jour" },
   { id: "cross", label: "Jour et heure" },
 ] as const;
 
@@ -24,7 +23,6 @@ export default function OralEafExam202606Page() {
 
   const sorted = useMemo(() => {
     if (tab === "alpha") return [...filtered].sort((a, b) => a.candidate.localeCompare(b.candidate, "fr"));
-    if (tab === "day") return [...filtered].sort((a, b) => a.dateIso.localeCompare(b.dateIso) || a.candidate.localeCompare(b.candidate, "fr"));
     return [...filtered].sort((a, b) => a.dateIso.localeCompare(b.dateIso) || a.time.localeCompare(b.time) || a.candidate.localeCompare(b.candidate, "fr"));
   }, [filtered, tab]);
 
@@ -34,7 +32,7 @@ export default function OralEafExam202606Page() {
       <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <h1 className="text-2xl font-bold text-slate-900">Oral de français — du 1er au 5 juin 2026</h1>
         <p className="mt-2 text-slate-600">
-          Cette page présente la liste des élèves convoqués. Convocations: <a className="text-blue-600 underline" href="https://drive.google.com/file/d/1wftUYJlyCUIQ6rfuJ0pxydsmI5enJ0FK/view?usp=sharin" target="_blank" rel="noreferrer">ouvrir le document</a>
+          Cette page présente la liste des élèves convoqués. Convocations : <a className="text-blue-600 underline" href="https://drive.google.com/file/d/1wftUYJlyCUIQ6rfuJ0pxydsmI5enJ0FK/view?usp=sharin" target="_blank" rel="noreferrer">ouvrir le document</a>
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           {tabs.map((item) => (
