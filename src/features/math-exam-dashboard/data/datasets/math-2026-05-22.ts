@@ -14,7 +14,7 @@ const teacherDirectory = createTeacherDirectory([
 
 const roomSchedule: RoomScheduleDay[] = [
   {
-    day: "Samedi 23/05",
+    day: "Vendredi 22/05",
     rooms: {
       S10: [
         {
@@ -56,10 +56,10 @@ const roomSchedule: RoomScheduleDay[] = [
   },
 ];
 
-export const mathExamDashboardData20260523: MathExamDashboardData = {
+export const mathExamDashboardData20260522: MathExamDashboardData = {
   header: {
     title: "Bac blanc de mathématiques 1ère",
-    date: "Samedi 23 mai 2026 • 11h10",
+    date: "Vendredi 22 mai 2026 • 11h10",
     reprographyDeadline: {
       label: "Mardi 19 mai 2026",
     },
@@ -94,7 +94,7 @@ export const mathExamDashboardData20260523: MathExamDashboardData = {
   surveillanceSchedule: [
     {
       teacher: "CAPEL E.",
-      datetime: "samedi 23/05 à 11h10",
+      datetime: "vendredi 22/05 à 11h10",
       room: "S15",
       mission: "Bac blanc mathématiques 1ère",
       duration: "2:00:00",
@@ -102,7 +102,7 @@ export const mathExamDashboardData20260523: MathExamDashboardData = {
     },
     {
       teacher: "FRAYON A.",
-      datetime: "samedi 23/05 à 11h10",
+      datetime: "vendredi 22/05 à 11h10",
       room: "S13",
       mission: "Bac blanc mathématiques 1ère",
       duration: "2:00:00",
@@ -110,7 +110,7 @@ export const mathExamDashboardData20260523: MathExamDashboardData = {
     },
     {
       teacher: "NDOYE A.",
-      datetime: "samedi 23/05 à 11h10",
+      datetime: "vendredi 22/05 à 11h10",
       room: "S14",
       mission: "Bac blanc mathématiques 1ère",
       duration: "2:00:00",
@@ -118,7 +118,7 @@ export const mathExamDashboardData20260523: MathExamDashboardData = {
     },
     {
       teacher: "SERVATE S.",
-      datetime: "samedi 23/05 à 11h10",
+      datetime: "vendredi 22/05 à 11h10",
       room: "S10",
       mission: "Bac blanc mathématiques 1ère",
       duration: "2:00:00",
@@ -137,3 +137,7 @@ export const mathExamDashboardData20260523: MathExamDashboardData = {
   typeVariants: defaultTypeVariants,
   dashboardTabs: defaultDashboardTabs,
 };
+
+
+// Alias de compatibilité pour les imports existants de la page 2026-05-23
+export const mathExamDashboardData20260523 = mathExamDashboardData20260522;
