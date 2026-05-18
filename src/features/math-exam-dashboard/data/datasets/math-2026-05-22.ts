@@ -137,3 +137,7 @@ export const mathExamDashboardData20260522: MathExamDashboardData = {
   typeVariants: defaultTypeVariants,
   dashboardTabs: defaultDashboardTabs,
 };
+
+
+// Alias de compatibilité pour les imports existants de la page 2026-05-23
+export const mathExamDashboardData20260523 = mathExamDashboardData20260522;
