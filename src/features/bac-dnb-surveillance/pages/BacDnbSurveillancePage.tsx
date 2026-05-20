@@ -56,6 +56,13 @@ function getArrivalTime(timeStr: string) {
   return "30 min avant";
 }
 
+function getSupervisorSortKey(name: string) {
+  return name
+    .trim()
+    .replace(/^(?:M(?:me|lle)?\.?|Monsieur|Madame)\s+/i, "")
+    .toLocaleLowerCase("fr");
+}
+
 function getUniqueSupervisors() {
   const supervisors = new Set<string>();
   ["bac", "dnb"].forEach((exam) => {
@@ -68,7 +75,9 @@ function getUniqueSupervisors() {
     });
   });
 
-  return [...supervisors].sort();
+  return [...supervisors].sort((a, b) =>
+    getSupervisorSortKey(a).localeCompare(getSupervisorSortKey(b), "fr", { sensitivity: "base" }),
+  );
 }
 
 function buildSupervisorShifts(supervisor: string, exam: ExamType): ShiftAssignment[] {
