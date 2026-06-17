@@ -164,7 +164,7 @@ export const scheduleData: ScheduleData = {
       },
     ],
     rows: [
-      { room: "SALLE 7", note: "(1/3 temps)", shifts: [["Mme JAÏT"], ["M. DIANDY"], ["M. NDIAYE"]] },
+      { room: "SALLE 7", note: "(1/3 temps)", shifts: [["Mme JAÏT"], ["M. PIAGGIO"], ["M. NDIAYE"]] },
       {
         room: "SALLE 6",
         shifts: [["M. FRAYON", "M. GOMIS"], ["M. FRAYON", "Mme DUFAY"], ["M. FRAYON", "Mme CHABERT"]],
@@ -185,7 +185,7 @@ export const scheduleData: ScheduleData = {
         room: "SALLE 2",
         shifts: [["Mme DRAME", "Mme CHABERT"], ["Mme DRAME", "M. NDOYE"], ["Mme DRAME", "Mme PEREZ"]],
       },
-      { room: "SALLE 1", shifts: [["Mme DIADIO"], ["M. PIAGGIO"], ["M. DAVID"]] },
+      { room: "SALLE 1", shifts: [["Mme DIADIO"], ["M. DIANDY"], ["M. DAVID"]] },
       { room: "Couloir et soutien", shifts: [["M. FALL B."], ["M. THOMAS"], []] },
     ],
   },
